@@ -12,7 +12,7 @@
   --cor-card-borda: #e5e7eb;        /* Borda pontilhada */
 }
 
-/* Classes Dinâmicas vinculadas às variáveis do Admin */
+/* Classes Dinâmicas vinculadas às variáveis do Admin - CORRIGIDO */
 .bg-tema-fundo { background-color: var(--cor-fundo-geral); }
 .text-tema-principal { color: var(--cor-texto-principal); }
 .bg-tema-topo { background-color: var(--cor-topo-fundo); }

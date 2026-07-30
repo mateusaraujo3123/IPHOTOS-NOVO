@@ -1,0 +1,27 @@
+/* Variáveis de Tema Universais (CSS Aberto) */
+:root {
+  --cor-fundo-geral: #f9fafb;       /* Fundo da página */
+  --cor-texto-principal: #111827;   /* Cor dos textos */
+  --cor-topo-fundo: #121212;        /* Cor do menu superior */
+  --cor-topo-texto: #ffffff;        /* Texto do menu superior */
+  --cor-primaria: #ea580c;          /* Botões, tags e avisos */
+  --cor-primaria-hover: #c2410c;    /* Botão ao passar o mouse */
+  --cor-hero-gradiente-1: #115e59;  /* Cor esquerda do banner */
+  --cor-hero-gradiente-2: #164e63;  /* Cor direita do banner */
+  --cor-card-fundo: #ffffff;        /* Fundo do card em breve */
+  --cor-card-borda: #e5e7eb;        /* Borda pontilhada */
+}
+
+/* Classes Dinâmicas vinculadas às variáveis do Admin */
+.bg-tema-fundo { background-color: var(--cor-fundo-geral); }
+.text-tema-principal { color: var(--cor-texto-principal); }
+.bg-tema-topo { background-color: var(--cor-topo-fundo); }
+.text-tema-topo { color: var(--cor-topo-texto); }
+.bg-tema-primaria { background-color: var(--cor-primaria); }
+.text-tema-primaria { color: var(--cor-primaria); }
+.border-tema-card { border-color: var(--cor-card-borda); }
+.bg-tema-card { background-color: var(--cor-card-fundo); }
+
+/* Estados de Hover */
+.bg-tema-primaria-hover:hover { background-color: var(--cor-primaria-hover); }
+.text-tema-primaria-hover:hover { color: var(--cor-primaria-hover); }

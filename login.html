@@ -4,21 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - iphotos</title>
-  
   <style>
-    /* 1. VARIÁVEIS DA SUA IDENTIDADE VISUAL */
     :root {
-      --cor-fundo-geral: #f8fafc;       /* Branco acinzentado suave para contraste */
-      --cor-texto-principal: #111827;   /* Preto/Cinza Escuro */
-      --cor-topo-fundo: #000000;        /* Preto total */
-      --cor-topo-texto: #ffffff;        /* Branco */
-      --cor-primaria: #00b4d8;          /* Azul Piscina */
-      --cor-primaria-hover: #0077b6;    /* Azul Piscina mais escuro */
-      --cor-card-fundo: #ffffff;        /* Branco puro para o formulário */
+      --cor-fundo-geral: #f8fafc;       
+      --cor-texto-principal: #111827;   
+      --cor-topo-fundo: #000000;        
+      --cor-topo-texto: #ffffff;        
+      --cor-primaria: #00b4d8;          
+      --cor-primaria-hover: #0077b6;    
+      --cor-card-fundo: #ffffff;        
       --cor-card-borda: #e2e8f0;        
     }
 
-    /* 2. ESTILOS BASE */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -34,7 +31,6 @@
       flex-direction: column;
     }
 
-    /* Header (idêntico à Home) */
     .meu-header {
       background-color: var(--cor-topo-fundo);
       color: var(--cor-topo-texto);
@@ -42,7 +38,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
     }
 
     .logo {
@@ -60,17 +55,9 @@
     .menu-links a {
       color: var(--cor-topo-texto);
       text-decoration: none;
-      margin: 0 15px;
       font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
     }
 
-    .menu-links a:hover {
-      color: var(--cor-primaria);
-    }
-
-    /* Área Centralizada do Formulário */
     .container-login {
       flex: 1;
       display: flex;
@@ -109,11 +96,6 @@
       font-weight: 600;
     }
 
-    .subtitulo a:hover {
-      text-decoration: underline;
-    }
-
-    /* Grupos de Input */
     .grupo-input {
       margin-bottom: 20px;
     }
@@ -133,15 +115,12 @@
       border-radius: 8px;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .grupo-input input:focus {
       border-color: var(--cor-primaria);
-      box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
     }
 
-    /* Links de recuperação */
     .esqueceu-senha {
       display: flex;
       justify-content: flex-end;
@@ -155,12 +134,6 @@
       text-decoration: none;
     }
 
-    .esqueceu-senha a:hover {
-      color: var(--cor-primaria);
-      text-decoration: underline;
-    }
-
-    /* Botão de Envio */
     .btn-enviar {
       width: 100%;
       background-color: var(--cor-primaria);
@@ -181,20 +154,17 @@
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
-    
     <nav class="menu-links">
       <a href="index.html">Voltar para a Home</a>
     </nav>
   </header>
 
-  <!-- FORMULÁRIO DE LOGIN -->
   <div class="container-login">
     <div class="card-login">
       <h2>Acesse sua conta</h2>
-      <p class="subtitulo">Não tem uma conta? <a href="#">Cadastre-se</a></p>
+      <p class="subtitulo">Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
       
       <form>
         <div class="grupo-input">

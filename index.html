@@ -5,136 +5,269 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>iphotos - Encontre suas fotos</title>
   
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://tailwindcss.com"></script>
-
-  <!-- CSS Aberto Embutido (Resolve o bloqueio do GitHub Pages e mantém customizável) -->
   <style>
+    /* 1. VARIÁVEIS DO PAINEL ADMIN (CSS ABERTO) */
     :root {
-      --cor-fundo-geral: #f9fafb;       /* Fundo da página */
-      --cor-texto-principal: #111827;   /* Cor dos textos */
-      --cor-topo-fundo: #121212;        /* Cor do menu superior */
-      --cor-topo-texto: #ffffff;        /* Texto do menu superior */
-      --cor-primaria: #ea580c;          /* Botões, tags e avisos (Laranja) */
-      --cor-primaria-hover: #c2410c;    /* Botão ao passar o mouse */
-      --cor-hero-gradiente-1: #115e59;  /* Cor esquerda do banner */
-      --cor-hero-gradiente-2: #164e63;  /* Cor direita do banner */
-      --cor-card-fundo: #ffffff;        /* Fundo do card em breve */
-      --cor-card-borda: #e5e7eb;        /* Borda pontilhada */
+      --cor-fundo-geral: #f9fafb;       
+      --cor-texto-principal: #111827;   
+      --cor-topo-fundo: #121212;        
+      --cor-topo-texto: #ffffff;        
+      --cor-primaria: #ea580c;          
+      --cor-primaria-hover: #c2410c;    
+      --cor-hero-gradiente-1: #115e59;  
+      --cor-hero-gradiente-2: #164e63;  
+      --cor-card-fundo: #ffffff;        
+      --cor-card-borda: #cbd5e1;        
     }
 
-    /* Mapeamento de Classes para o Painel Admin */
-    .bg-tema-fundo { background-color: var(--cor-fundo-geral) !important; }
-    .text-tema-principal { color: var(--cor-texto-principal) !important; }
-    .bg-tema-topo { background-color: var(--cor-topo-fundo) !important; }
-    .text-tema-topo { color: var(--cor-topo-texto) !important; }
-    .bg-tema-primaria { background-color: var(--cor-primaria) !important; }
-    .text-tema-primaria { color: var(--cor-primaria) !important; }
-    .border-tema-card { border-color: var(--cor-card-borda) !important; }
-    .bg-tema-card { background-color: var(--cor-card-fundo) !important; }
-    
-    .bg-tema-primaria-hover:hover { background-color: var(--cor-primaria-hover) !important; }
-    .text-tema-primaria-hover:hover { color: var(--cor-primaria-hover) !important; }
+    /* 2. ESTILOS DO SITE EM CSS PURO NATIVO */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--cor-fundo-geral);
+      color: var(--cor-texto-principal);
+    }
+
+    /* Header */
+    .meu-header {
+      background-color: var(--cor-topo-fundo);
+      color: var(--cor-topo-texto);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--cor-primaria);
+    }
+
+    .menu-links a {
+      color: var(--cor-topo-texto);
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .menu-links a:hover {
+      opacity: 0.8;
+    }
+
+    .btn-login {
+      background-color: var(--cor-primaria);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .btn-login:hover {
+      background-color: var(--cor-primaria-hover);
+    }
+
+    /* Faixa de Aviso */
+    .faixa-aviso {
+      background-color: var(--cor-primaria);
+      color: white;
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* Hero / Banner de busca */
+    .hero {
+      background: linear-gradient(to right, var(--cor-hero-gradiente-1), var(--cor-hero-gradiente-2));
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    .container-busca {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .input-busca {
+      width: 100%;
+      padding: 16px 60px 16px 24px;
+      border-radius: 50px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .btn-busca {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      bottom: 6px;
+      background-color: var(--cor-primaria);
+      border: none;
+      color: white;
+      padding: 0 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Área de Conteúdo */
+    .conteudo {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .titulo-secao {
+      font-size: 22px;
+      font-weight: 700;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tag-status {
+      font-size: 12px;
+      background-color: #e2e8f0;
+      color: #475569;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    /* Grid de Cards */
+    .grid-eventos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .card-breve {
+      background-color: var(--cor-card-fundo);
+      border: 2px dashed var(--cor-card-borda);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+    }
+
+    .card-icone {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .card-breve h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .card-breve p {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+    }
   </style>
 </head>
-<body class="bg-tema-fundo text-tema-principal font-sans transition-colors duration-300">
+<body>
 
   <!-- 1. HEADER (Menu Superior) -->
-  <header class="bg-tema-topo text-text-tema-topo text-xs md:text-sm py-3 px-4 md:px-8 flex flex-wrap justify-between items-center border-b border-gray-800">
-    <!-- Nome Atualizado para iphotos -->
-    <div class="text-xl font-black tracking-wider text-white">iphoto<span class="text-tema-primaria">s</span></div>
+  <header class="meu-header">
+    <div class="logo">iphoto<span>s</span></div>
     
-    <!-- Links Centrais -->
-    <nav class="hidden lg:flex space-x-6 font-medium text-white">
-      <a href="#" class="transition text-tema-primaria-hover">Meus pedidos</a>
-      <a href="#" class="transition text-tema-primaria-hover">Sou Fotógrafo</a>
-      <a href="#" class="transition text-tema-primaria-hover">Sou Organizador</a>
-      <a href="#" class="transition text-tema-primaria-hover">Precisa de um Fotógrafo</a>
+    <nav class="menu-links">
+      <a href="#">Meus pedidos</a>
+      <a href="#">Sou Fotógrafo</a>
+      <a href="#">Sou Organizador</a>
     </nav>
     
-    <!-- Lado Direito -->
-    <div class="flex items-center space-x-4 text-white">
-      <div class="flex items-center space-x-1 cursor-pointer">
-        <span>🇧🇷</span>
-        <span>PT-BR</span>
-      </div>
-      <a href="#" class="transition text-tema-primaria-hover">Ajuda</a>
-      <a href="#" class="text-white font-bold py-1.5 px-4 rounded transition bg-tema-primaria bg-tema-primaria-hover">Login</a>
+    <div>
+      <a href="#" class="btn-login">Login</a>
     </div>
   </header>
 
-  <!-- BANNER DE AVISO -->
-  <div class="text-white text-center py-2 text-xs font-bold bg-tema-primaria">
+  <!-- FAIXA DE AVISO -->
+  <div class="faixa-aviso">
     Você está vendo eventos do Brasil 🔽
   </div>
 
-  <!-- 2. HERO / BARRA DE BUSCA PRINCIPAL -->
-  <section class="relative py-16 px-4 text-center text-white" style="background: linear-gradient(to right, var(--cor-hero-gradiente-1), var(--cor-hero-gradiente-2));">
-    <div class="max-w-3xl mx-auto">
-      <h1 class="text-2xl md:text-4xl font-extrabold mb-6 tracking-tight">
-        Participou de um evento? Busque aqui suas fotos
-      </h1>
-      
-      <!-- Input de Busca -->
-      <div class="relative max-w-2xl mx-auto">
-        <input 
-          type="text" 
-          placeholder="Digite o nome do evento" 
-          class="w-full py-3.5 pl-5 pr-14 rounded-full text-gray-800 text-base focus:outline-none focus:ring-2 shadow-lg"
-          style="--tw-ring-color: var(--cor-primaria);"
-        />
-        <button class="absolute right-2 top-1.5 bottom-1.5 text-white px-4 rounded-full transition shadow-md bg-tema-primaria bg-tema-primaria-hover">
-          🔍
-        </button>
-      </div>
+  <!-- 2. HERO / REGIÃO DE BUSCA -->
+  <section class="hero">
+    <h1>Participou de um evento? Busque aqui suas fotos</h1>
+    <div class="container-busca">
+      <input type="text" placeholder="Digite o nome do evento" class="input-busca" />
+      <button class="btn-busca">🔍</button>
     </div>
   </section>
 
-  <!-- CONTAINER DO CONTEÚDO PRINCIPAL -->
-  <div class="max-w-7xl mx-auto px-4 py-12">
-    
-    <!-- SEÇÃO DE FILTROS -->
-    <div class="flex flex-wrap justify-between items-center border-b border-gray-200 pb-4 mb-8 gap-4">
-      <div class="flex items-center space-x-3">
-        <h2 class="text-xl font-bold">Eventos Disponíveis</h2>
-        <span class="text-xs bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full font-medium">Aguardando uploads</span>
-      </div>
+  <!-- 3. VITRINE DE EVENTOS -->
+  <div class="conteudo">
+    <div class="titulo-secao">
+      <h2>Eventos Recentes</h2>
+      <span class="tag-status">Aguardando uploads</span>
     </div>
 
-    <!-- 3. GRID DE EVENTOS (Cards em Branco) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- CARDS EM BRANCO (FOTÓGRAFOS ADICIONARÃO DEPOIS) -->
+    <div class="grid-eventos">
       
-      <!-- CARD 1 -->
-      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] bg-tema-card border-tema-card">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">📸</div>
-        <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
-        <p class="text-xs text-gray-400 max-w-[200px] mt-2">Os eventos e coberturas adicionados pelos fotógrafos parceiros aparecerão nesta listagem.</p>
+      <div class="card-breve">
+        <div class="card-icone">📸</div>
+        <h3>Em breve</h3>
+        <p>Os eventos e coberturas adicionados pelos fotógrafos parceiros aparecerão nesta listagem.</p>
       </div>
 
-      <!-- CARD 2 -->
-      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] bg-tema-card border-tema-card">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">🏃‍♂️</div>
-        <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
-        <p class="text-xs text-gray-400 max-w-[200px] mt-2">Área destinada para a busca de coberturas esportivas e corporativas locais.</p>
+      <div class="card-breve">
+        <div class="card-icone">🏃‍♂️</div>
+        <h3>Em breve</h3>
+        <p>Área destinada para a busca de coberturas esportivas e corporativas locais.</p>
       </div>
 
-      <!-- CARD 3 -->
-      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] bg-tema-card border-tema-card">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">🗓️</div>
-        <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
-        <p class="text-xs text-gray-400 max-w-[200px] mt-2">Filtros por região e categorias de fotos serão ativados automaticamente com novos uploads.</p>
+      <div class="card-breve">
+        <div class="card-icone">🗓️</div>
+        <h3>Em breve</h3>
+        <p>Filtros por região e categorias de fotos serão ativados automaticamente com novos uploads.</p>
       </div>
 
-      <!-- CARD 4 -->
-      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] bg-tema-card border-tema-card">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">✨</div>
-        <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
-        <p class="text-xs text-gray-400 max-w-[200px] mt-2">Novas imagens em alta resolução tratadas e disponibilizadas diretamente por profissionais.</p>
+      <div class="card-breve">
+        <div class="card-icone">✨</div>
+        <h3>Em breve</h3>
+        <p>Novas imagens em alta resolução tratadas e disponibilizadas diretamente por profissionais.</p>
       </div>
 
     </div>
   </div>
 
-  <script src="theme-control.js"></script>
 </body>
 </html>

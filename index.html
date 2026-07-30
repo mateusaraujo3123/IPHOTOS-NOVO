@@ -1,20 +1,59 @@
-<main class="min-h-screen font-sans text-tema-principal" style="background-color: var(--cor-fundo-geral);">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iphotos - Encontre suas fotos</title>
   
-  <!-- 1. HEADER (Menu Superior Customizável) -->
-  <header class="text-xs md:text-sm py-3 px-4 md:px-8 flex flex-wrap justify-between items-center border-b border-gray-800" style="background-color: var(--cor-topo-fundo); color: var(--cor-topo-texto);">
-    <!-- Logo -->
-    <div class="text-xl font-black tracking-wider">FOTOP CLONE</div>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://tailwindcss.com"></script>
+
+  <!-- CSS Aberto Embutido (Resolve o bloqueio do GitHub Pages e mantém customizável) -->
+  <style>
+    :root {
+      --cor-fundo-geral: #f9fafb;       /* Fundo da página */
+      --cor-texto-principal: #111827;   /* Cor dos textos */
+      --cor-topo-fundo: #121212;        /* Cor do menu superior */
+      --cor-topo-texto: #ffffff;        /* Texto do menu superior */
+      --cor-primaria: #ea580c;          /* Botões, tags e avisos (Laranja) */
+      --cor-primaria-hover: #c2410c;    /* Botão ao passar o mouse */
+      --cor-hero-gradiente-1: #115e59;  /* Cor esquerda do banner */
+      --cor-hero-gradiente-2: #164e63;  /* Cor direita do banner */
+      --cor-card-fundo: #ffffff;        /* Fundo do card em breve */
+      --cor-card-borda: #e5e7eb;        /* Borda pontilhada */
+    }
+
+    /* Mapeamento de Classes para o Painel Admin */
+    .bg-tema-fundo { background-color: var(--cor-fundo-geral) !important; }
+    .text-tema-principal { color: var(--cor-texto-principal) !important; }
+    .bg-tema-topo { background-color: var(--cor-topo-fundo) !important; }
+    .text-tema-topo { color: var(--cor-topo-texto) !important; }
+    .bg-tema-primaria { background-color: var(--cor-primaria) !important; }
+    .text-tema-primaria { color: var(--cor-primaria) !important; }
+    .border-tema-card { border-color: var(--cor-card-borda) !important; }
+    .bg-tema-card { background-color: var(--cor-card-fundo) !important; }
+    
+    .bg-tema-primaria-hover:hover { background-color: var(--cor-primaria-hover) !important; }
+    .text-tema-primaria-hover:hover { color: var(--cor-primaria-hover) !important; }
+  </style>
+</head>
+<body class="bg-tema-fundo text-tema-principal font-sans transition-colors duration-300">
+
+  <!-- 1. HEADER (Menu Superior) -->
+  <header class="bg-tema-topo text-text-tema-topo text-xs md:text-sm py-3 px-4 md:px-8 flex flex-wrap justify-between items-center border-b border-gray-800">
+    <!-- Nome Atualizado para iphotos -->
+    <div class="text-xl font-black tracking-wider text-white">iphoto<span class="text-tema-primaria">s</span></div>
     
     <!-- Links Centrais -->
-    <nav class="hidden lg:flex space-x-6 font-medium">
+    <nav class="hidden lg:flex space-x-6 font-medium text-white">
       <a href="#" class="transition text-tema-primaria-hover">Meus pedidos</a>
       <a href="#" class="transition text-tema-primaria-hover">Sou Fotógrafo</a>
       <a href="#" class="transition text-tema-primaria-hover">Sou Organizador</a>
       <a href="#" class="transition text-tema-primaria-hover">Precisa de um Fotógrafo</a>
     </nav>
     
-    <!-- Lado Direito (Idioma e Login) -->
-    <div class="flex items-center space-x-4">
+    <!-- Lado Direito -->
+    <div class="flex items-center space-x-4 text-white">
       <div class="flex items-center space-x-1 cursor-pointer">
         <span>🇧🇷</span>
         <span>PT-BR</span>
@@ -41,13 +80,11 @@
         <input 
           type="text" 
           placeholder="Digite o nome do evento" 
-          class="w-full py-3.5 pl-5 pr-14 rounded-full text-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-lg"
+          class="w-full py-3.5 pl-5 pr-14 rounded-full text-gray-800 text-base focus:outline-none focus:ring-2 shadow-lg"
           style="--tw-ring-color: var(--cor-primaria);"
         />
-        <button class="absolute right-2 top-1.5 bottom-1.5 text-white p-2.5 rounded-full transition shadow-md bg-tema-primaria bg-tema-primaria-hover">
-          <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+        <button class="absolute right-2 top-1.5 bottom-1.5 text-white px-4 rounded-full transition shadow-md bg-tema-primaria bg-tema-primaria-hover">
+          🔍
         </button>
       </div>
     </div>
@@ -64,53 +101,40 @@
       </div>
     </div>
 
-    <!-- 3. GRID DE EVENTOS (Cards em Branco / Espaço Reservado) -->
+    <!-- 3. GRID DE EVENTOS (Cards em Branco) -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       
-      <!-- CARD RESERVADO 1 -->
-      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] transition hover:border-gray-400 bg-tema-card border-tema-card">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">
-          📸
-        </div>
+      <!-- CARD 1 -->
+      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] bg-tema-card border-tema-card">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">📸</div>
         <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
-        <p class="text-xs text-gray-400 max-w-[200px] mt-2">
-          Os eventos e coberturas adicionados pelos fotógrafos parceiros aparecerão nesta listagem.
-        </p>
+        <p class="text-xs text-gray-400 max-w-[200px] mt-2">Os eventos e coberturas adicionados pelos fotógrafos parceiros aparecerão nesta listagem.</p>
       </div>
 
-      <!-- CARD RESERVADO 2 -->
-      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] transition hover:border-gray-400 bg-tema-card border-tema-card">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">
-          🏃‍♂️
-        </div>
+      <!-- CARD 2 -->
+      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] bg-tema-card border-tema-card">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">🏃‍♂️</div>
         <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
-        <p class="text-xs text-gray-400 max-w-[200px] mt-2">
-          Área destinada para a busca de coberturas esportivas e corporativas locais.
-        </p>
+        <p class="text-xs text-gray-400 max-w-[200px] mt-2">Área destinada para a busca de coberturas esportivas e corporativas locais.</p>
       </div>
 
-      <!-- CARD RESERVADO 3 -->
-      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] transition hover:border-gray-400 bg-tema-card border-tema-card">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">
-          🗓️
-        </div>
+      <!-- CARD 3 -->
+      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] bg-tema-card border-tema-card">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">🗓️</div>
         <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
-        <p class="text-xs text-gray-400 max-w-[200px] mt-2">
-          Filtros por região e categorias de fotos serão ativados automaticamente com novos uploads.
-        </p>
+        <p class="text-xs text-gray-400 max-w-[200px] mt-2">Filtros por região e categorias de fotos serão ativados automaticamente com novos uploads.</p>
       </div>
 
-      <!-- CARD RESERVADO 4 -->
-      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] transition hover:border-gray-400 bg-tema-card border-tema-card">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">
-          ✨
-        </div>
+      <!-- CARD 4 -->
+      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] bg-tema-card border-tema-card">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">✨</div>
         <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
-        <p class="text-xs text-gray-400 max-w-[200px] mt-2">
-          Novas imagens em alta resolução tratadas e disponibilizadas diretamente por profissionais.
-        </p>
+        <p class="text-xs text-gray-400 max-w-[200px] mt-2">Novas imagens em alta resolução tratadas e disponibilizadas diretamente por profissionais.</p>
       </div>
 
     </div>
   </div>
-</main>
+
+  <script src="theme-control.js"></script>
+</body>
+</html>

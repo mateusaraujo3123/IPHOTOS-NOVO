@@ -1,0 +1,116 @@
+<main class="min-h-screen font-sans text-tema-principal" style="background-color: var(--cor-fundo-geral);">
+  
+  <!-- 1. HEADER (Menu Superior Customizável) -->
+  <header class="text-xs md:text-sm py-3 px-4 md:px-8 flex flex-wrap justify-between items-center border-b border-gray-800" style="background-color: var(--cor-topo-fundo); color: var(--cor-topo-texto);">
+    <!-- Logo -->
+    <div class="text-xl font-black tracking-wider">FOTOP CLONE</div>
+    
+    <!-- Links Centrais -->
+    <nav class="hidden lg:flex space-x-6 font-medium">
+      <a href="#" class="transition text-tema-primaria-hover">Meus pedidos</a>
+      <a href="#" class="transition text-tema-primaria-hover">Sou Fotógrafo</a>
+      <a href="#" class="transition text-tema-primaria-hover">Sou Organizador</a>
+      <a href="#" class="transition text-tema-primaria-hover">Precisa de um Fotógrafo</a>
+    </nav>
+    
+    <!-- Lado Direito (Idioma e Login) -->
+    <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-1 cursor-pointer">
+        <span>🇧🇷</span>
+        <span>PT-BR</span>
+      </div>
+      <a href="#" class="transition text-tema-primaria-hover">Ajuda</a>
+      <a href="#" class="text-white font-bold py-1.5 px-4 rounded transition bg-tema-primaria bg-tema-primaria-hover">Login</a>
+    </div>
+  </header>
+
+  <!-- BANNER DE AVISO -->
+  <div class="text-white text-center py-2 text-xs font-bold bg-tema-primaria">
+    Você está vendo eventos do Brasil 🔽
+  </div>
+
+  <!-- 2. HERO / BARRA DE BUSCA PRINCIPAL -->
+  <section class="relative py-16 px-4 text-center text-white" style="background: linear-gradient(to right, var(--cor-hero-gradiente-1), var(--cor-hero-gradiente-2));">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-2xl md:text-4xl font-extrabold mb-6 tracking-tight">
+        Participou de um evento? Busque aqui suas fotos
+      </h1>
+      
+      <!-- Input de Busca -->
+      <div class="relative max-w-2xl mx-auto">
+        <input 
+          type="text" 
+          placeholder="Digite o nome do evento" 
+          class="w-full py-3.5 pl-5 pr-14 rounded-full text-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-lg"
+          style="--tw-ring-color: var(--cor-primaria);"
+        />
+        <button class="absolute right-2 top-1.5 bottom-1.5 text-white p-2.5 rounded-full transition shadow-md bg-tema-primaria bg-tema-primaria-hover">
+          <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTAINER DO CONTEÚDO PRINCIPAL -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    
+    <!-- SEÇÃO DE FILTROS -->
+    <div class="flex flex-wrap justify-between items-center border-b border-gray-200 pb-4 mb-8 gap-4">
+      <div class="flex items-center space-x-3">
+        <h2 class="text-xl font-bold">Eventos Disponíveis</h2>
+        <span class="text-xs bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full font-medium">Aguardando uploads</span>
+      </div>
+    </div>
+
+    <!-- 3. GRID DE EVENTOS (Cards em Branco / Espaço Reservado) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      
+      <!-- CARD RESERVADO 1 -->
+      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] transition hover:border-gray-400 bg-tema-card border-tema-card">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">
+          📸
+        </div>
+        <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
+        <p class="text-xs text-gray-400 max-w-[200px] mt-2">
+          Os eventos e coberturas adicionados pelos fotógrafos parceiros aparecerão nesta listagem.
+        </p>
+      </div>
+
+      <!-- CARD RESERVADO 2 -->
+      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] transition hover:border-gray-400 bg-tema-card border-tema-card">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">
+          🏃‍♂️
+        </div>
+        <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
+        <p class="text-xs text-gray-400 max-w-[200px] mt-2">
+          Área destinada para a busca de coberturas esportivas e corporativas locais.
+        </p>
+      </div>
+
+      <!-- CARD RESERVADO 3 -->
+      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] transition hover:border-gray-400 bg-tema-card border-tema-card">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">
+          🗓️
+        </div>
+        <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
+        <p class="text-xs text-gray-400 max-w-[200px] mt-2">
+          Filtros por região e categorias de fotos serão ativados automaticamente com novos uploads.
+        </p>
+      </div>
+
+      <!-- CARD RESERVADO 4 -->
+      <div class="border border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center min-h-[320px] transition hover:border-gray-400 bg-tema-card border-tema-card">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400 mb-4">
+          ✨
+        </div>
+        <h3 class="font-bold text-gray-700 text-base">Em breve</h3>
+        <p class="text-xs text-gray-400 max-w-[200px] mt-2">
+          Novas imagens em alta resolução tratadas e disponibilizadas diretamente por profissionais.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</main>

@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>iphotos - Encontre suas fotos</title>
-  
   <style>
-    /* 1. VARIÁVEIS COM A SUA IDENTIDADE VISUAL */
     :root {
       --cor-fundo-geral: #ffffff;       
       --cor-texto-principal: #111827;   
@@ -20,7 +18,6 @@
       --cor-card-borda: #cbd5e1;        
     }
 
-    /* 2. ESTILOS DO SITE */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -33,7 +30,6 @@
       color: var(--cor-texto-principal);
     }
 
-    /* Header */
     .meu-header {
       background-color: var(--cor-topo-fundo);
       color: var(--cor-topo-texto);
@@ -47,6 +43,8 @@
       font-size: 24px;
       font-weight: 900;
       letter-spacing: 1px;
+      text-decoration: none;
+      color: var(--cor-topo-texto);
     }
 
     .logo span {
@@ -59,7 +57,7 @@
       margin: 0 15px;
       font-size: 14px;
       font-weight: 500;
-      transition: opacity 0.2s, color 0.2s;
+      transition: color 0.2s;
     }
 
     .menu-links a:hover {
@@ -81,7 +79,6 @@
       background-color: var(--cor-primaria-hover);
     }
 
-    /* Faixa de Aviso */
     .faixa-aviso {
       background-color: var(--cor-primaria);
       color: white;
@@ -91,7 +88,6 @@
       font-weight: bold;
     }
 
-    /* Hero / Banner de busca */
     .hero {
       background: linear-gradient(to right, var(--cor-hero-gradiente-1), var(--cor-hero-gradiente-2));
       color: white;
@@ -118,7 +114,6 @@
       border: none;
       font-size: 16px;
       outline: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     .btn-busca {
@@ -135,14 +130,11 @@
       font-size: 16px;
     }
 
-    /* Barra Horizontal de Categorias */
     .barra-categorias {
       background-color: #ffffff;
       border-bottom: 1px solid #e2e8f0;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       padding: 15px 0;
       overflow-x: auto;
-      white-space: nowrap;
     }
 
     .container-categorias {
@@ -165,19 +157,17 @@
       color: #64748b;
       font-size: 13px;
       font-weight: 600;
-      transition: color 0.2s, transform 0.1s;
+      transition: color 0.2s;
     }
 
     .btn-categoria:hover {
       color: var(--cor-primaria);
-      transform: translateY(-1px);
     }
 
     .icone-categoria {
       font-size: 24px;
     }
 
-    /* Área de Conteúdo */
     .conteudo {
       max-width: 1200px;
       margin: 40px auto;
@@ -204,7 +194,6 @@
       font-weight: 500;
     }
 
-    /* Grid de Cards */
     .grid-eventos {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -245,27 +234,22 @@
 </head>
 <body>
 
-  <!-- 1. HEADER (Menu Superior) -->
   <header class="meu-header">
-    <div class="logo">iphoto<span>s</span></div>
-    
+    <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
-      <a href="#">Minhas compras</a>
-      <a href="#">Sou Fotógrafo</a>
-      <a href="#">Organização</a>
+      <a href="login.html">Minhas compras</a>
+      <a href="cadastro.html">Sou Fotógrafo</a>
+      <a href="cadastro.html">Organização</a>
     </nav>
-    
     <div>
       <a href="login.html" class="btn-login">Login</a>
     </div>
   </header>
 
-  <!-- FAIXA DE AVISO -->
   <div class="faixa-aviso">
     Você está vendo eventos do Brasil 🔽
   </div>
 
-  <!-- 2. HERO / REGIAO DE BUSCA CORRIGIDA -->
   <section class="hero">
     <h1>suas fotos aqui!</h1>
     <div class="container-busca">
@@ -274,7 +258,6 @@
     </div>
   </section>
 
-  <!-- 3. BARRA HORIZONTAL DE CATEGORIAS FOCO -->
   <div class="barra-categorias">
     <div class="container-categorias">
       <button class="btn-categoria">
@@ -296,40 +279,33 @@
     </div>
   </div>
 
-  <!-- 4. VITRINE DE EVENTOS -->
   <div class="conteudo">
     <div class="titulo-secao">
       <h2>Eventos Recentes</h2>
       <span class="tag-status">Aguardando uploads</span>
     </div>
 
-    <!-- CARDS EM BRANCO -->
     <div class="grid-eventos">
-      
       <div class="card-breve">
         <div class="card-icone">📸</div>
         <h3>Em breve</h3>
         <p>Os eventos e coberturas adicionados pelos fotógrafos parceiros aparecerão nesta listagem.</p>
       </div>
-
       <div class="card-breve">
         <div class="card-icone">🐎</div>
         <h3>Em breve</h3>
         <p>Área destinada para a busca de coberturas de Vaquejadas e eventos locais.</p>
       </div>
-
       <div class="card-breve">
         <div class="card-icone">🗓️</div>
         <h3>Em breve</h3>
         <p>Filtros por região e categorias de fotos serão ativados automaticamente com novos uploads.</p>
       </div>
-
       <div class="card-breve">
         <div class="card-icone">✨</div>
         <h3>Em breve</h3>
         <p>Novas imagens em alta resolução tratadas e disponibilizadas diretamente por profissionais.</p>
       </div>
-
     </div>
   </div>
 

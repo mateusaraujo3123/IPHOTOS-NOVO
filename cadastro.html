@@ -178,7 +178,8 @@
         <div class="opcao-perfil" id="aba-fotografo" onclick="mudarAba('fotografo')">Sou Fotógrafo</div>
       </div>
 
-      <form>
+      <!-- Executa a função JavaScript que decide para onde redirecionar -->
+      <form onsubmit="executarCadastro(event)">
         <div class="grupo-input">
           <label for="nome">Nome Completo</label>
           <input type="text" id="nome" placeholder="Seu nome" required />
@@ -216,7 +217,10 @@
   </div>
 
   <script>
+    let perfilAtual = 'cliente';
+
     function mudarAba(tipo) {
+      perfilAtual = tipo;
       const abaCliente = document.getElementById('aba-cliente');
       const abaFotografo = document.getElementById('aba-fotografo');
       const camposExtras = document.getElementById('campos-extras');
@@ -232,6 +236,16 @@
         abaCliente.classList.remove('ativo');
         camposExtras.style.display = 'block';
         portfolioInput.setAttribute('required', 'true');
+      }
+    }
+
+    // Redireciona de acordo com o perfil selecionado
+    function ejecutarCadastro(e) {
+      e.preventDefault();
+      if (perfilAtual === 'fotografo') {
+        window.location.href = 'painel-fotografo.html';
+      } else {
+        window.location.href = 'index.html';
       }
     }
   </script>

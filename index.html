@@ -4,236 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>iphotos - Encontre suas fotos</title>
-  <style>
-    :root {
-      --cor-fundo-geral: #ffffff;       
-      --cor-texto-principal: #111827;   
-      --cor-topo-fundo: #000000;        
-      --cor-topo-texto: #ffffff;        
-      --cor-primaria: #00b4d8;          
-      --cor-primaria-hover: #0077b6;    
-      --cor-hero-gradiente-1: #0b2545;  
-      --cor-hero-gradiente-2: #134074;  
-      --cor-card-fundo: #ffffff;        
-      --cor-card-borda: #cbd5e1;        
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    body {
-      background-color: var(--cor-fundo-geral);
-      color: var(--cor-texto-principal);
-    }
-
-    .meu-header {
-      background-color: var(--cor-topo-fundo);
-      color: var(--cor-topo-texto);
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-decoration: none;
-      color: var(--cor-topo-texto);
-    }
-
-    .logo span {
-      color: var(--cor-primaria);
-    }
-
-    .menu-links a {
-      color: var(--cor-topo-texto);
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .menu-links a:hover {
-      color: var(--cor-primaria);
-    }
-
-    .btn-login {
-      background-color: var(--cor-primaria);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 14px;
-      transition: background 0.2s;
-    }
-
-    .btn-login:hover {
-      background-color: var(--cor-primaria-hover);
-    }
-
-    .faixa-aviso {
-      background-color: var(--cor-primaria);
-      color: white;
-      text-align: center;
-      padding: 8px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .hero {
-      background: linear-gradient(to right, var(--cor-hero-gradiente-1), var(--cor-hero-gradiente-2));
-      color: white;
-      text-align: center;
-      padding: 60px 20px;
-    }
-
-    .hero h1 {
-      font-size: 36px;
-      font-weight: 800;
-      margin-bottom: 24px;
-    }
-
-    .container-busca {
-      position: relative;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .input-busca {
-      width: 100%;
-      padding: 16px 60px 16px 24px;
-      border-radius: 50px;
-      border: none;
-      font-size: 16px;
-      outline: none;
-    }
-
-    .btn-busca {
-      position: absolute;
-      right: 6px;
-      top: 6px;
-      bottom: 6px;
-      background-color: var(--cor-primaria);
-      border: none;
-      color: white;
-      padding: 0 20px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .barra-categorias {
-      background-color: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 15px 0;
-      overflow-x: auto;
-    }
-
-    .container-categorias {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      padding: 0 20px;
-    }
-
-    .btn-categoria {
-      background: none;
-      border: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      color: #64748b;
-      font-size: 13px;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .btn-categoria:hover {
-      color: var(--cor-primaria);
-    }
-
-    .icone-categoria {
-      font-size: 24px;
-    }
-
-    .conteudo {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .titulo-secao {
-      font-size: 22px;
-      font-weight: 700;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 12px;
-      margin-bottom: 30px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .tag-status {
-      font-size: 12px;
-      background-color: #e2e8f0;
-      color: #475569;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 500;
-    }
-
-    .grid-eventos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
-    }
-
-    .card-breve {
-      background-color: var(--cor-card-fundo);
-      border: 2px dashed var(--cor-card-borda);
-      border-radius: 12px;
-      padding: 40px 20px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 280px;
-    }
-
-    .card-icone {
-      font-size: 32px;
-      margin-bottom: 16px;
-    }
-
-    .card-breve h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #334155;
-      margin-bottom: 8px;
-    }
-
-    .card-breve p {
-      font-size: 13px;
-      color: #64748b;
-      line-height: 1.5;
-    }
-  </style>
+  <!-- Vinculação do CSS externo para não quebrar a página -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+  <!-- HEADER -->
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
@@ -246,64 +22,169 @@
     </div>
   </header>
 
+  <!-- HERO / BANNER DE BUSCA -->
   <section class="hero">
     <h1>suas fotos aqui!</h1>
     <div class="container-busca">
-      <input type="text" placeholder="Digite o nome do evento" class="input-busca" />
+      <input type="text" id="campo-busca-texto" placeholder="Digite o nome do evento" class="input-busca" oninput="filtrarEventos()" />
       <button class="btn-busca">🔍</button>
     </div>
   </section>
 
+  <!-- BARRA DE CATEGORIAS SEPARADAS -->
   <div class="barra-categorias">
     <div class="container-categorias">
-      <button class="btn-categoria">
+      <button class="btn-categoria ativo" id="cat-todos" onclick="filtrarPorCategoria('todos')">
+        <span class="icone-categoria">🌐</span>
+        <span>Todos</span>
+      </button>
+      <button class="btn-categoria" id="cat-vaquejada" onclick="filtrarPorCategoria('vaquejada')">
         <span class="icone-categoria">🐎</span>
         <span>Vaquejada</span>
       </button>
-      <button class="btn-categoria">
+      <button class="btn-categoria" id="cat-ciclismo" onclick="filtrarPorCategoria('ciclismo')">
         <span class="icone-categoria">🚴</span>
         <span>Ciclismo</span>
       </button>
-      <button class="btn-categoria">
+      <button class="btn-categoria" id="cat-corrida" onclick="filtrarPorCategoria('corrida')">
         <span class="icone-categoria">🏃‍♂️</span>
         <span>Corrida</span>
       </button>
-      <button class="btn-categoria">
+      <button class="btn-categoria" id="cat-futebol" onclick="filtrarPorCategoria('futebol')">
         <span class="icone-categoria">⚽</span>
         <span>Futebol</span>
       </button>
     </div>
   </div>
 
+  <!-- VITRINE COM FILTRAGEM DINÂMICA -->
   <div class="conteudo">
     <div class="titulo-secao">
-      <h2>Eventos Recentes</h2>
-      <span class="tag-status">Aguardando uploads</span>
+      <h2 id="titulo-listagem">Todos os Eventos</h2>
+      <span class="tag-status" id="contador-eventos">0 disponíveis</span>
     </div>
 
-    <div class="grid-eventos">
-      <div class="card-breve">
-        <div class="card-icone">📸</div>
-        <h3>Em breve</h3>
-        <p>Os eventos e coberturas adicionados pelos fotógrafos parceiros aparecerão nesta listagem.</p>
-      </div>
-      <div class="card-breve">
-        <div class="card-icone">🐎</div>
-        <h3>Em breve</h3>
-        <p>Área destinada para a busca de coberturas de Vaquejadas e eventos locais.</p>
-      </div>
-      <div class="card-breve">
-        <div class="card-icone">🗓️</div>
-        <h3>Em breve</h3>
-        <p>Filtros por região e categorias de fotos serão ativados automaticamente com novos uploads.</p>
-      </div>
-      <div class="card-breve">
-        <div class="card-icone">✨</div>
-        <h3>Em breve</h3>
-        <p>Novas imagens em alta resolução tratadas e disponibilizadas diretamente por profissionais.</p>
-      </div>
-    </div>
+    <!-- Onde os cards corretos aparecem de forma isolada -->
+    <div class="grid-eventos" id="grid-eventos-dinamico"></div>
   </div>
 
+  <!-- LÓGICA DE EVENTOS POR CATEGORIA -->
+  <script>
+    // Banco de dados simulando os uploads reais dos fotógrafos nas categorias certas
+    const eventosBD = [
+      {
+        id: 1,
+        titulo: "Grande Vaquejada de Caruaru - Parque Ivânio Cunha",
+        categoria: "vaquejada",
+        icone: "🐎",
+        local: "Caruaru, PE",
+        data: "28/07/2026"
+      },
+      {
+        id: 2,
+        titulo: "Bolão de Vaquejada Noturno - Parque Haras",
+        categoria: "vaquejada",
+        icone: "🐎",
+        local: "Bezerros, PE",
+        data: "25/07/2026"
+      },
+      {
+        id: 3,
+        titulo: "Desafio de Ciclismo Speed e MTB do Agreste",
+        categoria: "ciclismo",
+        icone: "🚴",
+        local: "Garanhuns, PE",
+        data: "26/07/2026"
+      },
+      {
+        id: 4,
+        titulo: "Corrida de Rua da Emancipação 5K e 10K",
+        categoria: "corrida",
+        icone: "🏃‍♂️",
+        local: "Recife, PE",
+        data: "19/07/2026"
+      },
+      {
+        id: 5,
+        titulo: "Final da Copa Regional de Futebol de Campo",
+        categoria: "futebol",
+        icone: "⚽",
+        local: "Olinda, PE",
+        data: "12/07/2026"
+      }
+    ];
+
+    let categoriaSelecionada = 'todos';
+
+    function renderizarEventos(lista) {
+      const grid = document.getElementById('grid-eventos-dinamico');
+      const contador = document.getElementById('contador-eventos');
+      grid.innerHTML = "";
+
+      contador.innerText = `${lista.length} ${lista.length === 1 ? 'disponível' : 'disponíveis'}`;
+
+      if (lista.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">
+            <p style="font-size: 16px; font-weight: bold;">Nenhum evento desta modalidade cadastrado ainda.</p>
+          </div>
+        `;
+        return;
+      }
+
+      lista.forEach(evento => {
+        grid.innerHTML += `
+          <a href="evento.html" class="card-evento">
+            <div class="card-imagem-placeholder">${evento.icone}</div>
+            <div class="card-info">
+              <div>
+                <h3>${evento.titulo}</h3>
+                <div class="card-detalhes">
+                  <p>📍 ${evento.local}</p>
+                  <p>📅 ${evento.data}</p>
+                </div>
+              </div>
+              <span class="tag-categoria">${evento.categoria}</span>
+            </div>
+          </a>
+        `;
+      });
+    }
+
+    function filtrarPorCategoria(categoria) {
+      categoriaSelecionada = categoria;
+      document.querySelectorAll('.btn-categoria').forEach(btn => btn.classList.remove('ativo'));
+      
+      if(categoria === 'todos') document.getElementById('cat-todos').classList.add('ativo');
+      else document.getElementById(`cat-${categoria}`).classList.add('ativo');
+
+      const titulos = {
+        todos: "Todos os Eventos",
+        vaquejada: "Coberturas de Vaquejada",
+        ciclismo: "Eventos de Ciclismo",
+        corrida: "Corridas de Rua",
+        futebol: "Partidas de Futebol"
+      };
+      document.getElementById('titulo-listagem').innerText = titulos[categoria];
+
+      filtrarEventos();
+    }
+
+    function filtrarEventos() {
+      const textoBusca = document.getElementById('campo-busca-texto').value.toLowerCase();
+
+      const resultado = eventosBD.filter(evento => {
+        const matchesCategoria = (categoriaSelecionada === 'todos' || evento.categoria === categoriaSelecionada);
+        const matchesTexto = evento.titulo.toLowerCase().includes(textoBusca) || evento.local.toLowerCase().includes(textoBusca);
+        return matchesCategoria && matchesTexto;
+      });
+
+      renderizarEventos(resultado);
+    }
+
+    window.onload = () => {
+      renderizarEventos(eventosBD);
+    };
+  </script>
 </body>
 </html>

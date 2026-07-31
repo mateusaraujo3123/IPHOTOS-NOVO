@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Fotógrafo - iphotos</title>
+  <style>
+    /* 1. VARIÁVEIS DA SUA IDENTIDADE VISUAL */
+    :root {
+      --cor-fundo-geral: #f8fafc;       
+      --cor-texto-principal: #111827;   
+      --cor-topo-fundo: #000000;        
+      --cor-topo-texto: #ffffff;        
+      --cor-primaria: #00b4d8;          
+      --cor-primaria-hover: #0077b6;    
+      --cor-card-fundo: #ffffff;        
+      --cor-card-borda: #cbd5e1;        
+    }
+
+    /* 2. ESTILOS BASE */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--cor-fundo-geral);
+      color: var(--cor-texto-principal);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .meu-header {
+      background-color: var(--cor-topo-fundo);
+      color: var(--cor-topo-texto);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-decoration: none;
+      color: var(--cor-topo-texto);
+    }
+
+    .logo span {
+      color: var(--cor-primaria);
+    }
+
+    .menu-links a {
+      color: var(--cor-topo-texto);
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Layout do Painel */
+    .container-painel {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .container-painel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card-painel {
+      background-color: var(--cor-card-fundo);
+      border: 1px solid var(--cor-card-borda);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+
+    .card-painel h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+
+    /* Formulário de Novo Evento */
+    .grupo-input {
+      margin-bottom: 16px;
+    }
+
+    .grupo-input label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #475569;
+    }
+
+    .grupo-input input, .grupo-input select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    /* Área de Arrastar Arquivos (Dropzone) */
+    .dropzone {
+      border: 2px dashed var(--cor-primaria);
+      background-color: rgba(0, 180, 216, 0.02);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .dropzone:hover {
+      background-color: rgba(0, 180, 216, 0.05);
+    }
+
+    .dropzone-icone {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .dropzone p {
+      font-size: 14px;
+      color: #475569;
+      font-weight: 500;
+    }
+
+    .dropzone span {
+      font-size: 12px;
+      color: #94a3b8;
+      display: block;
+      margin-top: 6px;
+    }
+
+    .btn-acao {
+      width: 100%;
+      background-color: var(--cor-primaria);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-acao:hover {
+      background-color: var(--cor-primaria-hover);
+    }
+
+    /* Lista de Coberturas Criadas */
+    .evento-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .evento-info h4 {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .evento-info p {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      background-color: #dcfce7;
+      color: #14532d;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="meu-header">
+    <a href="index.html" class="logo">iphoto<span>s</span></a>
+    <nav class="menu-links">
+      <span style="font-size: 14px; color: var(--cor-primaria); font-weight: bold;">Olá, Fotógrafo 📸</span>
+      <a href="index.html">Sair</a>
+    </nav>
+  </header>
+
+  <!-- CONTEÚDO DO PAINEL -->
+  <div class="container-painel">
+    
+    <!-- COLUNA 1: CADASTRAR NOVO EVENTO -->
+    <div class="card-painel">
+      <h2>Nova Cobertura</h2>
+      <form onsubmit="adicionarEventoFake(event)">
+        <div class="grupo-input">
+          <label for="nome-evento">Nome do Evento / Corrida</label>
+          <input type="text" id="nome-evento" placeholder="Ex: Grande Vaquejada de Caruaru" required />
+        </div>
+
+        <div class="grupo-input">
+          <label for="categoria-evento">Modalidade</label>
+          <select id="categoria-evento" required>
+            <option value="🐎">Vaquejada</option>
+            <option value="🚴">Ciclismo</option>
+            <option value="🏃‍♂️">Corrida</option>
+            <option value="⚽">Futebol</option>
+          </select>
+        </div>
+
+        <div class="grupo-input">
+          <label for="preco-foto">Preço por Foto (R$)</label>
+          <input type="number" id="preco-foto" placeholder="Ex: 9.90" step="0.01" required />
+        </div>
+
+        <!-- Dropzone Simbolizada -->
+        <div class="dropzone" onclick="document.getElementById('file-input').click()">
+          <input type="file" id="file-input" multiple style="display: none;" />
+          <div class="dropzone-icone">📤</div>
+          <p>Arraste as fotos ou clique aqui</p>
+          <span>Suporta upload em lote (JPEG, PNG)</span>
+        </div>
+
+        <button type="submit" class="btn-acao">Publicar Evento e Fotos</button>
+      </form>
+    </div>
+
+    <!-- COLUNA 2: SEUS EVENTOS PUBLICADOS -->
+    <div class="card-painel">
+      <h2>Meus Eventos Cadastrados</h2>
+      <div id="lista-eventos">
+        
+        <div class="evento-item">
+          <div class="evento-info">
+            <h4>🐎 Circuito Vaquejada PE - Etapa 01</h4>
+            <p>Preço por imagem: R$ 12,00 • 345 fotos enviadas</p>
+          </div>
+          <span class="status-badge">No Ar</span>
+        </div>
+
+        <div class="evento-item">
+          <div class="evento-info">
+            <h4> do Agreste</h4>
+            <p>Preço por imagem: R$ 9,90 • 120 fotos enviadas</p>
+          </div>
+          <span class="status-badge">No Ar</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Função simples para interatividade visual na tela
+    function adicionarEventoFake(e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome-evento').value;
+      const categoria = document.getElementById('categoria-evento').value;
+      const preco = document.getElementById('preco-foto').value;
+      
+      const lista = document.getElementById('lista-eventos');
+      const novoItem = document.createElement('div');
+      novoItem.className = 'evento-item';
+      novoItem.innerHTML = `
+        <div class="evento-info">
+          <h4>${categoria} ${nome}</h4>
+          <p>Preço por imagem: R$ ${parseFloat(preco).toFixed(2)} • Upload concluído</p>
+        </div>
+        <span class="status-badge">No Ar</span>
+      `;
+      
+      lista.insertBefore(novoItem, lista.firstChild);
+      e.target.reset();
+      alert('Sucesso! Evento publicado e disponível para busca.');
+    }
+  </script>
+</body>
+</html>

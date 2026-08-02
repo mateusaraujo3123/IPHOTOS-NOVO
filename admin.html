@@ -5,6 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel Admin - iphotos</title>
   <link rel="stylesheet" href="admin.css">
+  <style>
+    /* Estilos extras específicos para os controles novos de ordenação */
+    .item-ordem {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 12px 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .controles-ordem button {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .controles-ordem button:hover {
+      background: #f1f5f9;
+    }
+    .bloco-cores-cat {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px dashed #e2e8f0;
+    }
+  </style>
 </head>
 <body>
 
@@ -19,84 +48,135 @@
   <!-- GRID CENTRAL -->
   <div class="container-admin">
     
-    <!-- COLUNA 1: CUSTOMIZAÇÃO DO CSS ABERTO -->
+    <!-- COLUNA 1: CUSTOMIZAÇÃO DO CSS E REGRAS POR CATEGORIA -->
     <div class="card-admin">
-      <h2>Gerenciar Tema (CSS)</h2>
-      <form onsubmit="salvarCoresLocais(event)">
+      <h2>Gerenciar Tema (CSS Geral)</h2>
+      <form onsubmit="salvarConfiguracoes(event)">
         
         <div class="seletor-cor-item">
-          <label for="cor-primaria">Cor Primária (Azul/Laranja)</label>
+          <label for="input-primaria">Cor Primária Geral</label>
           <input type="color" id="input-primaria" value="#00b4d8" />
         </div>
 
         <div class="seletor-cor-item">
-          <label for="cor-topo">Fundo do Header</label>
+          <label for="input-topo">Fundo do Header</label>
           <input type="color" id="input-topo" value="#000000" />
         </div>
 
-        <div class="seletor-cor-item">
-          <label for="cor-fundo">Fundo Geral do Site</label>
-          <input type="color" id="input-fundo" value="#ffffff" />
+        <!-- CORES PERSONALIZADAS POR CATEGORIA -->
+        <div class="bloco-cores-cat">
+          <h3 style="font-size: 14px; margin-bottom: 12px; color: #475569;">Cores do Tema por Categoria</h3>
+          
+          <div class="seletor-cor-item">
+            <label>🐎 Vaquejada</label>
+            <input type="color" id="cor-cat-vaquejada" value="#00b4d8" />
+          </div>
+          <div class="seletor-cor-item">
+            <label>🚴 Ciclismo</label>
+            <input type="color" id="cor-cat-ciclismo" value="#00b4d8" />
+          </div>
+          <div class="seletor-cor-item">
+            <label>跑 Corrida</label>
+            <input type="color" id="cor-cat-corrida" value="#00b4d8" />
+          </div>
+          <div class="seletor-cor-item">
+            <label>⚽ Futebol</label>
+            <input type="color" id="cor-cat-futebol" value="#00b4d8" />
+          </div>
         </div>
 
-        <button type="submit" class="btn-salvar-tema">Aplicar Novas Cores</button>
+        <button type="submit" class="btn-salvar-tema">Salvar e Aplicar Configurações</button>
       </form>
     </div>
 
-    <!-- COLUNA 2: GERENCIAMENTO DE CADASTROS -->
+    <!-- COLUNA 2: ORDENAÇÃO DE EVENTOS -->
     <div class="card-admin">
-      <h2>Fotógrafos Aguardando Aprovação</h2>
-      <table class="lista-fotografos">
-        <thead>
-          <tr>
-            <th>Nome do Profissional</th>
-            <th>Região</th>
-            <th>Portfólio Enviado</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody id="tabela-solicitacoes">
-          <tr id="linha-fotografo-1">
-            <td><strong>Lucas Fotografia</strong></td>
-            <td>Pernambuco (PE)</td>
-            <td><a href="#" style="color: #00b4d8; text-decoration: none;">://instagram.com</a></td>
-            <td><button class="btn-aprovar" onclick="aprovarProfissional(1)">Aprovar Cadastro</button></td>
-          </tr>
-          <tr id="linha-fotografo-2">
-            <td><strong>Lente Nordestina</strong></td>
-            <td>Alagoas (AL)</td>
-            <td><a href="#" style="color: #00b4d8; text-decoration: none;">portfolio.me/lente</a></td>
-            <td><button class="btn-aprovar" onclick="aprovarProfissional(2)">Aprovar Cadastro</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <h2>Definir Ordem de Destaque na Home</h2>
+      <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">
+        Altere a posição abaixo para escolher quais modalidades aparecem primeiro no topo da página inicial.
+      </p>
+      
+      <div id="lista-ordenacao-categorias">
+        <!-- Gerado dinamicamente via JS para permitir subir/descer -->
+      </div>
     </div>
 
   </div>
 
   <script>
-    // Simulação visual de alteração das variáveis :root nativas do CSS aberto
-    function salvarCoresLocais(e) {
-      e.preventDefault();
-      const primaria = document.getElementById('input-primaria').value;
-      const topo = document.getElementById('input-topo').value;
-      const fundo = document.getElementById('input-fundo').value;
+    // Lista inicial de categorias que o admin pode reordenar
+    let ordemCategorias = ['vaquejada', 'ciclismo', 'corrida', 'futebol'];
 
-      const root = document.documentElement;
-      root.style.setProperty('--cor-primaria', primaria);
-      root.style.setProperty('--cor-topo-fundo', topo);
-      root.style.setProperty('--cor-fundo-geral', fundo);
+    // Carrega dados já salvos anteriormente se existirem
+    window.onload = () => {
+      if (localStorage.getItem('iphotos_ordem')) {
+        ordemCategorias = JSON.parse(localStorage.getItem('iphotos_ordem'));
+      }
+      
+      // Carrega cores salvas nos inputs
+      if (localStorage.getItem('iphotos_cores_cat')) {
+        const cores = JSON.parse(localStorage.getItem('iphotos_cores_cat'));
+        if(cores.vaquejada) document.getElementById('cor-cat-vaquejada').value = cores.vaquejada;
+        if(cores.ciclismo) document.getElementById('cor-cat-ciclismo').value = cores.ciclismo;
+        if(cores.corrida) document.getElementById('cor-cat-corrida').value = cores.corrida;
+        if(cores.futebol) document.getElementById('cor-cat-futebol').value = cores.futebol;
+      }
+      
+      if(localStorage.getItem('iphotos_primaria')) document.getElementById('input-primaria').value = localStorage.getItem('iphotos_primaria');
+      if(localStorage.getItem('iphotos_topo')) document.getElementById('input-topo').value = localStorage.getItem('iphotos_topo');
 
-      alert('Tema alterado com sucesso! Quando o banco de dados for integrado, essas cores mudarão o site inteiro de forma definitiva.');
+      renderizarControlesOrdem();
+    };
+
+    function renderizarControlesOrdem() {
+      const container = document.getElementById('lista-ordenacao-categorias');
+      container.innerHTML = '';
+
+      const nomes = { vaquejada: '🐎 Vaquejada', ciclismo: '🚴 Ciclismo', corrida: '🏃‍♂️ Corrida', futebol: '⚽ Futebol' };
+
+      ordemCategorias.forEach((cat, index) => {
+        container.innerHTML += `
+          <div class="item-ordem">
+            <span><strong>#${index + 1}</strong> - ${nomes[cat]}</span>
+            <div class="controles-ordem">
+              <button type="button" onclick="moverCatar(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>▲ Subir</button>
+              <button type="button" onclick="moverCatar(${index}, 1)" ${index === ordemCategorias.length - 1 ? 'disabled style="opacity:0.3"' : ''}>▼ Descer</button>
+            </div>
+          </div>
+        `;
+      });
     }
 
-    function aprovarProfissional(id) {
-      const linha = document.getElementById(`linha-fotografo-${id}`);
-      linha.style.opacity = '0.4';
-      linha.querySelector('.btn-aprovar').innerText = 'Aprovado ✓';
-      linha.querySelector('.btn-aprovar').style.backgroundColor = '#f1f5f9';
-      linha.querySelector('.btn-aprovar').style.color = '#64748b';
-      linha.querySelector('.btn-aprovar').disabled = true;
+    function moverCatar(index, direcao) {
+      const novaPosicao = index + direcao;
+      if (novaPosicao < 0 || novaPosicao >= ordemCategorias.length) return;
+      
+      // Troca os elementos de lugar no Array
+      const temp = ordemCategorias[index];
+      ordemCategorias[index] = ordemCategorias[novaPosicao];
+      ordemCategorias[novaPosicao] = temp;
+      
+      localStorage.setItem('iphotos_ordem', JSON.stringify(ordemCategorias));
+      renderizarControlesOrdem();
+    }
+
+    function salvarConfiguracoes(e) {
+      e.preventDefault();
+      
+      // Salva Cores Gerais
+      localStorage.setItem('iphotos_primaria', document.getElementById('input-primaria').value);
+      localStorage.setItem('iphotos_topo', document.getElementById('input-topo').value);
+
+      // Salva Cores por Categoria
+      const coresPorCategoria = {
+        vaquejada: document.getElementById('cor-cat-vaquejada').value,
+        ciclismo: document.getElementById('cor-cat-ciclismo').value,
+        corrida: document.getElementById('cor-cat-corrida').value,
+        futebol: document.getElementById('cor-cat-futebol').value
+      };
+      localStorage.setItem('iphotos_cores_cat', JSON.stringify(coresPorCategoria));
+
+      alert('Configurações salvas! A ordem dos eventos e o tema por categoria foram aplicados na Home.');
     }
   </script>
 </body>

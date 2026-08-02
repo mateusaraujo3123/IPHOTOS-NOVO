@@ -6,7 +6,6 @@
   <title>Painel Admin - iphotos</title>
   <link rel="stylesheet" href="admin.css">
   <style>
-    /* Estilos extras específicos para os controles novos de ordenação */
     .item-ordem {
       display: flex;
       align-items: center;
@@ -24,9 +23,6 @@
       border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
-    }
-    .controles-ordem button:hover {
-      background: #f1f5f9;
     }
     .bloco-cores-cat {
       margin-top: 20px;
@@ -48,72 +44,134 @@
   <!-- GRID CENTRAL -->
   <div class="container-admin">
     
-    <!-- COLUNA 1: CUSTOMIZAÇÃO DO CSS E REGRAS POR CATEGORIA -->
-    <div class="card-admin">
-      <h2>Gerenciar Tema (CSS Geral)</h2>
-      <form onsubmit="salvarConfiguracoes(event)">
-        
-        <div class="seletor-cor-item">
-          <label for="input-primaria">Cor Primária Geral</label>
-          <input type="color" id="input-primaria" value="#00b4d8" />
-        </div>
-
-        <div class="seletor-cor-item">
-          <label for="input-topo">Fundo do Header</label>
-          <input type="color" id="input-topo" value="#000000" />
-        </div>
-
-        <!-- CORES PERSONALIZADAS POR CATEGORIA -->
-        <div class="bloco-cores-cat">
-          <h3 style="font-size: 14px; margin-bottom: 12px; color: #475569;">Cores do Tema por Categoria</h3>
-          
+    <!-- ESQUERDA: CONTROLES VISUAIS E DE CORES -->
+    <div>
+      <div class="card-admin">
+        <h2>Gerenciar Tema (CSS Geral)</h2>
+        <form onsubmit="salvarConfiguracoes(event)">
           <div class="seletor-cor-item">
-            <label>🐎 Vaquejada</label>
-            <input type="color" id="cor-cat-vaquejada" value="#00b4d8" />
+            <label for="input-primaria">Cor Primária Geral</label>
+            <input type="color" id="input-primaria" value="#00b4d8" />
           </div>
           <div class="seletor-cor-item">
-            <label>🚴 Ciclismo</label>
-            <input type="color" id="cor-cat-ciclismo" value="#00b4d8" />
+            <label for="input-topo">Fundo do Header</label>
+            <input type="color" id="input-topo" value="#000000" />
           </div>
-          <div class="seletor-cor-item">
-            <label>跑 Corrida</label>
-            <input type="color" id="cor-cat-corrida" value="#00b4d8" />
-          </div>
-          <div class="seletor-cor-item">
-            <label>⚽ Futebol</label>
-            <input type="color" id="cor-cat-futebol" value="#00b4d8" />
-          </div>
-        </div>
 
-        <button type="submit" class="btn-salvar-tema">Salvar e Aplicar Configurações</button>
-      </form>
-    </div>
+          <div class="bloco-cores-cat">
+            <h3 style="font-size: 14px; margin-bottom: 12px; color: #475569;">Cores por Categoria</h3>
+            <div class="seletor-cor-item"><label>🐎 Vaquejada</label><input type="color" id="cor-cat-vaquejada" value="#00b4d8" /></div>
+            <div class="seletor-cor-item"><label>🚴 Ciclismo</label><input type="color" id="cor-cat-ciclismo" value="#00b4d8" /></div>
+            <div class="seletor-cor-item"><label>🏃‍♂️ Corrida</label><input type="color" id="cor-cat-corrida" value="#00b4d8" /></div>
+            <div class="seletor-cor-item"><label>⚽ Futebol</label><input type="color" id="cor-cat-futebol" value="#00b4d8" /></div>
+          </div>
+          <button type="submit" class="btn-salvar-tema">Salvar e Aplicar Cores</button>
+        </form>
+      </div>
 
-    <!-- COLUNA 2: ORDENAÇÃO DE EVENTOS -->
-    <div class="card-admin">
-      <h2>Definir Ordem de Destaque na Home</h2>
-      <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">
-        Altere a posição abaixo para escolher quais modalidades aparecem primeiro no topo da página inicial.
-      </p>
-      
-      <div id="lista-ordenacao-categorias">
-        <!-- Gerado dinamicamente via JS para permitir subir/descer -->
+      <div class="card-admin">
+        <h2>Ordem de Destaque na Home</h2>
+        <div id="lista-ordenacao-categorias"></div>
       </div>
     </div>
 
+    <!-- DIREITA: MECÂNICA DE GERENCIAMENTO DE CONTAS E DISCO -->
+    <div>
+      
+      <!-- TABELA FOTÓGRAFOS -->
+      <div class="card-admin">
+        <h2>Gerenciamento de Fotógrafos</h2>
+        <table class="lista-admin">
+          <thead>
+            <tr>
+              <th>Fotógrafo</th>
+              <th>Fotos Enviadas</th>
+              <th>Espaço em Disco</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="linha-foto-1">
+              <td><strong>Lucas Silva</strong><br><span style="font-size:11px; color:#64748b;">lucas@iphoto.com</span></td>
+              <td>1.420 fotos</td>
+              <td><span class="badge-armazenamento">14.2 GB <br><span class="sub-badge">no Servidor R2</span></span></td>
+              <td>
+                <button class="btn-senha" onclick="alterarSenhaUsuario('Lucas Silva')">Trocar Senha</button>
+                <button class="btn-excluir" onclick="excluirUsuario('linha-foto-1', 'Lucas Silva')">Excluir</button>
+              </td>
+            </tr>
+            <tr id="linha-foto-2">
+              <td><strong>Manoel Vaqueiro</strong><br><span style="font-size:11px; color:#64748b;">manoel@iphoto.com</span></td>
+              <td>890 fotos</td>
+              <td><span class="badge-armazenamento">8.9 GB <br><span class="sub-badge">no Servidor R2</span></span></td>
+              <td>
+                <button class="btn-senha" onclick="alterarSenhaUsuario('Manoel Vaqueiro')">Trocar Senha</button>
+                <button class="btn-excluir" onclick="excluirUsuario('linha-foto-2', 'Manoel Vaqueiro')">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TABELA CLIENTES -->
+      <div class="card-admin">
+        <h2>Gerenciamento de Clientes (Compradores)</h2>
+        <table class="lista-admin">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Região</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="linha-cliente-1">
+              <td><strong>Carlos Eduardo</strong><br><span style="font-size:11px; color:#64748b;">carlos@gmail.com</span></td>
+              <td>Recife, PE</td>
+              <td>
+                <button class="btn-senha" onclick="alterarSenhaUsuario('Carlos Eduardo')">Trocar Senha</button>
+                <button class="btn-excluir" onclick="excluirUsuario('linha-cliente-1', 'Carlos Eduardo')">Excluir</button>
+              </td>
+            </tr>
+            <tr id="linha-cliente-2">
+              <td><strong>Amanda Maria</strong><br><span style="font-size:11px; color:#64748b;">amanda@hotmail.com</span></td>
+              <td>Caruaru, PE</td>
+              <td>
+                <button class="btn-senha" onclick="alterarSenhaUsuario('Amanda Maria')">Trocar Senha</button>
+                <button class="btn-excluir" onclick="excluirUsuario('linha-cliente-2', 'Amanda Maria')">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
   </div>
 
   <script>
-    // Lista inicial de categorias que o admin pode reordenar
+    // Lógica das Ações Novas
+    function alterarSenhaUsuario(nome) {
+      const novaSenha = prompt(`Digite a nova senha para ${nome}:`);
+      if (novaSenha && novaSenha.trim().length >= 6) {
+        alert(`Sucesso! A senha de ${nome} foi alterada visualmente no painel.`);
+      } else if (novaSenha) {
+        alert('Erro: A senha precisa ter pelo menos 6 caracteres.');
+      }
+    }
+
+    function excluirUsuario(idLinha, nome) {
+      const confirmacao = confirm(`Tem certeza absoluta que deseja deletar a conta de ${nome}? Todas as fotos ou compras associadas serão perdidas.`);
+      if (confirmacao) {
+        document.getElementById(idLinha).remove();
+        alert(`A conta de ${nome} foi removida da interface.`);
+      }
+    }
+
+    // Mantendo a lógica de Ordenação anterior
     let ordemCategorias = ['vaquejada', 'ciclismo', 'corrida', 'futebol'];
 
-    // Carrega dados já salvos anteriormente se existirem
     window.onload = () => {
-      if (localStorage.getItem('iphotos_ordem')) {
-        ordemCategorias = JSON.parse(localStorage.getItem('iphotos_ordem'));
-      }
-      
-      // Carrega cores salvas nos inputs
+      if (localStorage.getItem('iphotos_ordem')) {ordemCategorias = JSON.parse(localStorage.getItem('iphotos_ordem'));}
       if (localStorage.getItem('iphotos_cores_cat')) {
         const cores = JSON.parse(localStorage.getItem('iphotos_cores_cat'));
         if(cores.vaquejada) document.getElementById('cor-cat-vaquejada').value = cores.vaquejada;
@@ -121,26 +179,22 @@
         if(cores.corrida) document.getElementById('cor-cat-corrida').value = cores.corrida;
         if(cores.futebol) document.getElementById('cor-cat-futebol').value = cores.futebol;
       }
-      
       if(localStorage.getItem('iphotos_primaria')) document.getElementById('input-primaria').value = localStorage.getItem('iphotos_primaria');
       if(localStorage.getItem('iphotos_topo')) document.getElementById('input-topo').value = localStorage.getItem('iphotos_topo');
-
       renderizarControlesOrdem();
     };
 
     function renderizarControlesOrdem() {
       const container = document.getElementById('lista-ordenacao-categorias');
       container.innerHTML = '';
-
       const nomes = { vaquejada: '🐎 Vaquejada', ciclismo: '🚴 Ciclismo', corrida: '🏃‍♂️ Corrida', futebol: '⚽ Futebol' };
-
       ordemCategorias.forEach((cat, index) => {
         container.innerHTML += `
           <div class="item-ordem">
             <span><strong>#${index + 1}</strong> - ${nomes[cat]}</span>
             <div class="controles-ordem">
-              <button type="button" onclick="moverCatar(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>▲ Subir</button>
-              <button type="button" onclick="moverCatar(${index}, 1)" ${index === ordemCategorias.length - 1 ? 'disabled style="opacity:0.3"' : ''}>▼ Descer</button>
+              <button type="button" onclick="moverCatar(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>▲</button>
+              <button type="button" onclick="moverCatar(${index}, 1)" ${index === ordemCategorias.length - 1 ? 'disabled style="opacity:0.3"' : ''}>▼</button>
             </div>
           </div>
         `;
@@ -150,24 +204,17 @@
     function moverCatar(index, direcao) {
       const novaPosicao = index + direcao;
       if (novaPosicao < 0 || novaPosicao >= ordemCategorias.length) return;
-      
-      // Troca os elementos de lugar no Array
       const temp = ordemCategorias[index];
       ordemCategorias[index] = ordemCategorias[novaPosicao];
       ordemCategorias[novaPosicao] = temp;
-      
       localStorage.setItem('iphotos_ordem', JSON.stringify(ordemCategorias));
       renderizarControlesOrdem();
     }
 
     function salvarConfiguracoes(e) {
       e.preventDefault();
-      
-      // Salva Cores Gerais
       localStorage.setItem('iphotos_primaria', document.getElementById('input-primaria').value);
       localStorage.setItem('iphotos_topo', document.getElementById('input-topo').value);
-
-      // Salva Cores por Categoria
       const coresPorCategoria = {
         vaquejada: document.getElementById('cor-cat-vaquejada').value,
         ciclismo: document.getElementById('cor-cat-ciclismo').value,
@@ -175,8 +222,7 @@
         futebol: document.getElementById('cor-cat-futebol').value
       };
       localStorage.setItem('iphotos_cores_cat', JSON.stringify(coresPorCategoria));
-
-      alert('Configurações salvas! A ordem dos eventos e o tema por categoria foram aplicados na Home.');
+      alert('Configurações salvas e aplicadas na Home!');
     }
   </script>
 </body>

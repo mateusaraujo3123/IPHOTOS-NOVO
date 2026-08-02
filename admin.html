@@ -13,6 +13,12 @@
     .btn-pagar-pix { background-color: #e3fafc; color: #1098ad; border: 1px solid #99e9f2; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; }
     .btn-deletar-evento-banco { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; }
     .btn-deletar-evento-banco:hover { background-color: #fee2e2; }
+    
+    /* Novos estilos visuais para botões de controle de usuários */
+    .btn-alterar-senha-admin { background-color: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer; margin-right: 4px; }
+    .btn-alterar-senha-admin:hover { background-color: #e2e8f0; }
+    .btn-remover-usuario-admin { background-color: #fff5f5; color: #e03131; border: 1px solid #ffc9c9; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer; }
+    .btn-remover-usuario-admin:hover { background-color: #ffe3e3; }
   </style>
 </head>
 <body>
@@ -45,84 +51,148 @@
     </div>
 
     <div>
-      <!-- TABELA DE EXCLUSÃO DE EVENTOS COMPLETA -->
+      <!-- MODERAÇÃO DE COBERTURAS -->
       <div class="card-admin">
         <h2>Moderação de Coberturas (Exclusão do Banco)</h2>
         <table class="lista-admin">
           <thead>
             <tr><th>Evento</th><th>Data</th><th>Fotógrafo</th><th>Ação Crítica</th></tr>
           </thead>
-          <tbody id="tabela-eventos-moderacao-admin">
-            <!-- Injetado via script da Parte 2 -->
-          </tbody>
+          <tbody id="tabela-eventos-moderacao-admin"></tbody>
         </table>
       </div>
 
+      <!-- MESA DE SAQUES -->
       <div class="card-admin">
         <h2>Mesa de Saques (Liquidação 22h)</h2>
         <table class="lista-admin">
           <thead>
             <tr><th>Fotógrafo</th><th>Chave Pix</th><th>Valor</th><th>Suporte</th></tr>
           </thead>
-          <tbody id="tabela-saques-admin">
-            <!-- Injetado via script da Parte 2 -->
+          <tbody id="tabela-saques-admin"></tbody>
+        </table>
+      </div>
+
+      <!-- GERENCIAMENTO DE FOTÓGRAFOS ATIVOS -->
+      <div class="card-admin">
+        <h2>Gerenciamento de Fotógrafos Ativos</h2>
+        <table class="lista-admin">
+          <thead>
+            <tr><th>Nome do Profissional</th><th>E-mail cadastrado</th><th>Ações de Controle</th></tr>
+          </thead>
+          <tbody id="tabela-fotografos-admin">
+            <!-- Injetado dinamicamente via Script da Parte 2 -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- GERENCIAMENTO DE CLIENTES COMPRADORES -->
+      <div class="card-admin">
+        <h2>Gerenciamento de Clientes (Compradores)</h2>
+        <table class="lista-admin">
+          <thead>
+            <tr><th>Nome do Cliente</th><th>E-mail cadastrado</th><th>Ações de Controle</th></tr>
+          </thead>
+          <tbody id="tabela-clientes-admin">
+            <!-- Injetado dinamicamente via Script da Parte 2 -->
           </tbody>
         </table>
       </div>
     </div>
   </div>
-  <!-- SCRIPT DE INTELIGÊNCIA ADMINISTRATIVA, DELETAR EVENTOS E MESA DE SAQUES -->
   <script>
-    // LÓGICA DE RENDIMENTO E EXCLUSÃO DEFINITIVA DE EVENTOS DO BANCO
-    function carregarEventosParaModeracao() {
-      const container = document.getElementById('tabela-eventos-moderacao-admin');
-      container.innerHTML = '';
+    // LISTAS DE USUÁRIOS SIMULADOS
+    const listagemFotografosBD = [
+      { id: 201, nome: "Lucas Silva", email: "lucas@iphoto.com" },
+      { id: 202, nome: "Manoel Vaqueiro", email: "manoel@iphoto.com" }
+    ];
 
-      // Puxa coberturas dinâmicas cadastradas ou carrega uma lista base de simulação
-      let eventos = localStorage.getItem('iphotos_eventos_dinamicos') ? JSON.parse(localStorage.getItem('iphotos_eventos_dinamicos')) : [
-        { id: 1, titulo: "🐎 Circuito Vaquejada PE - Etapa Regional", data: "28/07/2026", fotografo: "Lucas Silva" },
-        { id: 3, titulo: "🚴 Desafio das Opalas de Ciclismo", data: "26/07/2026", fotografo: "Lucas Silva" },
-        { id: 4, titulo: "🏃‍♂️ Corrida de Rua da Independência 10K", data: "19/07/2026", fotografo: "Marcos Fotos" }
-      ];
+    const listagemClientesBD = [
+      { id: 301, nome: "Carlos Eduardo", email: "carlos@gmail.com" },
+      { id: 302, nome: "Amanda Maria", email: "amanda@hotmail.com" }
+    ];
 
-      eventos.forEach(ev => {
-        container.innerHTML += `
-          <tr id="linha-evento-admin-${ev.id}">
-            <td><strong>${ev.titulo}</strong></td>
-            <td><span style="font-weight: 600; color: #475569;">${ev.data}</span></td>
-            <td><span style="font-size: 13px; color: #64748b;">${ev.fotografo}</span></td>
+    function carregarUsuariosParaGerenciamento() {
+      const tabelaFotografos = document.getElementById('tabela-fotografos-admin');
+      const tabelaClientes = document.getElementById('tabela-clientes-admin');
+      
+      tabelaFotografos.innerHTML = '';
+      tabelaClientes.innerHTML = '';
+
+      listagemFotografosBD.forEach(f => {
+        tabelaFotografos.innerHTML += `
+          <tr id="linha-usuario-admin-${f.id}">
+            <td><strong>${f.nome}</strong></td>
+            <td><span style="color:#64748b;">${f.email}</span></td>
             <td>
-              <button class="btn-deletar-evento-banco" onclick="deletarEventoPermanenteDoBanco(${ev.id}, '${ev.titulo}')">🗑️ Deletar Tudo</button>
+              <button class="btn-alterar-senha-admin" onclick="alterarSenhaUsuarioBanco(${f.id}, '${f.nome}', 'fotografo')">Senha</button>
+              <button class="btn-remover-usuario-admin" onclick="removerUsuarioPermanenteBanco(${f.id}, '${f.nome}', 'fotografo')">Remover</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      listagemClientesBD.forEach(c => {
+        tabelaClientes.innerHTML += `
+          <tr id="linha-usuario-admin-${c.id}">
+            <td><strong>${c.nome}</strong></td>
+            <td><span style="color:#64748b;">${c.email}</span></td>
+            <td>
+              <button class="btn-alterar-senha-admin" onclick="alterarSenhaUsuarioBanco(${c.id}, '${c.nome}', 'cliente')">Senha</button>
+              <button class="btn-remover-usuario-admin" onclick="removerUsuarioPermanenteBanco(${c.id}, '${c.nome}', 'cliente')">Remover</button>
             </td>
           </tr>
         `;
       });
     }
 
-    // =========================================================================
-    // 🔌 PONTE DO BACKEND: INSTRUÇÃO TOTALMENTE EXPLICÍTADA PARA O CLAUDE
-    // =========================================================================
+    function alterarSenhaUsuarioBanco(id, nome, tipo) {
+      const novaSenha = prompt(`Nova senha para ${nome}:`);
+      if (novaSenha && novaSenha.trim().length >= 6) {
+        alert(`Sucesso! Senha alterada.`);
+      } else if (novaSenha) {
+        alert("Erro: Mínimo 6 caracteres.");
+      }
+    }
+
+    function removerUsuarioPermanenteBanco(id, nome, tipo) {
+      if (confirm(`Deletar a conta de ${nome} (${tipo})?`)) {
+        const el = document.getElementById(`linha-usuario-admin-${id}`);
+        if (el) el.remove();
+        alert(`Usuário excluído.`);
+      }
+    }
+
+    function carregarEventosParaModeracao() {
+      const container = document.getElementById('tabela-eventos-moderacao-admin');
+      if(!container) return;
+      container.innerHTML = '';
+
+      let eventos = localStorage.getItem('iphotos_eventos_dinamicos') ? JSON.parse(localStorage.getItem('iphotos_eventos_dinamicos')) : [
+        { id: 1, titulo: "🐎 Circuito Vaquejada PE - Etapa Regional", data: "28/07/2026", fotografo: "Lucas Silva" },
+        { id: 3, titulo: "🚴 Desafio das Opalas de Ciclismo", data: "26/07/2026", fotografo: "Lucas Silva" }
+      ];
+
+      eventos.forEach(ev => {
+        container.innerHTML += `
+          <tr id="linha-evento-admin-${ev.id}">
+            <td><strong>${ev.titulo}</strong></td>
+            <td><span style="font-weight:600;color:#475569;">${ev.data}</span></td>
+            <td><span style="font-size:13px;color:#64748b;">${ev.fotografo}</span></td>
+            <td><button class="btn-deletar-evento-banco" onclick="deletarEventoPermanenteDoBanco(${ev.id}, '${ev.titulo}')">🗑️</button></td>
+          </tr>
+        `;
+      });
+    }
+
     function deletarEventoPermanenteDoBanco(id, titulo) {
-      const confirmacao = confirm(`ATENÇÃO ADMINISTRADOR!\nVocê deseja apagar o evento:\n"${titulo}"?\n\nEsta ação é IRREVERSÍVEL. O Claude deverá programar isso para apagar todos os registros da tabela de Eventos no banco de dados e apagar fisicamente todas as fotos da pasta do Servidor Storage/Cloudflare R2.`);
-      
-      if (confirmacao) {
-        // 1. Limpa visualmente da tela
+      if (confirm(`Apagar "${titulo}" do banco e do Cloudflare R2?`)) {
         const el = document.getElementById(`linha-evento-admin-${id}`);
         if (el) el.remove();
-
-        // 2. Limpa da simulação do LocalStorage do Front-end
         let eventos = JSON.parse(localStorage.getItem('iphotos_eventos_dinamicos')) || [];
         eventos = eventos.filter(ev => ev.id !== id);
         localStorage.setItem('iphotos_eventos_dinamicos', JSON.stringify(eventos));
-
-        alert(`Sucesso! Comando executado. O evento e suas mídias foram excluídos da interface.`);
-        
-        // CLAUDE BACKEND LOGIC NOTE:
-        // Execute an HTTP DELETE to your API route: axios.delete(`/api/events/${id}`)
-        // Inside your controller:
-        // 1. Find all images belonging to this event ID in database.
-        // 2. Call your storage service bucket (S3/R2) to delete object keys.
-        // 3. Delete event entity from PostgreSQL/MySQL.
+        alert(`Evento excluído.`);
         carregarEventosParaModeracao();
       }
     }
@@ -137,7 +207,7 @@
       ];
 
       if(saques.length === 0) {
-        container.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#64748b;padding:15px;">Sem saques na fila.</td></tr>`;
+        container.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#64748b;padding:15px;">Sem saques.</td></tr>`;
         return;
       }
 
@@ -145,10 +215,10 @@
         container.innerHTML += `
           <tr id="pedido-saque-${item.id}">
             <td><strong>${item.fotografo}</strong></td>
-            <td><code style="background:#f1f5f9;padding:4px;border-radius:4px;font-size:12px;">${item.chave}</code></td>
+            <td><code>${item.chave}</code></td>
             <td><strong style="color:#b91c1c;">R$ ${item.valor}</strong></td>
             <td>
-              <a href="https://wa.me{item.whatsapp}" target="_blank" class="btn-whatsapp-link">💬 Whats</a>
+              <a href="https://wa.me{item.whatsapp}" target="_blank" class="btn-whatsapp-link">Whats</a>
               <button class="btn-pagar-pix" onclick="confirmarEfetivacaoPix(${item.id}, '${item.fotografo}')">Pago</button>
             </td>
           </tr>
@@ -157,13 +227,13 @@
     }
 
     function confirmarEfetivacaoPix(id, nome) {
-      if(confirm(`Você confirma que realizou a transferência do Pix para ${nome}?`)) {
+      if(confirm(`Confirmar transferência para ${nome}?`)) {
         const el = document.getElementById(`pedido-saque-${id}`);
         if(el) el.remove();
         let saques = JSON.parse(localStorage.getItem('iphotos_fila_saques')) || [];
         saques = saques.filter(s => s.id !== id);
         localStorage.setItem('iphotos_fila_saques', JSON.stringify(saques));
-        alert(`Saque liquidado para ${nome}.`);
+        alert(`Saque liquidado.`);
         carregarFilaSaquesAdmin();
       }
     }
@@ -184,6 +254,7 @@
       renderizarControlesOrdem();
       carregarFilaSaquesAdmin();
       carregarEventosParaModeracao();
+      carregarUsuariosParaGerenciamento();
     };
 
     function renderizarControlesOrdem() {
@@ -191,7 +262,6 @@
       if(!container) return;
       container.innerHTML = '';
       const nomes = { vaquejada: '🐎 Vaquejada', ciclismo: '🚴 Ciclismo', corrida: '🏃‍♂️ Corrida', futebol: '⚽ Futebol' };
-      
       ordemCategorias.forEach((cat, index) => {
         const isFirst = index === 0;
         const isLast = index === ordemCategorias.length - 1;

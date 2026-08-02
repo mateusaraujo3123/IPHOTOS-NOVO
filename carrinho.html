@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro - iphotos</title>
-  <!-- Link direcionado para a mesma folha de estilo única de acesso -->
-  <link rel="stylesheet" href="acesso.css">
+  <title>Carrinho de Compras - iphotos</title>
+  <!-- Link direcionado para o estilo separado do carrinho -->
+  <link rel="stylesheet" href="carrinho.css">
 </head>
 <body>
 
@@ -13,91 +13,82 @@
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
-      <a href="index.html">Voltar para a Home</a>
+      <a href="index.html">Continuar Comprando</a>
     </nav>
   </header>
 
-  <!-- FORMULÁRIO DE CADASTRO -->
-  <div class="container-formulario">
-    <div class="card-formulario">
-      <h2>Crie sua conta</h2>
-      <p class="subtitulo">Já possui cadastro? <a href="login.html">Faça login</a></p>
+  <!-- CONTEÚDO DO CARRINHO -->
+  <div class="container-carrinho">
+    
+    <!-- COLUNA 1: ITENS SELECIONADOS -->
+    <div class="card-carrinho">
+      <h2>Suas Fotos Escolhidas</h2>
+      <div id="lista-fotos-carrinho">
+        
+        <div class="foto-item">
+          <div class="foto-preview-box">🐎</div>
+          <div class="foto-meta">
+            <h4>Foto #4829 - Competidor 102</h4>
+            <p>Circuito Vaquejada PE - Etapa Regional</p>
+          </div>
+          <div class="foto-preco">R$ 12,00</div>
+        </div>
+
+        <div class="foto-item">
+          <div class="foto-preview-box">🐎</div>
+          <div class="foto-meta">
+            <h4>Foto #4835 - Competidor 102</h4>
+            <p>Circuito Vaquejada PE - Etapa Regional</p>
+          </div>
+          <div class="foto-preco">R$ 12,00</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COLUNA 2: RESUMO DO VALOR E PIX -->
+    <div class="card-carrinho">
+      <h2>Resumo</h2>
       
-      <div class="seletor-perfil">
-        <div class="opcao-perfil ativo" id="aba-cliente" onclick="mudarAba('cliente')">Sou Cliente</div>
-        <div class="opcao-perfil" id="aba-fotografo" onclick="mudarAba('fotografo')">Sou Fotógrafo</div>
+      <div class="linha-resumo">
+        <span>Quantidade:</span>
+        <span>2 arquivos digitais</span>
+      </div>
+      <div class="linha-resumo">
+        <span>Envio:</span>
+        <span>Download imediato após PIX</span>
+      </div>
+      
+      <div class="linha-resumo total">
+        <span>Total:</span>
+        <span>R$ 24,00</span>
       </div>
 
-      <form onsubmit="executarCadastro(event)">
-        <div class="grupo-input">
-          <label for="nome">Nome Completo</label>
-          <input type="text" id="nome" placeholder="Seu nome" required />
-        </div>
+      <button class="btn-checkout" id="btn-pagar" onclick="gerarPixSimulado()">Gerar Pagamento PIX</button>
 
-        <div class="grupo-input">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" placeholder="seu@email.com" required />
-        </div>
-
-        <!-- Campos de Fotógrafo -->
-        <div id="campos-extras" class="campos-fotógrafo">
-          <div class="grupo-input">
-            <label for="regiao">Região principal de atuação</label>
-            <select id="regiao">
-              <option value="">Selecione seu Estado</option>
-              <option value="PE">Pernambuco</option>
-              <option value="AL">Alagoas</option>
-              <option value="PB">Paraíba</option>
-            </select>
-          </div>
-          <div class="grupo-input">
-            <label for="portfolio">Link do Portfólio / Instagram</label>
-            <input type="url" id="portfolio" placeholder="https://instagram.com" />
-          </div>
-        </div>
-
-        <div class="grupo-input">
-          <label for="senha">Crie uma Senha</label>
-          <input type="password" id="senha" placeholder="No mínimo 6 caracteres" required />
-        </div>
-        
-        <button type="submit" class="btn-enviar">Criar Conta</button>
-      </form>
+      <!-- Interface de Pagamento via Código Copia e Cola / QR Code -->
+      <div class="area-pix" id="bloco-pix">
+        <p style="font-size: 14px; font-weight: bold; color: #00b4d8;">PIX Gerado com Sucesso!</p>
+        <div class="qr-code-placeholder">QR CODE SIMULADO</div>
+        <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">Escaneie o código ou utilize o Pix Copia e Cola abaixo:</p>
+        <input type="text" value="00020101021126580014br.gov.bcb.pix0136iphotos-suas-fotos-aqui" readonly style="width: 100%; padding: 8px; font-size: 11px; text-align: center; border: 1px solid #cbd5e1; border-radius: 4px; background: #f1f5f9; outline: none;" />
+        <button class="btn-checkout" style="background: #111827; margin-top: 12px; padding: 10px;" onclick="simularConfirmacaoDownload()">Confirmar Pagamento (Simulação)</button>
+      </div>
     </div>
+
   </div>
 
+  <!-- SCRIPT PARA INTERATIVIDADE FINANCEIRA -->
   <script>
-    let perfilAtual = 'cliente';
-
-    function mudarAba(tipo) {
-      perfilAtual = tipo;
-      const abaCliente = document.getElementById('aba-cliente');
-      const abaFotografo = document.getElementById('aba-fotografo');
-      const camposExtras = document.getElementById('campos-extras');
-      const portfolioInput = document.getElementById('portfolio');
-
-      if (tipo === 'cliente') {
-        abaCliente.classList.add('ativo');
-        abaFotografo.classList.remove('ativo');
-        camposExtras.style.display = 'none';
-        portfolioInput.removeAttribute('required');
-      } else {
-        abaFotografo.classList.add('ativo');
-        abaCliente.classList.remove('ativo');
-        camposExtras.style.display = 'block';
-        portfolioInput.setAttribute('required', 'true');
-      }
+    function gerarPixSimulado() {
+      document.getElementById('bloco-pix').style.display = 'block';
+      document.getElementById('btn-pagar').style.display = 'none';
     }
 
-    function executarCadastro(e) {
-      e.preventDefault();
-      if (perfilAtual === 'fotografo') {
-        window.location.href = 'painel-fotografo.html';
-      } else {
-        window.location.href = 'index.html';
-      }
+    function simularConfirmacaoDownload() {
+      alert('Pagamento Confirmado! Seus arquivos digitais em alta resolução foram liberados para download.');
+      window.location.href = 'index.html';
     }
   </script>
-
 </body>
 </html>

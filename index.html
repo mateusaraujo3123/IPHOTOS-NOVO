@@ -4,86 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>iphotos - Encontre suas fotos</title>
-  <!-- Vinculação do arquivo de estilos isolado -->
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Botão Flutuante de Suporte Fixo Premium */
-    .btn-suporte-flutuante {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #25d366; /* Verde WhatsApp oficial */
-      color: white;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      text-decoration: none;
-      z-index: 9999;
-      transition: transform 0.2s, background-color 0.2s;
-    }
+    .btn-suporte-flutuante { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); text-decoration: none; z-index: 9999; }
+    .tooltip-suporte { position: absolute; right: 68px; background-color: #111827; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .btn-suporte-flutuante:hover .tooltip-suporte { opacity: 1; }
     
-    .btn-suporte-flutuante:hover {
-      transform: scale(1.1);
-      background-color: #128c7e;
-    }
-    
-    /* Balão de dica ao passar o mouse ou segurar */
-    .tooltip-suporte {
-      position: absolute;
-      right: 68px;
-      background-color: #111827;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-    }
-    
-    .btn-suporte-flutuante:hover .tooltip-suporte {
-      opacity: 1;
-    }
+    /* Configuração visual para o bloco dinâmico do usuário no menu */
+    #usuario-logado-header a { font-weight: bold; color: var(--cor-primaria); text-decoration: none; margin-left: 8px; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER MODIFICADO -->
   <header class="meu-header" id="header-dinamico">
-    <a href="index.html" class="logo">iphoto<span>s</span></a>
+    <a href="index.html" class="logo">iphoto<span id="logo-dot">s</span></a>
     <nav class="menu-links">
       <a href="minhas-compras.html">Minhas compras</a>
       <a href="cadastro.html">Sou Fotógrafo</a>
       <a href="cadastro.html">Organização</a>
     </nav>
     
-    <!-- Área de Autenticação Dinâmica -->
     <div id="area-auth-header">
       <!-- Botão Login Padrão -->
       <a href="login.html" class="btn-login" id="btn-login-dinamico">Login</a>
       
-      <!-- Nome do Usuário Logado (Escondido por padrão via CSS, controlado por JS) -->
-      <div id="usuario-logado-header" style="display: none; align-items: center; gap: 15px; color: white; font-size: 14px; font-weight: 500;">
-        <span style="color: var(--cor-primaria);">Olá, <span id="nome-usuario-header">Usuário</span> 👋</span>
-        <a href="#" onclick="efetuarLogoutSistema()" style="color: white; text-decoration: none; font-size: 13px; opacity: 0.7;">Sair</a>
+      <!-- Bloco que assume o lugar do botão de Login após autenticação -->
+      <div id="usuario-logado-header" style="display: none; align-items: center; color: white; font-size: 14px; font-weight: 500;">
+        <span>Olá, <span id="nome-usuario-header" style="color: var(--cor-primaria); font-weight: bold;">Usuário</span> 👋</span>
+        <a href="#" onclick="efetuarLogoutSistema()">[Sair]</a>
       </div>
     </div>
   </header>
 
-
-  <!-- FAIXA DE AVISO DE LOCALIZAÇÃO -->
   <div class="faixa-aviso" id="faixa-dinamica">
     Você está vendo eventos do Brasil 🔽
   </div>
 
-  <!-- HERO / REGIAO DE BUSCA PRINCIPAL -->
   <section class="hero">
     <h1>suas fotos aqui!</h1>
     <div class="container-busca">
@@ -92,34 +49,23 @@
     </div>
   </section>
 
-  <!-- BARRA HORIZONTAL DE CATEGORIAS -->
   <div class="barra-categorias">
-    <div class="container-categorias" id="container-botoes-categorias">
-      <!-- Os botões estruturados do CorelDraw nascerão aqui sozinhos via JS -->
-    </div>
+    <div class="container-categorias" id="container-botoes-categorias"></div>
   </div>
 
-  <!-- VITRINE DE EVENTOS -->
   <div class="conteudo">
     <div class="titulo-secao">
       <h2 id="titulo-listagem">Todos os Eventos</h2>
       <span class="tag-status" id="contador-eventos">0 disponíveis</span>
     </div>
-
-    <!-- Grid móvel de 2 colunas travado via CSS externo -->
     <div class="grid-eventos" id="grid-eventos-dinamico"></div>
   </div>
 
-  <!-- BOTÃO FLUTUANTE DE SUPORTE (Mude o número no href futuramente) -->
-  <a href="https://wa.me" target="_blank" class="btn-suporte-flutuante" aria-label="Suporte">
-    <span class="tooltip-suporte">Precisa de ajuda? Suporte</span>
-    💬
+  <a href="https://wa.me" target="_blank" class="btn-suporte-flutuante">
+    <span class="tooltip-suporte">Precisa de ajuda? Suporte</span>💬
   </a>
   <!-- SCRIPT DE INTERATIVIDADE, FILTRAGEM E ACESSOS DA API -->
   <script>
-    // =========================================================================
-    // ⚙️ CENTRAL DE EXPANSÃO: ADICIONE NOVAS CATEGORIAS AQUI NO FUTURO
-    // =========================================================================
     const listaCategoriasBD = [
       { id: "vaquejada", nome: "Vaquejada", iconeURL: "vaquejada.png", altFallback: "🐎", tituloSecao: "Coberturas de Vaquejada" },
       { id: "ciclismo", nome: "Ciclismo", iconeURL: "ciclismo.png", altFallback: "🚴", tituloSecao: "Eventos de Ciclismo" },
@@ -127,14 +73,12 @@
       { id: "futebol", nome: "Futebol", iconeURL: "futebol.png", altFallback: "⚽", tituloSecao: "Partidas de Futebol" }
     ];
 
-    // VARIÁVEIS GLOBAIS DA APLICAÇÃO
-    let eventosBD = []; // Começa vazio e será preenchido dinamicamente pelo banco de dados
+    let eventosBD = []; 
     let categoriaSelecionada = 'todos';
     let ordemDoAdmin = ['vaquejada', 'ciclismo', 'corrida', 'futebol'];
     let coresCategoria = { vaquejada: '#00b4d8', ciclismo: '#00b4d8', corrida: '#00b4d8', futebol: '#00b4d8' };
 
     window.onload = () => {
-      // 1. Aplica customizações visuais do LocalStorage (Tema dinâmico vindo do Admin)
       if(localStorage.getItem('iphotos_primaria')) {
         document.documentElement.style.setProperty('--cor-primaria', localStorage.getItem('iphotos_primaria'));
       }
@@ -148,20 +92,36 @@
         ordemDoAdmin = JSON.parse(localStorage.getItem('iphotos_ordem'));
       }
 
-      // 2. Monta mecanicamente os botões das categorias na tela
-      gerarBotonesCategoriasMecanico();
+      // NOVO: Executa a checagem de usuário logado
+      verificarStatusLoginHome();
 
-      // 3. Puxa os dados reais salvos no servidor
+      gerarBotonesCategoriasMecanico();
       carregarEventosDoServidor();
     };
 
-    // =========================================================================
-    // 🔌 PONTE DO BACKEND: LUGAR ONDE O CLAUDE VAI CONECTAR O BANCO DE DADOS
-    // =========================================================================
+    // NOVO: Função que oculta o botão de Login e exibe a saudação real ao comprador
+    function verificarStatusLoginHome() {
+      const nomeSalvo = localStorage.getItem('iphotos_nome_usuario');
+      const btnLogin = document.getElementById('btn-login-dinamico');
+      const blocoUsuario = document.getElementById('usuario-logado-header');
+      const txtNome = document.getElementById('nome-usuario-header');
+
+      if (nomeSalvo) {
+        btnLogin.style.display = 'none';
+        blocoUsuario.style.display = 'flex';
+        txtNome.innerText = nomeSalvo;
+      } else {
+        btnLogin.style.display = 'block';
+        blocoUsuario.style.display = 'none';
+      }
+    }
+
+    function efetuarLogoutSistema() {
+      localStorage.removeItem('iphotos_nome_usuario');
+      window.location.reload();
+    }
+
     function carregarEventosDoServidor() {
-      // NOTA PARA O CLAUDE: Substitua esta simulação estática por uma chamada fetch() real para a API.
-      
-      // Simulação de dados armazenados na tabela do banco enviados pelos fotógrafos:
       eventosBD = [
         { id: 1, titulo: "Circuito Vaquejada PE - Etapa Regional", categoria: "vaquejada", altFallback: "🐎", fotoCapaURL: "https://unsplash.com", local: "Caruaru, PE", data: "28/07/2026" },
         { id: 2, titulo: "Grande Bolão de Vaquejada do Agreste", categoria: "vaquejada", altFallback: "🐎", fotoCapaURL: "https://unsplash.com", local: "Bezerros, PE", data: "25/07/2026" },
@@ -169,8 +129,6 @@
         { id: 4, titulo: "Corrida de Rua da Independência 10K", categoria: "corrida", altFallback: "🏃‍♂️", fotoCapaURL: "https://unsplash.com", local: "Garanhuns, PE", data: "19/07/2026" },
         { id: 5, titulo: "Campeonato Intermunicipal de Futebol Amador", categoria: "futebol", altFallback: "⚽", fotoCapaURL: "https://unsplash.com", local: "Petrolina, PE", data: "12/07/2026" }
       ];
-
-      // Atualiza o grid de exibição após o recebimento dos registros
       filtrarEventos();
     }
 
@@ -196,7 +154,6 @@
       const grid = document.getElementById('grid-eventos-dinamico');
       const contador = document.getElementById('contador-eventos');
       grid.innerHTML = "";
-
       contador.innerText = `${lista.length} ${lista.length === 1 ? 'disponível' : 'disponíveis'}`;
 
       if (lista.length === 0) {
@@ -204,14 +161,10 @@
         return;
       }
 
-      // Organiza a listagem com base na ordenação salva no painel administrativo
-      lista.sort((a, b) => {
-        return ordemDoAdmin.indexOf(a.categoria) - ordemDoAdmin.indexOf(b.categoria);
-      });
+      lista.sort((a, b) => { return ordemDoAdmin.indexOf(a.categoria) - ordemDoAdmin.indexOf(b.categoria); });
 
       lista.forEach(evento => {
         const corDaTag = coresCategoria[evento.categoria] || 'var(--cor-primaria)';
-
         grid.innerHTML += `
           <a href="evento.html" class="card-evento">
             <div class="card-capa-wrapper">
@@ -221,10 +174,7 @@
             <div class="card-info">
               <div>
                 <h3>${evento.titulo}</h3>
-                <div class="card-detalhes">
-                  <p>📍 ${evento.local}</p>
-                  <p>📅 ${evento.data}</p>
-                </div>
+                <div class="card-detalhes"><p>📍 ${evento.local}</p><p>📅 ${evento.data}</p></div>
               </div>
               <span class="tag-categoria" style="color: ${corDaTag}">${evento.categoria}</span>
             </div>
@@ -250,11 +200,9 @@
         document.getElementById('btn-login-dinamico').style.backgroundColor = corAtiva;
         document.getElementById('faixa-dinamica').style.backgroundColor = corAtiva;
         document.getElementById('btn-busca-dinamico').style.backgroundColor = corAtiva;
-        
         const catInfo = listaCategoriasBD.find(c => c.id === categoria);
         document.getElementById('titulo-listagem').innerText = catInfo ? catInfo.tituloSecao : "Eventos";
       }
-
       filtrarEventos();
     }
 

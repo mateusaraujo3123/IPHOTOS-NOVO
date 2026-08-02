@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin - iphotos</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="meu-header">
+    <a href="index.html" class="logo">iphoto<span>s</span></a>
+    <nav class="menu-links">
+      <span>Painel Master Admin ⚙️</span>
+    </nav>
+  </header>
+
+  <!-- GRID CENTRAL -->
+  <div class="container-admin">
+    
+    <!-- COLUNA 1: CUSTOMIZAÇÃO DO CSS ABERTO -->
+    <div class="card-admin">
+      <h2>Gerenciar Tema (CSS)</h2>
+      <form onsubmit="salvarCoresLocais(event)">
+        
+        <div class="seletor-cor-item">
+          <label for="cor-primaria">Cor Primária (Azul/Laranja)</label>
+          <input type="color" id="input-primaria" value="#00b4d8" />
+        </div>
+
+        <div class="seletor-cor-item">
+          <label for="cor-topo">Fundo do Header</label>
+          <input type="color" id="input-topo" value="#000000" />
+        </div>
+
+        <div class="seletor-cor-item">
+          <label for="cor-fundo">Fundo Geral do Site</label>
+          <input type="color" id="input-fundo" value="#ffffff" />
+        </div>
+
+        <button type="submit" class="btn-salvar-tema">Aplicar Novas Cores</button>
+      </form>
+    </div>
+
+    <!-- COLUNA 2: GERENCIAMENTO DE CADASTROS -->
+    <div class="card-admin">
+      <h2>Fotógrafos Aguardando Aprovação</h2>
+      <table class="lista-fotografos">
+        <thead>
+          <tr>
+            <th>Nome do Profissional</th>
+            <th>Região</th>
+            <th>Portfólio Enviado</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-solicitacoes">
+          <tr id="linha-fotografo-1">
+            <td><strong>Lucas Fotografia</strong></td>
+            <td>Pernambuco (PE)</td>
+            <td><a href="#" style="color: #00b4d8; text-decoration: none;">://instagram.com</a></td>
+            <td><button class="btn-aprovar" onclick="aprovarProfissional(1)">Aprovar Cadastro</button></td>
+          </tr>
+          <tr id="linha-fotografo-2">
+            <td><strong>Lente Nordestina</strong></td>
+            <td>Alagoas (AL)</td>
+            <td><a href="#" style="color: #00b4d8; text-decoration: none;">portfolio.me/lente</a></td>
+            <td><button class="btn-aprovar" onclick="aprovarProfissional(2)">Aprovar Cadastro</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    // Simulação visual de alteração das variáveis :root nativas do CSS aberto
+    function salvarCoresLocais(e) {
+      e.preventDefault();
+      const primaria = document.getElementById('input-primaria').value;
+      const topo = document.getElementById('input-topo').value;
+      const fundo = document.getElementById('input-fundo').value;
+
+      const root = document.documentElement;
+      root.style.setProperty('--cor-primaria', primaria);
+      root.style.setProperty('--cor-topo-fundo', topo);
+      root.style.setProperty('--cor-fundo-geral', fundo);
+
+      alert('Tema alterado com sucesso! Quando o banco de dados for integrado, essas cores mudarão o site inteiro de forma definitiva.');
+    }
+
+    function aprovarProfissional(id) {
+      const linha = document.getElementById(`linha-fotografo-${id}`);
+      linha.style.opacity = '0.4';
+      linha.querySelector('.btn-aprovar').innerText = 'Aprovado ✓';
+      linha.querySelector('.btn-aprovar').style.backgroundColor = '#f1f5f9';
+      linha.querySelector('.btn-aprovar').style.color = '#64748b';
+      linha.querySelector('.btn-aprovar').disabled = true;
+    }
+  </script>
+</body>
+</html>

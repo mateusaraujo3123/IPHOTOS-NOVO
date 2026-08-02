@@ -12,7 +12,7 @@
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
-      <span style="font-size: 14px; color: var(--cor-primaria); font-weight: bold; margin-right: 10px;">Olá, Fotógrafo 📸</span>
+      <span style="font-size: 14px; color: var(--cor-primaria); font-weight: bold; margin-right: 10px;">Olá, Lucas Silva 📸</span>
       <a href="index.html">Sair</a>
     </nav>
   </header>
@@ -22,7 +22,6 @@
     
     <!-- ESQUERDA: CADASTRAR COBERTURA E GERENCIADOR DE SAQUE -->
     <div>
-      <!-- CARD NOVA COBERTURA -->
       <div class="card-painel">
         <h2>Nova Cobertura</h2>
         <form onsubmit="adicionarEventoComCapa(event)">
@@ -30,7 +29,6 @@
             <label for="nome-evento">Nome do Evento / Competição</label>
             <input type="text" id="nome-evento" placeholder="Ex: Grande Vaquejada de Caruaru" required />
           </div>
-          
           <div class="grupo-input">
             <label for="categoria-evento">Modalidade</label>
             <select id="categoria-evento" required>
@@ -40,13 +38,10 @@
               <option value="⚽">Futebol</option>
             </select>
           </div>
-
           <div class="grupo-input">
             <label for="preco-foto">Preço por Foto (R$)</label>
             <input type="number" id="preco-foto" placeholder="Ex: 9.90" step="0.01" required />
           </div>
-
-          <!-- Campo da Foto de Capa do Card -->
           <div class="grupo-input">
             <label>Foto de Capa do Card (Destaque na Home)</label>
             <div class="container-upload-capa">
@@ -54,12 +49,9 @@
               <div>
                 <button type="button" class="btn-escolher-capa" onclick="document.getElementById('input-foto-capa').click()">Selecionar Foto de Capa</button>
                 <input type="file" id="input-foto-capa" accept="image/*" style="display: none;" onchange="gerarPreviewCapa(this)" required />
-                <p style="font-size: 11px; color: #64748b; margin-top: 4px;">Tamanho recomendado: 500x300px</p>
               </div>
             </div>
           </div>
-
-          <!-- Área de Upload em Massa -->
           <div class="grupo-input">
             <label>Fotos da Cobertura (Venda)</label>
             <div class="dropzone" onclick="document.getElementById('file-input').click()">
@@ -68,52 +60,35 @@
               <p>Arraste o lote de fotos ou clique aqui</p>
             </div>
           </div>
-
           <button type="submit" class="btn-acao">Publicar Evento e Fotos</button>
         </form>
       </div>
 
-      <!-- CARD GERENCIADOR DE SAQUE PIX CORRIGIDO -->
+      <!-- CARD GERENCIADOR DE SAQUE PIX -->
       <div class="card-painel">
         <h2>Solicitação de Saque</h2>
-        
-        <!-- Bloco de Saldo Único -->
         <div class="container-saldo-unico">
           <span style="font-size: 13px; color: #64748b; font-weight: 600;">Saldo Disponível</span>
           <div class="valor-saldo-unico" id="txt-saldo-disponivel">R$ 480,00</div>
         </div>
-
         <form onsubmit="solicitarSaquePix(event)">
           <div class="grupo-input">
             <label for="chave-pix">Sua Chave PIX</label>
             <input type="text" id="chave-pix" placeholder="CPF, E-mail, Telefone ou Chave Aleatória" required />
           </div>
-
-          <!-- Novo Campo Obligatório de WhatsApp -->
           <div class="grupo-input">
             <label for="whatsapp-fotografo">Seu WhatsApp de Contato</label>
             <input type="tel" id="whatsapp-fotografo" placeholder="(81) 99999-0000" required />
           </div>
-
           <div class="grupo-input">
             <label for="valor-saque">Valor do Saque (R$)</label>
             <input type="number" id="valor-saque" placeholder="Ex: 200.00" step="0.01" max="480" required />
           </div>
-          
           <button type="submit" class="btn-acao" style="background-color: #111827;">Solicitar Transferência</button>
         </form>
-
-        <!-- Bloco de Notificações Técnicas -->
         <div class="bloco-avisos-painel">
-          <div class="aviso-saque-notificacao">
-            <span>⏰</span>
-            <p>Aviso: Todo saque solicitado será efetuado eletronicamente às 22 horas de cada dia útil.</p>
-          </div>
-
-          <div class="aviso-exclusao-notificacao">
-            <span>⚠️</span>
-            <p>Importante: Cada evento criado e suas respectivas fotos serão apagados permanentemente do sistema a cada mês.</p>
-          </div>
+          <div class="aviso-saque-notificacao"><span>⏰</span><p>Aviso: Todo saque solicitado será efetuado eletronicamente às 22 horas de cada dia útil.</p></div>
+          <div class="aviso-exclusao-notificacao"><span>⚠️</span><p>Importante: Cada evento criado e suas respectivas fotos serão apagados permanentemente do sistema a cada mês.</p></div>
         </div>
       </div>
     </div>
@@ -129,7 +104,6 @@
         </div>
         <div class="wrapper-grafico" id="container-barras-grafico"></div>
       </div>
-
       <div class="card-painel">
         <h2>Meus Eventos Cadastrados</h2>
         <div id="lista-eventos">
@@ -169,22 +143,11 @@
       const nome = document.getElementById('nome-evento').value;
       const categoria = document.getElementById('categoria-evento').value;
       const preco = document.getElementById('preco-foto').value;
-      
       const lista = document.getElementById('lista-eventos');
       const novoItem = document.createElement('div');
       novoItem.className = 'evento-item';
       const srcCapa = urlCapaGerada || 'https://placehold.co';
-
-      novoItem.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <img src="${srcCapa}" class="mini-capa-historico" alt="Capa">
-          <div>
-            <h4 style="font-weight: 700;">${categoria} ${nome}</h4>
-            <p style="font-size:12px; color:#64748b; margin-top:2px;">Preço: R$ ${parseFloat(preco).toFixed(2)} • Upload concluído</p>
-          </div>
-        </div>
-        <span class="status-badge">No Ar</span>
-      `;
+      novoItem.innerHTML = `<div style="display:flex;align-items:center;gap:12px;"><img src="${srcCapa}" class="mini-capa-historico"><div><h4 style="font-weight:700;">${categoria} ${nome}</h4><p style="font-size:12px;color:#64748b;margin-top:2px;">Preço: R$ ${parseFloat(preco).toFixed(2)}</p></div></div><span class="status-badge">No Ar</span>`;
       lista.insertBefore(novoItem, lista.firstChild);
       e.target.reset();
       document.getElementById('box-preview-capa').innerHTML = '🖼️';
@@ -208,11 +171,29 @@
       });
     }
 
+    // MODIFICADO: Salva o saque solicitado no LocalStorage estruturado para o Admin ler
     function solicitarSaquePix(e) {
       e.preventDefault();
       const valor = document.getElementById('valor-saque').value;
       const chave = document.getElementById('chave-pix').value;
-      alert(`Solicitação registrada!\nO valor de R$ ${parseFloat(valor).toFixed(2)} será transferido para a chave (${chave}) hoje às 22h.`);
+      const whatsapp = document.getElementById('whatsapp-fotografo').value;
+
+      // Monta o objeto de transferência simulada
+      const novoSaque = {
+        id: Date.now(),
+        fotografo: "Lucas Silva",
+        chave: chave,
+        whatsapp: whatsapp,
+        valor: parseFloat(valor).toFixed(2),
+        data: "Hoje"
+      };
+
+      // Puxa fila antiga ou cria nova
+      let filaSaques = localStorage.getItem('iphotos_fila_saques') ? JSON.parse(localStorage.getItem('iphotos_fila_saques')) : [];
+      filaSaques.push(novoSaque);
+      localStorage.setItem('iphotos_fila_saques', JSON.stringify(filaSaques));
+
+      alert(`Solicitação registrada!\nO valor de R$ ${parseFloat(valor).toFixed(2)} foi enviado para análise na mesa de saques do Painel Admin e será liquidado hoje às 22h.`);
       document.getElementById('txt-saldo-disponivel').innerText = `R$ ${parseFloat(480 - valor).toFixed(2)}`;
       e.target.reset();
     }

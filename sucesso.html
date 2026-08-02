@@ -22,23 +22,23 @@
       <h2>Pagamento Confirmado!</h2>
       <p>Obrigado por sua compra. Seu PIX foi processado com sucesso e os arquivos digitais originais já foram liberados sem marcas d'água.</p>
       
-      <!-- Resumo Técnico do Pedido -->
+      <!-- Resumo Técnico do Pedido (IDs preparados para a integração do Claude) -->
       <div class="resumo-pedido-caixa">
         <div class="linha-detalhe">
           <span>Código do Pedido:</span>
-          <strong>#98431</strong>
+          <strong id="pedido-id-sucesso">#98431</strong>
         </div>
         <div class="linha-detalhe">
-          <span>Item:</span>
-          <strong>2 Fotos Digitais (HD)</strong>
+          <span>Quantidade:</span>
+          <strong id="pedido-qtd-sucesso">2 Fotos Digitais (HD)</strong>
         </div>
         <div class="linha-detalhe">
           <span>Evento:</span>
-          <strong>Circuito Vaquejada PE</strong>
+          <strong id="pedido-evento-sucesso">Circuito Vaquejada PE</strong>
         </div>
         <div class="linha-detalhe" style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 8px;">
           <span>Valor Pago:</span>
-          <strong style="color: #166534; font-size: 14px;">R$ 24,00</strong>
+          <strong id="pedido-valor-sucesso" style="color: #166534; font-size: 14px;">R$ 24,00</strong>
         </div>
       </div>
 
@@ -48,6 +48,15 @@
 
     </div>
   </div>
+
+  <!-- SCRIPT GUIA PARA O BACKEND -->
+  <script>
+    // NOTA PARA O CLAUDE:
+    // Quando você integrar a API do banco de dados, capture os dados do último pedido aprovado
+    // e injete os valores dinamicamente manipulando os IDs acima. Exemplo lógico:
+    // document.getElementById('pedido-id-sucesso').innerText = '#' + pedido.id;
+    // document.getElementById('pedido-valor-sucesso').innerText = 'R$ ' + pedido.total.toFixed(2);
+  </script>
 
 </body>
 </html>

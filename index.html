@@ -4,7 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>iphotos - Encontre suas fotos</title>
+  <!-- Vinculação do arquivo de estilos isolado -->
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Botão Flutuante de Suporte Fixo Premium */
+    .btn-suporte-flutuante {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366; /* Verde WhatsApp oficial */
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      text-decoration: none;
+      z-index: 9999;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    
+    .btn-suporte-flutuante:hover {
+      transform: scale(1.1);
+      background-color: #128c7e;
+    }
+    
+    /* Balão de dica ao passar o mouse ou segurar */
+    .tooltip-suporte {
+      position: absolute;
+      right: 68px;
+      background-color: #111827;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    
+    .btn-suporte-flutuante:hover .tooltip-suporte {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
 
@@ -21,12 +68,12 @@
     </div>
   </header>
 
-  <!-- FAIXA DE AVISO -->
+  <!-- FAIXA DE AVISO DE LOCALIZAÇÃO -->
   <div class="faixa-aviso" id="faixa-dinamica">
     Você está vendo eventos do Brasil 🔽
   </div>
 
-  <!-- HERO / REGIAO DE BUSCA -->
+  <!-- HERO / REGIAO DE BUSCA PRINCIPAL -->
   <section class="hero">
     <h1>suas fotos aqui!</h1>
     <div class="container-busca">
@@ -35,10 +82,10 @@
     </div>
   </section>
 
-  <!-- BARRA HORIZONTAL DE CATEGORIAS (Gerada Automaticamente por Script) -->
+  <!-- BARRA HORIZONTAL DE CATEGORIAS -->
   <div class="barra-categorias">
     <div class="container-categorias" id="container-botoes-categorias">
-      <!-- Os botões do CorelDraw nascerão aqui sozinhos via JS -->
+      <!-- Os botões estruturados do CorelDraw nascerão aqui sozinhos via JS -->
     </div>
   </div>
 
@@ -49,9 +96,16 @@
       <span class="tag-status" id="contador-eventos">0 disponíveis</span>
     </div>
 
+    <!-- Grid móvel de 2 colunas travado via CSS externo -->
     <div class="grid-eventos" id="grid-eventos-dinamico"></div>
   </div>
 
+  <!-- BOTÃO FLUTUANTE DE SUPORTE (Mude o número no href futuramente) -->
+  <a href="https://wa.me" target="_blank" class="btn-suporte-flutuante" aria-label="Suporte">
+    <span class="tooltip-suporte">Precisa de ajuda? Suporte</span>
+    💬
+  </a>
+  <!-- SCRIPT DE INTERATIVIDADE, FILTRAGEM E ACESSOS DA API -->
   <script>
     // =========================================================================
     // ⚙️ CENTRAL DE EXPANSÃO: ADICIONE NOVAS CATEGORIAS AQUI NO FUTURO
@@ -61,23 +115,16 @@
       { id: "ciclismo", nome: "Ciclismo", iconeURL: "ciclismo.png", altFallback: "🚴", tituloSecao: "Eventos de Ciclismo" },
       { id: "corrida", nome: "Corrida", iconeURL: "corrida.png", altFallback: "🏃", tituloSecao: "Corridas de Rua" },
       { id: "futebol", nome: "Futebol", iconeURL: "futebol.png", altFallback: "⚽", tituloSecao: "Partidas de Futebol" }
-      // Para adicionar mais, basta colocar uma vírgula e copiar o modelo acima aqui embaixo.
     ];
 
-    // BANCO DE DADOS DOS EVENTOS DOS FOTÓGRAFOS
-    const eventosBD = [
-      { id: 1, titulo: "Circuito Vaquejada PE - Etapa Regional", categoria: "vaquejada", altFallback: "🐎", fotoCapaURL: "https://unsplash.com", local: "Caruaru, PE", data: "28/07/2026" },
-      { id: 2, titulo: "Grande Bolão de Vaquejada do Agreste", categoria: "vaquejada", altFallback: "🐎", fotoCapaURL: "https://unsplash.com", local: "Bezerros, PE", data: "25/07/2026" },
-      { id: 3, titulo: "Desafio das Opalas de Ciclismo", categoria: "ciclismo", altFallback: "🚴", fotoCapaURL: "https://unsplash.com", local: "Recife, PE", data: "26/07/2026" },
-      { id: 4, titulo: "Corrida de Rua da Independência 10K", categoria: "corrida", altFallback: "🏃‍♂️", fotoCapaURL: "https://unsplash.com", local: "Garanhuns, PE", data: "19/07/2026" },
-      { id: 5, titulo: "Campeonato Intermunicipal de Futebol Amador", categoria: "futebol", altFallback: "⚽", fotoCapaURL: "https://unsplash.com", local: "Petrolina, PE", data: "12/07/2026" }
-    ];
-
+    // VARIÁVEIS GLOBAIS DA APLICAÇÃO
+    let eventosBD = []; // Começa vazio e será preenchido dinamicamente pelo banco de dados
     let categoriaSelecionada = 'todos';
     let ordemDoAdmin = ['vaquejada', 'ciclismo', 'corrida', 'futebol'];
     let coresCategoria = { vaquejada: '#00b4d8', ciclismo: '#00b4d8', corrida: '#00b4d8', futebol: '#00b4d8' };
 
     window.onload = () => {
+      // 1. Aplica customizações visuais do LocalStorage (Tema dinâmico vindo do Admin)
       if(localStorage.getItem('iphotos_primaria')) {
         document.documentElement.style.setProperty('--cor-primaria', localStorage.getItem('iphotos_primaria'));
       }
@@ -91,23 +138,40 @@
         ordemDoAdmin = JSON.parse(localStorage.getItem('iphotos_ordem'));
       }
 
+      // 2. Monta mecanicamente os botões das categorias na tela
       gerarBotonesCategoriasMecanico();
-      filtrarEventos();
+
+      // 3. Puxa os dados reais salvos no servidor
+      carregarEventosDoServidor();
     };
 
-    // FUNÇÃO QUE DESENHA OS BOTÕES DO COREL NA TELA SOZINHA
+    // =========================================================================
+    // 🔌 PONTE DO BACKEND: LUGAR ONDE O CLAUDE VAI CONECTAR O BANCO DE DADOS
+    // =========================================================================
+    function carregarEventosDoServidor() {
+      // NOTA PARA O CLAUDE: Substitua esta simulação estática por uma chamada fetch() real para a API.
+      
+      // Simulação de dados armazenados na tabela do banco enviados pelos fotógrafos:
+      eventosBD = [
+        { id: 1, titulo: "Circuito Vaquejada PE - Etapa Regional", categoria: "vaquejada", altFallback: "🐎", fotoCapaURL: "https://unsplash.com", local: "Caruaru, PE", data: "28/07/2026" },
+        { id: 2, titulo: "Grande Bolão de Vaquejada do Agreste", categoria: "vaquejada", altFallback: "🐎", fotoCapaURL: "https://unsplash.com", local: "Bezerros, PE", data: "25/07/2026" },
+        { id: 3, titulo: "Desafio das Opalas de Ciclismo", categoria: "ciclismo", altFallback: "🚴", fotoCapaURL: "https://unsplash.com", local: "Recife, PE", data: "26/07/2026" },
+        { id: 4, titulo: "Corrida de Rua da Independência 10K", categoria: "corrida", altFallback: "🏃‍♂️", fotoCapaURL: "https://unsplash.com", local: "Garanhuns, PE", data: "19/07/2026" },
+        { id: 5, titulo: "Campeonato Intermunicipal de Futebol Amador", categoria: "futebol", altFallback: "⚽", fotoCapaURL: "https://unsplash.com", local: "Petrolina, PE", data: "12/07/2026" }
+      ];
+
+      // Atualiza o grid de exibição após o recebimento dos registros
+      filtrarEventos();
+    }
+
     function gerarBotonesCategoriasMecanico() {
       const container = document.getElementById('container-botoes-categorias');
-      
-      // Cria primeiro o botão "Todos" fixo
       container.innerHTML = `
         <button class="btn-categoria ativo" id="cat-todos" onclick="filtrarPorCategoria('todos')">
           <img src="assets/categorias/todos.png" alt="Todos" class="img-categoria" onerror="this.src='https://placehold.co🌐'">
           <span>Todos</span>
         </button>
       `;
-
-      // Varre a lista central e cria os outros botões automaticamente
       listaCategoriasBD.forEach(cat => {
         container.innerHTML += `
           <button class="btn-categoria" id="cat-${cat.id}" onclick="filtrarPorCategoria('${cat.id}')">
@@ -130,6 +194,7 @@
         return;
       }
 
+      // Organiza a listagem com base na ordenação salva no painel administrativo
       lista.sort((a, b) => {
         return ordemDoAdmin.indexOf(a.categoria) - ordemDoAdmin.indexOf(b.categoria);
       });
@@ -176,7 +241,6 @@
         document.getElementById('faixa-dinamica').style.backgroundColor = corAtiva;
         document.getElementById('btn-busca-dinamico').style.backgroundColor = corAtiva;
         
-        // Acha o título da seção na lista automatizada
         const catInfo = listaCategoriasBD.find(c => c.id === categoria);
         document.getElementById('titulo-listagem').innerText = catInfo ? catInfo.tituloSecao : "Eventos";
       }

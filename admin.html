@@ -6,174 +6,138 @@
   <title>Painel Admin - iphotos</title>
   <link rel="stylesheet" href="admin.css">
   <style>
-    .item-ordem { 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      background: #f8fafc; 
-      padding: 12px 16px; 
-      border: 1px solid #e2e8f0; 
-      border-radius: 8px; 
-      margin-bottom: 10px; 
-    }
-    .controles-ordem button { 
-      background: white; 
-      border: 1px solid #cbd5e1; 
-      padding: 4px 10px; 
-      border-radius: 4px; 
-      cursor: pointer; 
-      font-weight: bold; 
-    }
-    .bloco-cores-cat { 
-      margin-top: 20px; 
-      padding-top: 15px; 
-      border-top: 1px dashed #e2e8f0; 
-    }
-    .btn-whatsapp-link {
-      background-color: #e6fcf5;
-      color: #0ca678;
-      border: 1px solid #96f2d7;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 11px;
-      text-decoration: none;
-      display: inline-block;
-      margin-right: 4px;
-    }
-    .btn-pagar-pix {
-      background-color: #e3fafc;
-      color: #1098ad;
-      border: 1px solid #99e9f2;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 11px;
-      cursor: pointer;
-    }
+    .item-ordem { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; }
+    .controles-ordem button { background: white; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .bloco-cores-cat { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #e2e8f0; }
+    .btn-whatsapp-link { background-color: #e6fcf5; color: #0ca678; border: 1px solid #96f2d7; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; text-decoration: none; display: inline-block; margin-right: 4px; }
+    .btn-pagar-pix { background-color: #e3fafc; color: #1098ad; border: 1px solid #99e9f2; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; }
+    .btn-deletar-evento-banco { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; }
+    .btn-deletar-evento-banco:hover { background-color: #fee2e2; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
-    <nav class="menu-links">
-      <span>Painel Master Admin ⚙️</span>
-    </nav>
+    <nav class="menu-links"><span>Painel Master Admin ⚙️</span></nav>
   </header>
 
-  <!-- GRID CENTRAL -->
   <div class="container-admin">
-    
-    <!-- ESQUERDA: CONFIGURAÇÕES VISUAIS -->
     <div>
       <div class="card-admin">
         <h2>Gerenciar Tema (CSS Geral)</h2>
         <form onsubmit="salvarConfiguracoes(event)">
-          <div class="seletor-cor-item">
-            <label for="input-primaria">Cor Primária Geral</label>
-            <input type="color" id="input-primaria" value="#00b4d8" />
-          </div>
-          <div class="seletor-cor-item">
-            <label for="input-topo">Fundo do Header</label>
-            <input type="color" id="input-topo" value="#000000" />
-          </div>
+          <div class="seletor-cor-item"><label>Cor Primária</label><input type="color" id="input-primaria" value="#00b4d8" /></div>
+          <div class="seletor-cor-item"><label>Fundo Header</label><input type="color" id="input-topo" value="#000000" /></div>
           <div class="bloco-cores-cat">
-            <h3 style="font-size: 14px; margin-bottom: 12px; color: #475569;">Cores por Categoria</h3>
             <div class="seletor-cor-item"><label>🐎 Vaquejada</label><input type="color" id="cor-cat-vaquejada" value="#00b4d8" /></div>
             <div class="seletor-cor-item"><label>🚴 Ciclismo</label><input type="color" id="cor-cat-ciclismo" value="#00b4d8" /></div>
             <div class="seletor-cor-item"><label>🏃‍♂️ Corrida</label><input type="color" id="cor-cat-corrida" value="#00b4d8" /></div>
             <div class="seletor-cor-item"><label>⚽ Futebol</label><input type="color" id="cor-cat-futebol" value="#00b4d8" /></div>
           </div>
-          <button type="submit" class="btn-salvar-tema">Salvar e Aplicar Cores</button>
+          <button type="submit" class="btn-salvar-tema">Salvar Cores</button>
         </form>
       </div>
-
       <div class="card-admin">
-        <h2>Ordem de Destaque na Home</h2>
+        <h2>Ordem de Destaque</h2>
         <div id="lista-ordenacao-categorias"></div>
       </div>
     </div>
 
-    <!-- DIREITA: MODERAÇÃO DE CONTAS E SAQUES PIX -->
     <div>
-      
-      <!-- MESA DE LIQUIDAÇÃO DE SAQUES DIÁRIOS (22H) -->
+      <!-- TABELA DE EXCLUSÃO DE EVENTOS COMPLETA -->
       <div class="card-admin">
-        <h2>Mesa de Saques (Liquidação das 22h)</h2>
+        <h2>Moderação de Coberturas (Exclusão do Banco)</h2>
         <table class="lista-admin">
           <thead>
-            <tr>
-              <th>Fotógrafo</th>
-              <th>Dados Pix (Chave)</th>
-              <th>Valor do Saque</th>
-              <th>Ações de Suporte</th>
-            </tr>
+            <tr><th>Evento</th><th>Data</th><th>Fotógrafo</th><th>Ação Crítica</th></tr>
+          </thead>
+          <tbody id="tabela-eventos-moderacao-admin">
+            <!-- Injetado via script da Parte 2 -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-admin">
+        <h2>Mesa de Saques (Liquidação 22h)</h2>
+        <table class="lista-admin">
+          <thead>
+            <tr><th>Fotógrafo</th><th>Chave Pix</th><th>Valor</th><th>Suporte</th></tr>
           </thead>
           <tbody id="tabela-saques-admin">
-            <!-- As ordens de transferências enviadas nascerão aqui pelo script da Parte 2 -->
+            <!-- Injetado via script da Parte 2 -->
           </tbody>
         </table>
       </div>
-
-      <!-- REVISÃO FOTÓGRAFOS -->
-      <div class="card-admin">
-        <h2>Gerenciamento de Fotógrafos</h2>
-        <table class="lista-admin">
-          <thead>
-            <tr><th>Fotógrafo</th><th>Fotos Enviadas</th><th>Espaço em Disco</th><th>Ações</th></tr>
-          </thead>
-          <tbody>
-            <tr id="linha-foto-1">
-              <td><strong>Lucas Silva</strong><br><span style="font-size:11px;color:#64748b;">lucas@iphoto.com</span></td>
-              <td>1.420 fotos</td>
-              <td><span class="badge-armazenamento">14.2 GB<br><span class="sub-badge">no Servidor R2</span></span></td>
-              <td>
-                <button class="btn-senha" onclick="alterarSenhaUsuario('Lucas Silva')">Trocar Senha</button>
-                <button class="btn-excluir" onclick="excluirUsuario('linha-foto-1', 'Lucas Silva')">Excluir</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- REVISÃO CLIENTES -->
-      <div class="card-admin">
-        <h2>Gerenciamento de Clientes (Compradores)</h2>
-        <table class="lista-admin">
-          <thead>
-            <tr><th>Cliente</th><th>Região</th><th>Ações</th></tr>
-          </thead>
-          <tbody>
-            <tr id="linha-cliente-1">
-              <td><strong>Carlos Eduardo</strong><br><span style="font-size:11px;color:#64748b;">carlos@gmail.com</span></td>
-              <td>Recife, PE</td>
-              <td>
-                <button class="btn-senha" onclick="alterarSenhaUsuario('Carlos Eduardo')">Trocar Senha</button>
-                <button class="btn-excluir" onclick="excluirUsuario('linha-cliente-1', 'Carlos Eduardo')">Excluir</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
     </div>
   </div>
-  <!-- SCRIPT DE INTELIGÊNCIA DO ADMINISTRADOR, REORDENAÇÃO E MESA DE SAQUES -->
+  <!-- SCRIPT DE INTELIGÊNCIA ADMINISTRATIVA, DELETAR EVENTOS E MESA DE SAQUES -->
   <script>
-    // LÓGICA COMPLETA DE RENDERIZAÇÃO DOS PEDIDOS DE SAQUE ENVIADOS
-    function carregarFilaSaquesAdmin() {
-      const container = document.getElementById('tabela-saques-admin');
+    // LÓGICA DE RENDIMENTO E EXCLUSÃO DEFINITIVA DE EVENTOS DO BANCO
+    function carregarEventosParaModeracao() {
+      const container = document.getElementById('tabela-eventos-moderacao-admin');
       container.innerHTML = '';
 
-      // Puxa solicitações locais reais ou monta uma inicial de teste para visualização rápida
+      // Puxa coberturas dinâmicas cadastradas ou carrega uma lista base de simulação
+      let eventos = localStorage.getItem('iphotos_eventos_dinamicos') ? JSON.parse(localStorage.getItem('iphotos_eventos_dinamicos')) : [
+        { id: 1, titulo: "🐎 Circuito Vaquejada PE - Etapa Regional", data: "28/07/2026", fotografo: "Lucas Silva" },
+        { id: 3, titulo: "🚴 Desafio das Opalas de Ciclismo", data: "26/07/2026", fotografo: "Lucas Silva" },
+        { id: 4, titulo: "🏃‍♂️ Corrida de Rua da Independência 10K", data: "19/07/2026", fotografo: "Marcos Fotos" }
+      ];
+
+      eventos.forEach(ev => {
+        container.innerHTML += `
+          <tr id="linha-evento-admin-${ev.id}">
+            <td><strong>${ev.titulo}</strong></td>
+            <td><span style="font-weight: 600; color: #475569;">${ev.data}</span></td>
+            <td><span style="font-size: 13px; color: #64748b;">${ev.fotografo}</span></td>
+            <td>
+              <button class="btn-deletar-evento-banco" onclick="deletarEventoPermanenteDoBanco(${ev.id}, '${ev.titulo}')">🗑️ Deletar Tudo</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // =========================================================================
+    // 🔌 PONTE DO BACKEND: INSTRUÇÃO TOTALMENTE EXPLICÍTADA PARA O CLAUDE
+    // =========================================================================
+    function deletarEventoPermanenteDoBanco(id, titulo) {
+      const confirmacao = confirm(`ATENÇÃO ADMINISTRADOR!\nVocê deseja apagar o evento:\n"${titulo}"?\n\nEsta ação é IRREVERSÍVEL. O Claude deverá programar isso para apagar todos os registros da tabela de Eventos no banco de dados e apagar fisicamente todas as fotos da pasta do Servidor Storage/Cloudflare R2.`);
+      
+      if (confirmacao) {
+        // 1. Limpa visualmente da tela
+        const el = document.getElementById(`linha-evento-admin-${id}`);
+        if (el) el.remove();
+
+        // 2. Limpa da simulação do LocalStorage do Front-end
+        let eventos = JSON.parse(localStorage.getItem('iphotos_eventos_dinamicos')) || [];
+        eventos = eventos.filter(ev => ev.id !== id);
+        localStorage.setItem('iphotos_eventos_dinamicos', JSON.stringify(eventos));
+
+        alert(`Sucesso! Comando executado. O evento e suas mídias foram excluídos da interface.`);
+        
+        // CLAUDE BACKEND LOGIC NOTE:
+        // Execute an HTTP DELETE to your API route: axios.delete(`/api/events/${id}`)
+        // Inside your controller:
+        // 1. Find all images belonging to this event ID in database.
+        // 2. Call your storage service bucket (S3/R2) to delete object keys.
+        // 3. Delete event entity from PostgreSQL/MySQL.
+        carregarEventosParaModeracao();
+      }
+    }
+
+    function carregarFilaSaquesAdmin() {
+      const container = document.getElementById('tabela-saques-admin');
+      if(!container) return;
+      container.innerHTML = '';
+
       let saques = localStorage.getItem('iphotos_fila_saques') ? JSON.parse(localStorage.getItem('iphotos_fila_saques')) : [
-        { id: 101, fotografo: "Manoel Vaqueiro", chave: "019.231.432-11", whatsapp: "81999887766", valor: "320.00" }
+        { id: 101, fotografo: "Manoel Vaqueiro", chave: "81999887766", whatsapp: "81999887766", valor: "320.00" }
       ];
 
       if(saques.length === 0) {
-        container.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#64748b;padding:20px;">Nenhuma transferência pendente na mesa de saques.</td></tr>`;
+        container.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#64748b;padding:15px;">Sem saques na fila.</td></tr>`;
         return;
       }
 
@@ -184,8 +148,8 @@
             <td><code style="background:#f1f5f9;padding:4px;border-radius:4px;font-size:12px;">${item.chave}</code></td>
             <td><strong style="color:#b91c1c;">R$ ${item.valor}</strong></td>
             <td>
-              <a href="https://wa.me{item.whatsapp}" target="_blank" class="btn-whatsapp-link">💬 Chamar Whats</a>
-              <button class="btn-pagar-pix" onclick="confirmarEfetivacaoPix(${item.id}, '${item.fotografo}')">Dar Baixa (Pago)</button>
+              <a href="https://wa.me{item.whatsapp}" target="_blank" class="btn-whatsapp-link">💬 Whats</a>
+              <button class="btn-pagar-pix" onclick="confirmarEfetivacaoPix(${item.id}, '${item.fotografo}')">Pago</button>
             </td>
           </tr>
         `;
@@ -193,26 +157,15 @@
     }
 
     function confirmarEfetivacaoPix(id, nome) {
-      if(confirm(`Você confirma que abriu o aplicativo do banco e realizou a transferência do Pix para ${nome}?`)) {
-        // Remove da visualização e limpa da fila local
+      if(confirm(`Você confirma que realizou a transferência do Pix para ${nome}?`)) {
         const el = document.getElementById(`pedido-saque-${id}`);
         if(el) el.remove();
-        
         let saques = JSON.parse(localStorage.getItem('iphotos_fila_saques')) || [];
         saques = saques.filter(s => s.id !== id);
         localStorage.setItem('iphotos_fila_saques', JSON.stringify(saques));
-        alert(`Sucesso! Liquidação de saque registrada para ${nome}.`);
+        alert(`Saque liquidado para ${nome}.`);
         carregarFilaSaquesAdmin();
       }
-    }
-
-    function alterarSenhaUsuario(nome) {
-      const novaSenha = prompt(`Digite a nova senha para ${nome}:`);
-      if (novaSenha && novaSenha.trim().length >= 6) alert(`Sucesso! A senha de ${nome} foi alterada.`);
-    }
-
-    function excluirUsuario(idLinha, nome) {
-      if (confirm(`Tem certeza absoluta que deseja deletar a conta de ${nome}?`)) document.getElementById(idLinha).remove();
     }
 
     let ordemCategorias = ['vaquejada', 'ciclismo', 'corrida', 'futebol'];
@@ -230,26 +183,19 @@
       if(localStorage.getItem('iphotos_topo')) document.getElementById('input-topo').value = localStorage.getItem('iphotos_topo');
       renderizarControlesOrdem();
       carregarFilaSaquesAdmin();
+      carregarEventosParaModeracao();
     };
 
     function renderizarControlesOrdem() {
       const container = document.getElementById('lista-ordenacao-categorias');
+      if(!container) return;
       container.innerHTML = '';
       const nomes = { vaquejada: '🐎 Vaquejada', ciclismo: '🚴 Ciclismo', corrida: '🏃‍♂️ Corrida', futebol: '⚽ Futebol' };
       
       ordemCategorias.forEach((cat, index) => {
         const isFirst = index === 0;
         const isLast = index === ordemCategorias.length - 1;
-        
-        container.innerHTML += `
-          <div class="item-ordem">
-            <span><strong>#${index + 1}</strong> - ${nomes[cat]}</span>
-            <div class="controles-ordem">
-              <button type="button" onclick="moverCatar(${index}, -1)" ${isFirst ? 'disabled style="opacity:0.3"' : ''}>▲</button>
-              <button type="button" onclick="moverCatar(${index}, 1)" ${isLast ? 'disabled style="opacity:0.3"' : ''}>▼</button>
-            </div>
-          </div>
-        `;
+        container.innerHTML += `<div class="item-ordem"><span><strong>#${index + 1}</strong> - ${nomes[cat]}</span><div class="controles-ordem"><button type="button" onclick="moverCatar(${index}, -1)" ${isFirst ? 'disabled style="opacity:0.3"' : ''}>▲</button><button type="button" onclick="moverCatar(${index}, 1)" ${isLast ? 'disabled style="opacity:0.3"' : ''}>▼</button></div></div>`;
       });
     }
 

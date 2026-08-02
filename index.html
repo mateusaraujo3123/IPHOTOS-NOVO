@@ -10,7 +10,7 @@
 
   <!-- HEADER -->
   <header class="meu-header" id="header-dinamico">
-    <a href="index.html" class="logo">iphoto<span>s</span></a>
+    <a href="index.html" class="logo">iphoto<span id="logo-dot">s</span></a>
     <nav class="menu-links">
       <a href="minhas-compras.html">Minhas compras</a>
       <a href="cadastro.html">Sou Fotógrafo</a>
@@ -35,29 +35,10 @@
     </div>
   </section>
 
-  <!-- BARRA HORIZONTAL DE CATEGORIAS -->
+  <!-- BARRA HORIZONTAL DE CATEGORIAS (Gerada Automaticamente por Script) -->
   <div class="barra-categorias">
-    <div class="container-categorias">
-      <button class="btn-categoria ativo" id="cat-todos" onclick="filtrarPorCategoria('todos')">
-        <img src="assets/categorias/todos.png" alt="Todos" class="img-categoria" onerror="this.src='https://placehold.co🌐'">
-        <span>Todos</span>
-      </button>
-      <button class="btn-categoria" id="cat-vaquejada" onclick="filtrarPorCategoria('vaquejada')">
-        <img src="assets/categorias/vaquejada.png" alt="Vaquejada" class="img-categoria" onerror="this.src='https://placehold.co🐎'">
-        <span>Vaquejada</span>
-      </button>
-      <button class="btn-categoria" id="cat-ciclismo" onclick="filtrarPorCategoria('ciclismo')">
-        <img src="assets/categorias/ciclismo.png" alt="Ciclismo" class="img-categoria" onerror="this.src='https://placehold.co🚴'">
-        <span>Ciclismo</span>
-      </button>
-      <button class="btn-categoria" id="cat-corrida" onclick="filtrarPorCategoria('corrida')">
-        <img src="assets/categorias/corrida.png" alt="Corrida" class="img-categoria" onerror="this.src='https://placehold.co🏃'">
-        <span>Corrida</span>
-      </button>
-      <button class="btn-categoria" id="cat-futebol" onclick="filtrarPorCategoria('futebol')">
-        <img src="assets/categorias/futebol.png" alt="Futebol" class="img-categoria" onerror="this.src='https://placehold.co⚽'">
-        <span>Futebol</span>
-      </button>
+    <div class="container-categorias" id="container-botoes-categorias">
+      <!-- Os botões do CorelDraw nascerão aqui sozinhos via JS -->
     </div>
   </div>
 
@@ -72,53 +53,24 @@
   </div>
 
   <script>
-    // Banco de dados simulado contendo os links de capas reais que os fotógrafos definiram
+    // =========================================================================
+    // ⚙️ CENTRAL DE EXPANSÃO: ADICIONE NOVAS CATEGORIAS AQUI NO FUTURO
+    // =========================================================================
+    const listaCategoriasBD = [
+      { id: "vaquejada", nome: "Vaquejada", iconeURL: "vaquejada.png", altFallback: "🐎", tituloSecao: "Coberturas de Vaquejada" },
+      { id: "ciclismo", nome: "Ciclismo", iconeURL: "ciclismo.png", altFallback: "🚴", tituloSecao: "Eventos de Ciclismo" },
+      { id: "corrida", nome: "Corrida", iconeURL: "corrida.png", altFallback: "🏃", tituloSecao: "Corridas de Rua" },
+      { id: "futebol", nome: "Futebol", iconeURL: "futebol.png", altFallback: "⚽", tituloSecao: "Partidas de Futebol" }
+      // Para adicionar mais, basta colocar uma vírgula e copiar o modelo acima aqui embaixo.
+    ];
+
+    // BANCO DE DADOS DOS EVENTOS DOS FOTÓGRAFOS
     const eventosBD = [
-      { 
-        id: 1, 
-        titulo: "Circuito Vaquejada PE - Etapa Regional", 
-        categoria: "vaquejada", 
-        altFallback: "🐎", 
-        fotoCapaURL: "https://unsplash.com", // Capa de Cavalo/Vaquejada
-        local: "Caruaru, PE", 
-        data: "28/07/2026" 
-      },
-      { 
-        id: 2, 
-        titulo: "Grande Bolão de Vaquejada do Agreste", 
-        categoria: "vaquejada", 
-        altFallback: "🐎", 
-        fotoCapaURL: "https://unsplash.com",
-        local: "Bezerros, PE", 
-        data: "25/07/2026" 
-      },
-      { 
-        id: 3, 
-        titulo: "Desafio das Opalas de Ciclismo", 
-        categoria: "ciclismo", 
-        altFallback: "🚴", 
-        fotoCapaURL: "https://unsplash.com", // Capa Ciclismo
-        local: "Recife, PE", 
-        data: "26/07/2026" 
-      },
-      { 
-        id: 4, 
-        titulo: "Corrida de Rua da Independência 10K", 
-        categoria: "corrida", 
-        altFallback: "🏃‍♂️", 
-        fotoCapaURL: "https://unsplash.com", // Capa Atletismo
-        local: "Garanhuns, PE", 
-        data: "19/07/2026" 
-      },
-      { 
-        id: 5, 
-        titulo: "Campeonato Intermunicipal de Futebol Amador", 
-        categoria: "futebol", 
-        altFallback: "⚽", 
-        fotoCapaURL: "https://unsplash.com", // Capa Futebol
-        local: "Petrolina, PE", 
-        data: "12/07/2026" 
-      }
+      { id: 1, titulo: "Circuito Vaquejada PE - Etapa Regional", categoria: "vaquejada", altFallback: "🐎", fotoCapaURL: "https://unsplash.com", local: "Caruaru, PE", data: "28/07/2026" },
+      { id: 2, titulo: "Grande Bolão de Vaquejada do Agreste", categoria: "vaquejada", altFallback: "🐎", fotoCapaURL: "https://unsplash.com", local: "Bezerros, PE", data: "25/07/2026" },
+      { id: 3, titulo: "Desafio das Opalas de Ciclismo", categoria: "ciclismo", altFallback: "🚴", fotoCapaURL: "https://unsplash.com", local: "Recife, PE", data: "26/07/2026" },
+      { id: 4, titulo: "Corrida de Rua da Independência 10K", categoria: "corrida", altFallback: "🏃‍♂️", fotoCapaURL: "https://unsplash.com", local: "Garanhuns, PE", data: "19/07/2026" },
+      { id: 5, titulo: "Campeonato Intermunicipal de Futebol Amador", categoria: "futebol", altFallback: "⚽", fotoCapaURL: "https://unsplash.com", local: "Petrolina, PE", data: "12/07/2026" }
     ];
 
     let categoriaSelecionada = 'todos';
@@ -138,8 +90,33 @@
       if(localStorage.getItem('iphotos_ordem')) {
         ordemDoAdmin = JSON.parse(localStorage.getItem('iphotos_ordem'));
       }
+
+      gerarBotonesCategoriasMecanico();
       filtrarEventos();
     };
+
+    // FUNÇÃO QUE DESENHA OS BOTÕES DO COREL NA TELA SOZINHA
+    function gerarBotonesCategoriasMecanico() {
+      const container = document.getElementById('container-botoes-categorias');
+      
+      // Cria primeiro o botão "Todos" fixo
+      container.innerHTML = `
+        <button class="btn-categoria ativo" id="cat-todos" onclick="filtrarPorCategoria('todos')">
+          <img src="assets/categorias/todos.png" alt="Todos" class="img-categoria" onerror="this.src='https://placehold.co🌐'">
+          <span>Todos</span>
+        </button>
+      `;
+
+      // Varre a lista central e cria os outros botões automaticamente
+      listaCategoriasBD.forEach(cat => {
+        container.innerHTML += `
+          <button class="btn-categoria" id="cat-${cat.id}" onclick="filtrarPorCategoria('${cat.id}')">
+            <img src="assets/categorias/${cat.iconeURL}" alt="${cat.nome}" class="img-categoria" onerror="this.src='https://placehold.co${cat.altFallback}'">
+            <span>${cat.nome}</span>
+          </button>
+        `;
+      });
+    }
 
     function renderizarEventos(lista) {
       const grid = document.getElementById('grid-eventos-dinamico');
@@ -160,7 +137,6 @@
       lista.forEach(evento => {
         const corDaTag = coresCategoria[evento.categoria] || 'var(--cor-primaria)';
 
-        // A estrutura puxa a fotoCapaURL definida pelo fotógrafo em tela cheia na parte superior do card
         grid.innerHTML += `
           <a href="evento.html" class="card-evento">
             <div class="card-capa-wrapper">
@@ -185,15 +161,25 @@
     function filtrarPorCategoria(categoria) {
       categoriaSelecionada = categoria;
       document.querySelectorAll('.btn-categoria').forEach(btn => btn.classList.remove('ativo'));
+      document.getElementById(`cat-${categoria}`).classList.add('ativo');
       
       if(categoria === 'todos') {
-        document.getElementById('cat-todos').classList.add('ativo');
+        document.getElementById('logo-dot').style.color = 'var(--cor-primaria)';
+        document.getElementById('btn-login-dinamico').style.backgroundColor = 'var(--cor-primaria)';
+        document.getElementById('faixa-dinamica').style.backgroundColor = 'var(--cor-primaria)';
+        document.getElementById('btn-busca-dinamico').style.backgroundColor = 'var(--cor-primaria)';
+        document.getElementById('titulo-listagem').innerText = "Todos os Eventos";
       } else {
-        document.getElementById(`cat-${categoria}`).classList.add('ativo');
+        const corAtiva = coresCategoria[categoria] || 'var(--cor-primaria)';
+        document.getElementById('logo-dot').style.color = corAtiva;
+        document.getElementById('btn-login-dinamico').style.backgroundColor = corAtiva;
+        document.getElementById('faixa-dinamica').style.backgroundColor = corAtiva;
+        document.getElementById('btn-busca-dinamico').style.backgroundColor = corAtiva;
+        
+        // Acha o título da seção na lista automatizada
+        const catInfo = listaCategoriasBD.find(c => c.id === categoria);
+        document.getElementById('titulo-listagem').innerText = catInfo ? catInfo.tituloSecao : "Eventos";
       }
-
-      const titulos = { todos: "Todos os Eventos", vaquejada: "Coberturas de Vaquejada", ciclismo: "Eventos de Ciclismo", corrida: "Corridas de Rua", futebol: "Partidas de Futebol" };
-      document.getElementById('titulo-listagem').innerText = titulos[categoria];
 
       filtrarEventos();
     }

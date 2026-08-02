@@ -327,12 +327,16 @@
       if(!container) return;
       container.innerHTML = '';
       const nomes = { vaquejada: '🐎 Vaquejada', ciclismo: '🚴 Ciclismo', corrida: '🏃‍♂️ Corrida', futebol: '⚽ Futebol' };
+      
       ordemCategorias.forEach((cat, index) => {
         const isFirst = index === 0;
         const isLast = index === ordemCategorias.length - 1;
-        container.innerHTML += `<div class="item-ordem"><span><strong>#${index + 1}</strong> - ${nomes[cat]}</span><div class="controles-ordem"><button type="button" onclick="moverCatar(${index}, -1)" ${isFirst ? 'disabled style="opacity:0.3"' : ''}>▲</button><button type="button" onclick="moverCatar(${index}, 1)" ${isLast ? 'disabled style="opacity:0.3"' : ''}>▼</button></div></div>`;
+        
+        // CORRIGIDO: Removida a barra invertida que quebrava o build do GitHub Pages
+        container.innerHTML += '<div class="item-ordem"><span><strong>#' + (index + 1) + '</strong> - ' + nomes[cat] + '</span><div class="controles-ordem"><button type="button" onclick="moverCatar(' + index + ', -1)" ' + (isFirst ? 'disabled style="opacity:0.3"' : '') + '>▲</button><button type="button" onclick="moverCatar(' + index + ', 1)" ' + (isLast ? 'disabled style="opacity:0.3"' : '') + '>▼</button></div></div>';
       });
     }
+
 
     function moverCatar(index, direcao) {
       const novaPosicao = index + direcao;

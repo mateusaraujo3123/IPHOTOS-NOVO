@@ -10,21 +10,25 @@
 
   <!-- HEADER -->
   <header class="meu-header" id="header-dinamico">
-    <a href="index.html" class="logo">iphoto<span id="logo-dot">s</span></a>
-    
+    <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
       <a href="minhas-compras.html">Minhas compras</a>
       <a href="cadastro.html">Sou Fotógrafo</a>
       <a href="cadastro.html">Organização</a>
     </nav>
-    
     <div>
       <a href="login.html" class="btn-login" id="btn-login-dinamico">Login</a>
     </div>
   </header>
 
+  <!-- FAIXA DE AVISO -->
+  <div class="faixa-aviso" id="faixa-dinamica">
+    Você está vendo eventos do Brasil 🔽
+  </div>
+
   <!-- HERO / REGIAO DE BUSCA -->
   <section class="hero">
+    <h1>suas fotos aqui!</h1>
     <div class="container-busca">
       <input type="text" id="campo-busca-texto" placeholder="Digite o nome do evento..." class="input-busca" oninput="filtrarEventos()" />
       <button class="btn-busca" id="btn-busca-dinamico">🔍</button>
@@ -35,23 +39,23 @@
   <div class="barra-categorias">
     <div class="container-categorias">
       <button class="btn-categoria ativo" id="cat-todos" onclick="filtrarPorCategoria('todos')">
-        <span class="icone-categoria">🌐</span>
+        <img src="assets/categorias/todos.png" alt="Todos" class="img-categoria" onerror="this.src='https://placehold.co🌐'">
         <span>Todos</span>
       </button>
       <button class="btn-categoria" id="cat-vaquejada" onclick="filtrarPorCategoria('vaquejada')">
-        <span class="icone-categoria">🐎</span>
+        <img src="assets/categorias/vaquejada.png" alt="Vaquejada" class="img-categoria" onerror="this.src='https://placehold.co🐎'">
         <span>Vaquejada</span>
       </button>
       <button class="btn-categoria" id="cat-ciclismo" onclick="filtrarPorCategoria('ciclismo')">
-        <span class="icone-categoria">🚴</span>
+        <img src="assets/categorias/ciclismo.png" alt="Ciclismo" class="img-categoria" onerror="this.src='https://placehold.co🚴'">
         <span>Ciclismo</span>
       </button>
       <button class="btn-categoria" id="cat-corrida" onclick="filtrarPorCategoria('corrida')">
-        <span class="icone-categoria">🏃‍♂️</span>
+        <img src="assets/categorias/corrida.png" alt="Corrida" class="img-categoria" onerror="this.src='https://placehold.co🏃'">
         <span>Corrida</span>
       </button>
       <button class="btn-categoria" id="cat-futebol" onclick="filtrarPorCategoria('futebol')">
-        <span class="icone-categoria">⚽</span>
+        <img src="assets/categorias/futebol.png" alt="Futebol" class="img-categoria" onerror="this.src='https://placehold.co⚽'">
         <span>Futebol</span>
       </button>
     </div>
@@ -68,13 +72,53 @@
   </div>
 
   <script>
-    // Nosso banco de dados simulado inicial
+    // Banco de dados simulado contendo os links de capas reais que os fotógrafos definiram
     const eventosBD = [
-      { id: 1, titulo: "Circuito Vaquejada PE - Etapa Regional", categoria: "vaquejada", icone: "🐎", local: "Caruaru, PE", data: "28/07/2026" },
-      { id: 2, titulo: "Grande Bolão de Vaquejada do Agreste", categoria: "vaquejada", icone: "🐎", local: "Bezerros, PE", data: "25/07/2026" },
-      { id: 3, titulo: "Desafio das Opalas de Ciclismo", categoria: "ciclismo", icone: "🚴", local: "Recife, PE", data: "26/07/2026" },
-      { id: 4, titulo: "Corrida de Rua da Independência 10K", categoria: "corrida", icone: "🏃‍♂️", local: "Garanhuns, PE", data: "19/07/2026" },
-      { id: 5, titulo: "Campeonato Intermunicipal de Futebol Amador", categoria: "futebol", icone: "⚽", local: "Petrolina, PE", data: "12/07/2026" }
+      { 
+        id: 1, 
+        titulo: "Circuito Vaquejada PE - Etapa Regional", 
+        categoria: "vaquejada", 
+        altFallback: "🐎", 
+        fotoCapaURL: "https://unsplash.com", // Capa de Cavalo/Vaquejada
+        local: "Caruaru, PE", 
+        data: "28/07/2026" 
+      },
+      { 
+        id: 2, 
+        titulo: "Grande Bolão de Vaquejada do Agreste", 
+        categoria: "vaquejada", 
+        altFallback: "🐎", 
+        fotoCapaURL: "https://unsplash.com",
+        local: "Bezerros, PE", 
+        data: "25/07/2026" 
+      },
+      { 
+        id: 3, 
+        titulo: "Desafio das Opalas de Ciclismo", 
+        categoria: "ciclismo", 
+        altFallback: "🚴", 
+        fotoCapaURL: "https://unsplash.com", // Capa Ciclismo
+        local: "Recife, PE", 
+        data: "26/07/2026" 
+      },
+      { 
+        id: 4, 
+        titulo: "Corrida de Rua da Independência 10K", 
+        categoria: "corrida", 
+        altFallback: "🏃‍♂️", 
+        fotoCapaURL: "https://unsplash.com", // Capa Atletismo
+        local: "Garanhuns, PE", 
+        data: "19/07/2026" 
+      },
+      { 
+        id: 5, 
+        titulo: "Campeonato Intermunicipal de Futebol Amador", 
+        categoria: "futebol", 
+        altFallback: "⚽", 
+        fotoCapaURL: "https://unsplash.com", // Capa Futebol
+        local: "Petrolina, PE", 
+        data: "12/07/2026" 
+      }
     ];
 
     let categoriaSelecionada = 'todos';
@@ -82,24 +126,18 @@
     let coresCategoria = { vaquejada: '#00b4d8', ciclismo: '#00b4d8', corrida: '#00b4d8', futebol: '#00b4d8' };
 
     window.onload = () => {
-      // 1. Aplica customizações gerais vindas do Admin via LocalStorage
       if(localStorage.getItem('iphotos_primaria')) {
         document.documentElement.style.setProperty('--cor-primaria', localStorage.getItem('iphotos_primaria'));
       }
       if(localStorage.getItem('iphotos_topo')) {
         document.getElementById('header-dinamico').style.backgroundColor = localStorage.getItem('iphotos_topo');
       }
-      
-      // 2. Carrega Tema de cores específico por Categoria
       if(localStorage.getItem('iphotos_cores_cat')) {
         coresCategoria = JSON.parse(localStorage.getItem('iphotos_cores_cat'));
       }
-
-      // 3. Carrega Ordem das Categorias definida pelo Admin
       if(localStorage.getItem('iphotos_ordem')) {
         ordemDoAdmin = JSON.parse(localStorage.getItem('iphotos_ordem'));
       }
-
       filtrarEventos();
     };
 
@@ -115,18 +153,20 @@
         return;
       }
 
-      // Ordena a lista com base na regra de posições definida no admin
       lista.sort((a, b) => {
         return ordemDoAdmin.indexOf(a.categoria) - ordemDoAdmin.indexOf(b.categoria);
       });
 
       lista.forEach(evento => {
-        // Pega a cor customizada definida para essa categoria específica
         const corDaTag = coresCategoria[evento.categoria] || 'var(--cor-primaria)';
 
+        // A estrutura puxa a fotoCapaURL definida pelo fotógrafo em tela cheia na parte superior do card
         grid.innerHTML += `
           <a href="evento.html" class="card-evento">
-            <div class="card-imagem-placeholder">${evento.icone}</div>
+            <div class="card-capa-wrapper">
+              <span class="badge-icone-categoria">${evento.altFallback}</span>
+              <img src="${evento.fotoCapaURL}" alt="${evento.titulo}" class="img-capa-evento" onerror="this.src='https://placehold.co'">
+            </div>
             <div class="card-info">
               <div>
                 <h3>${evento.titulo}</h3>
@@ -148,19 +188,8 @@
       
       if(categoria === 'todos') {
         document.getElementById('cat-todos').classList.add('ativo');
-        // Reseta para a cor primária padrão
-        document.getElementById('logo-dot').style.color = 'var(--cor-primaria)';
-        document.getElementById('btn-login-dinamico').style.backgroundColor = 'var(--cor-primaria)';
-        document.getElementById('faixa-dinamica').style.backgroundColor = 'var(--cor-primaria)';
-        document.getElementById('btn-busca-dinamico').style.backgroundColor = 'var(--cor-primaria)';
       } else {
         document.getElementById(`cat-${categoria}`).classList.add('ativo');
-        // Aplica a cor customizada da categoria nos elementos de destaque do tema na Home
-        const corAtiva = coresCategoria[categoria];
-        document.getElementById('logo-dot').style.color = corAtiva;
-        document.getElementById('btn-login-dinamico').style.backgroundColor = corAtiva;
-        document.getElementById('faixa-dinamica').style.backgroundColor = corAtiva;
-        document.getElementById('btn-busca-dinamico').style.backgroundColor = corAtiva;
       }
 
       const titulos = { todos: "Todos os Eventos", vaquejada: "Coberturas de Vaquejada", ciclismo: "Eventos de Ciclismo", corrida: "Corridas de Rua", futebol: "Partidas de Futebol" };

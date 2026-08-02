@@ -12,13 +12,30 @@
     .btn-whatsapp-link { background-color: #e6fcf5; color: #0ca678; border: 1px solid #96f2d7; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; text-decoration: none; display: inline-block; margin-right: 4px; }
     .btn-pagar-pix { background-color: #e3fafc; color: #1098ad; border: 1px solid #99e9f2; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; }
     .btn-deletar-evento-banco { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; }
-    .btn-deletar-evento-banco:hover { background-color: #fee2e2; }
-    
-    /* Novos estilos visuais para botões de controle de usuários */
     .btn-alterar-senha-admin { background-color: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer; margin-right: 4px; }
-    .btn-alterar-senha-admin:hover { background-color: #e2e8f0; }
     .btn-remover-usuario-admin { background-color: #fff5f5; color: #e03131; border: 1px solid #ffc9c9; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer; }
-    .btn-remover-usuario-admin:hover { background-color: #ffe3e3; }
+    
+    /* Novos estilos visuais para a seleção de Banco de Dados Multi-Cloud */
+    .seletor-banco-caixa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .seletor-banco-caixa.ativo {
+      border: 2px solid #00b4d8;
+      background: #e3fafc;
+    }
+    .badge-banco-status {
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -30,6 +47,7 @@
 
   <div class="container-admin">
     <div>
+      <!-- GERENCIADOR DE TEMAS -->
       <div class="card-admin">
         <h2>Gerenciar Tema (CSS Geral)</h2>
         <form onsubmit="salvarConfiguracoes(event)">
@@ -44,6 +62,8 @@
           <button type="submit" class="btn-salvar-tema">Salvar Cores</button>
         </form>
       </div>
+
+      <!-- REORDENAÇÃO DE CATEGORIAS -->
       <div class="card-admin">
         <h2>Ordem de Destaque</h2>
         <div id="lista-ordenacao-categorias"></div>
@@ -51,6 +71,16 @@
     </div>
 
     <div>
+      <!-- NOVO: SELEÇÃO DO BANCO DE DADOS EM NUVEM ATIVO (EXPLICITADO PRO CLAUDE) -->
+      <div class="card-admin">
+        <h2>Configuração de Armazenamento em Nuvem (Multi-Cloud)</h2>
+        <p style="font-size:12px; color:#64748b; margin-bottom:15px;">Escolha qual banco de dados/bucket está ativo para salvar os novos lotes de fotos enviados pelos fotógrafos.</p>
+        
+        <div id="container-bancos-nuvem">
+          <!-- Injetado dinamicamente pela Parte 2 -->
+        </div>
+      </div>
+
       <!-- MODERAÇÃO DE COBERTURAS -->
       <div class="card-admin">
         <h2>Moderação de Coberturas (Exclusão do Banco)</h2>
@@ -73,35 +103,69 @@
         </table>
       </div>
 
-      <!-- GERENCIAMENTO DE FOTÓGRAFOS ATIVOS -->
+      <!-- GERENCIAMENTO FOTÓGRAFOS -->
       <div class="card-admin">
         <h2>Gerenciamento de Fotógrafos Ativos</h2>
         <table class="lista-admin">
           <thead>
-            <tr><th>Nome do Profissional</th><th>E-mail cadastrado</th><th>Ações de Controle</th></tr>
+            <tr><th>Nome do Profissional</th><th>E-mail</th><th>Ações</th></tr>
           </thead>
-          <tbody id="tabela-fotografos-admin">
-            <!-- Injetado dinamicamente via Script da Parte 2 -->
-          </tbody>
+          <tbody id="tabela-fotografos-admin"></tbody>
         </table>
       </div>
 
-      <!-- GERENCIAMENTO DE CLIENTES COMPRADORES -->
+      <!-- GERENCIAMENTO CLIENTES -->
       <div class="card-admin">
         <h2>Gerenciamento de Clientes (Compradores)</h2>
         <table class="lista-admin">
           <thead>
-            <tr><th>Nome do Cliente</th><th>E-mail cadastrado</th><th>Ações de Controle</th></tr>
+            <tr><th>Nome do Cliente</th><th>E-mail</th><th>Ações</th></tr>
           </thead>
-          <tbody id="tabela-clientes-admin">
-            <!-- Injetado dinamicamente via Script da Parte 2 -->
-          </tbody>
+          <tbody id="tabela-clientes-admin"></tbody>
         </table>
       </div>
     </div>
   </div>
+  <!-- SCRIPT PARTE 2A - GERENCIADOR MULTI-CLOUD E USUÁRIOS -->
   <script>
-    // LISTAS DE USUÁRIOS SIMULADOS
+    let bancosNuvemBD = [
+      { id: "r2-principal", nome: "Cloudflare R2 - Principal (BR)", tipo: "S3 Compatible", ativo: true },
+      { id: "s3-backup", nome: "Amazon S3 - Secundário (US)", tipo: "AWS S3", ativo: false },
+      { id: "supabase-storage", nome: "Supabase Storage - Fotos (Lote)", tipo: "Supabase Storage", ativo: false }
+    ];
+
+    function renderizarGerenciadorMultiCloud() {
+      const container = document.getElementById('container-bancos-nuvem');
+      if(!container) return;
+      container.innerHTML = '';
+
+      bancosNuvemBD.forEach(banco => {
+        const classeAtivo = banco.ativo ? 'ativo' : '';
+        const textoBotao = banco.ativo ? '🟢 Selecionado' : 'Selecionar';
+        const estiloBadge = banco.ativo ? 'background:#12b886; color:white;' : 'background:#e2e8f0; color:#475569;';
+
+        container.innerHTML += `
+          <div class="seletor-banco-caixa ${classeAtivo}">
+            <div>
+              <p style="font-size:14px; font-weight:bold;">${banco.nome}</p>
+              <p style="font-size:11px; color:#64748b;">Tipo: <code>${banco.tipo}</code></p>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span class="badge-banco-status" style="${estiloBadge}">${banco.ativo ? 'ATIVO' : 'STANDBY'}</span>
+              <button class="btn-alterar-senha-admin" style="margin:0;" onclick="alternarBancoDeDadosAtivo('${banco.id}')">${textoBotao}</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function alternarBancoDeDadosAtivo(idBanco) {
+      bancosNuvemBD.forEach(b => { b.ativo = (b.id === idBanco); });
+      localStorage.setItem('iphotos_banco_ativo_id', idBanco);
+      alert('Servidor de armazenamento alterado no painel!');
+      renderizarGerenciadorMultiCloud();
+    }
+
     const listagemFotografosBD = [
       { id: 201, nome: "Lucas Silva", email: "lucas@iphoto.com" },
       { id: 202, nome: "Manoel Vaqueiro", email: "manoel@iphoto.com" }
@@ -115,6 +179,7 @@
     function carregarUsuariosParaGerenciamento() {
       const tabelaFotografos = document.getElementById('tabela-fotografos-admin');
       const tabelaClientes = document.getElementById('tabela-clientes-admin');
+      if(!tabelaFotografos || !tabelaClientes) return;
       
       tabelaFotografos.innerHTML = '';
       tabelaClientes.innerHTML = '';
@@ -148,21 +213,16 @@
 
     function alterarSenhaUsuarioBanco(id, nome, tipo) {
       const novaSenha = prompt(`Nova senha para ${nome}:`);
-      if (novaSenha && novaSenha.trim().length >= 6) {
-        alert(`Sucesso! Senha alterada.`);
-      } else if (novaSenha) {
-        alert("Erro: Mínimo 6 caracteres.");
-      }
+      if (novaSenha && novaSenha.trim().length >= 6) alert('Senha alterada.');
     }
 
     function removerUsuarioPermanenteBanco(id, nome, tipo) {
-      if (confirm(`Deletar a conta de ${nome} (${tipo})?`)) {
+      if (confirm(`Deletar a conta de ${nome}?`)) {
         const el = document.getElementById(`linha-usuario-admin-${id}`);
         if (el) el.remove();
-        alert(`Usuário excluído.`);
       }
     }
-
+    // GESTÃO DE COBERTURAS E EXCLUSÃO DO BANCO
     function carregarEventosParaModeracao() {
       const container = document.getElementById('tabela-eventos-moderacao-admin');
       if(!container) return;
@@ -186,13 +246,12 @@
     }
 
     function deletarEventoPermanenteDoBanco(id, titulo) {
-      if (confirm(`Apagar "${titulo}" do banco e do Cloudflare R2?`)) {
+      if (confirm(`Apagar "${titulo}" do banco e do Storage?`)) {
         const el = document.getElementById(`linha-evento-admin-${id}`);
         if (el) el.remove();
         let eventos = JSON.parse(localStorage.getItem('iphotos_eventos_dinamicos')) || [];
         eventos = eventos.filter(ev => ev.id !== id);
         localStorage.setItem('iphotos_eventos_dinamicos', JSON.stringify(eventos));
-        alert(`Evento excluído.`);
         carregarEventosParaModeracao();
       }
     }
@@ -207,7 +266,7 @@
       ];
 
       if(saques.length === 0) {
-        container.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#64748b;padding:15px;">Sem saques.</td></tr>`;
+        container.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#64748b;padding:15px;">Sem saques pendentes.</td></tr>`;
         return;
       }
 
@@ -233,7 +292,6 @@
         let saques = JSON.parse(localStorage.getItem('iphotos_fila_saques')) || [];
         saques = saques.filter(s => s.id !== id);
         localStorage.setItem('iphotos_fila_saques', JSON.stringify(saques));
-        alert(`Saque liquidado.`);
         carregarFilaSaquesAdmin();
       }
     }
@@ -250,11 +308,18 @@
         if(cores.futebol) document.getElementById('cor-cat-futebol').value = cores.futebol;
       }
       if(localStorage.getItem('iphotos_primaria')) document.getElementById('input-primaria').value = localStorage.getItem('iphotos_primaria');
-      if(localStorage.getItem('iphotos_topo')) document.getElementById('input-topo').value = localStorage.getItem('iphotos_topo');
+      if(localStorage.getItem('iphotos_topo')) document.getElementById('input-topo').value = localStorage.getItem('input-topo');
+      
+      if(localStorage.getItem('iphotos_banco_ativo_id')) {
+        const idSalvo = localStorage.getItem('iphotos_banco_ativo_id');
+        bancosNuvemBD.forEach(b => b.ativo = (b.id === idSalvo));
+      }
+
       renderizarControlesOrdem();
       carregarFilaSaquesAdmin();
       carregarEventosParaModeracao();
       carregarUsuariosParaGerenciamento();
+      renderizarGerenciadorMultiCloud();
     };
 
     function renderizarControlesOrdem() {

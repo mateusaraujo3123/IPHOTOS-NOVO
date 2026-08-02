@@ -15,26 +15,20 @@
     .btn-alterar-senha-admin { background-color: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer; margin-right: 4px; }
     .btn-remover-usuario-admin { background-color: #fff5f5; color: #e03131; border: 1px solid #ffc9c9; padding: 6px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer; }
     
-    /* Novos estilos visuais para a seleção de Banco de Dados Multi-Cloud */
-    .seletor-banco-caixa {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px;
+    /* Estilo para o menu de seleção do servidor individual por fotógrafo */
+    .select-nuvem-individual {
+      padding: 6px 10px;
       border: 1px solid #cbd5e1;
-      background: #f8fafc;
-      border-radius: 8px;
-      margin-bottom: 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      background-color: #ffffff;
+      color: #334155;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
     }
-    .seletor-banco-caixa.ativo {
-      border: 2px solid #00b4d8;
-      background: #e3fafc;
-    }
-    .badge-banco-status {
-      font-size: 11px;
-      font-weight: bold;
-      padding: 2px 6px;
-      border-radius: 4px;
+    .select-nuvem-individual:focus {
+      border-color: #00b4d8;
     }
   </style>
 </head>
@@ -71,16 +65,6 @@
     </div>
 
     <div>
-      <!-- NOVO: SELEÇÃO DO BANCO DE DADOS EM NUVEM ATIVO (EXPLICITADO PRO CLAUDE) -->
-      <div class="card-admin">
-        <h2>Configuração de Armazenamento em Nuvem (Multi-Cloud)</h2>
-        <p style="font-size:12px; color:#64748b; margin-bottom:15px;">Escolha qual banco de dados/bucket está ativo para salvar os novos lotes de fotos enviados pelos fotógrafos.</p>
-        
-        <div id="container-bancos-nuvem">
-          <!-- Injetado dinamicamente pela Parte 2 -->
-        </div>
-      </div>
-
       <!-- MODERAÇÃO DE COBERTURAS -->
       <div class="card-admin">
         <h2>Moderação de Coberturas (Exclusão do Banco)</h2>
@@ -103,14 +87,16 @@
         </table>
       </div>
 
-      <!-- GERENCIAMENTO FOTÓGRAFOS -->
+      <!-- CORRIGIDO: GERENCIAMENTO DE FOTÓGRAFOS COM MULTI-CLOUD INDIVIDUAL -->
       <div class="card-admin">
         <h2>Gerenciamento de Fotógrafos Ativos</h2>
         <table class="lista-admin">
           <thead>
-            <tr><th>Nome do Profissional</th><th>E-mail</th><th>Ações</th></tr>
+            <tr><th>Fotógrafo</th><th>Servidor de Fotos (Nuvem)</th><th>Ações de Controle</th></tr>
           </thead>
-          <tbody id="tabela-fotografos-admin"></tbody>
+          <tbody id="tabela-fotografos-admin">
+            <!-- Injetado dinamicamente via Script da Parte 2 -->
+          </tbody>
         </table>
       </div>
 
@@ -126,49 +112,11 @@
       </div>
     </div>
   </div>
-  <!-- SCRIPT PARTE 2A - GERENCIADOR MULTI-CLOUD E USUÁRIOS -->
+  <!-- SCRIPT PARTE 2A - CONTROLE DE USUÁRIOS E MULTI-CLOUD INDIVIDUAL -->
   <script>
-    let bancosNuvemBD = [
-      { id: "r2-principal", nome: "Cloudflare R2 - Principal (BR)", tipo: "S3 Compatible", ativo: true },
-      { id: "s3-backup", nome: "Amazon S3 - Secundário (US)", tipo: "AWS S3", ativo: false },
-      { id: "supabase-storage", nome: "Supabase Storage - Fotos (Lote)", tipo: "Supabase Storage", ativo: false }
-    ];
-
-    function renderizarGerenciadorMultiCloud() {
-      const container = document.getElementById('container-bancos-nuvem');
-      if(!container) return;
-      container.innerHTML = '';
-
-      bancosNuvemBD.forEach(banco => {
-        const classeAtivo = banco.ativo ? 'ativo' : '';
-        const textoBotao = banco.ativo ? '🟢 Selecionado' : 'Selecionar';
-        const estiloBadge = banco.ativo ? 'background:#12b886; color:white;' : 'background:#e2e8f0; color:#475569;';
-
-        container.innerHTML += `
-          <div class="seletor-banco-caixa ${classeAtivo}">
-            <div>
-              <p style="font-size:14px; font-weight:bold;">${banco.nome}</p>
-              <p style="font-size:11px; color:#64748b;">Tipo: <code>${banco.tipo}</code></p>
-            </div>
-            <div style="display:flex; align-items:center; gap:12px;">
-              <span class="badge-banco-status" style="${estiloBadge}">${banco.ativo ? 'ATIVO' : 'STANDBY'}</span>
-              <button class="btn-alterar-senha-admin" style="margin:0;" onclick="alternarBancoDeDadosAtivo('${banco.id}')">${textoBotao}</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function alternarBancoDeDadosAtivo(idBanco) {
-      bancosNuvemBD.forEach(b => { b.ativo = (b.id === idBanco); });
-      localStorage.setItem('iphotos_banco_ativo_id', idBanco);
-      alert('Servidor de armazenamento alterado no painel!');
-      renderizarGerenciadorMultiCloud();
-    }
-
     const listagemFotografosBD = [
-      { id: 201, nome: "Lucas Silva", email: "lucas@iphoto.com" },
-      { id: 202, nome: "Manoel Vaqueiro", email: "manoel@iphoto.com" }
+      { id: 201, nome: "Lucas Silva", email: "lucas@iphoto.com", storageId: "r2" },
+      { id: 202, nome: "Manoel Vaqueiro", email: "manoel@iphoto.com", storageId: "s3" }
     ];
 
     const listagemClientesBD = [
@@ -185,13 +133,21 @@
       tabelaClientes.innerHTML = '';
 
       listagemFotografosBD.forEach(f => {
+        const nuvemSalva = localStorage.getItem('iphotos_storage_fotógrafo_' + f.id) || f.storageId;
+
         tabelaFotografos.innerHTML += `
           <tr id="linha-usuario-admin-${f.id}">
-            <td><strong>${f.nome}</strong></td>
-            <td><span style="color:#64748b;">${f.email}</span></td>
+            <td><strong>${f.nome}</strong><br><span style="font-size:11px; color:#64748b;">${f.email}</span></td>
             <td>
-              <button class="btn-alterar-senha-admin" onclick="alterarSenhaUsuarioBanco(${f.id}, '${f.nome}', 'fotografo')">Senha</button>
-              <button class="btn-remover-usuario-admin" onclick="removerUsuarioPermanenteBanco(${f.id}, '${f.nome}', 'fotografo')">Remover</button>
+              <select class="select-nuvem-individual" onchange="alterarNuvemIndividualFotografo(${f.id}, '${f.nome}', this.value)">
+                <option value="r2" ${nuvemSalva === 'r2' ? 'selected' : ''}>Cloudflare R2</option>
+                <option value="s3" ${nuvemSalva === 's3' ? 'selected' : ''}>Amazon S3</option>
+                <option value="supabase" ${nuvemSalva === 'supabase' ? 'selected' : ''}>Supabase</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn-alterar-senha-admin" onclick="alterarSenhaUsuarioBanco(${f.id}, '${f.nome}', 'fotógrafo')">Senha</button>
+              <button class="btn-remover-usuario-admin" onclick="removerUsuarioPermanenteBanco(${f.id}, '${f.nome}', 'fotógrafo')">Remover</button>
             </td>
           </tr>
         `;
@@ -200,8 +156,7 @@
       listagemClientesBD.forEach(c => {
         tabelaClientes.innerHTML += `
           <tr id="linha-usuario-admin-${c.id}">
-            <td><strong>${c.nome}</strong></td>
-            <td><span style="color:#64748b;">${c.email}</span></td>
+            <td><strong>${c.nome}</strong><br><span style="font-size:11px; color:#64748b;">${c.email}</span></td>
             <td>
               <button class="btn-alterar-senha-admin" onclick="alterarSenhaUsuarioBanco(${c.id}, '${c.nome}', 'cliente')">Senha</button>
               <button class="btn-remover-usuario-admin" onclick="removerUsuarioPermanenteBanco(${c.id}, '${c.nome}', 'cliente')">Remover</button>
@@ -211,9 +166,15 @@
       });
     }
 
+    function alterarNuvemIndividualFotografo(idFotografo, nomeFotografo, novoStorageId) {
+      localStorage.setItem('iphotos_storage_fotógrafo_' + idFotografo, novoStorageId);
+      alert(`Servidor do fotógrafo ${nomeFotografo} alterado com sucesso!`);
+    }
+
     function alterarSenhaUsuarioBanco(id, nome, tipo) {
       const novaSenha = prompt(`Nova senha para ${nome}:`);
       if (novaSenha && novaSenha.trim().length >= 6) alert('Senha alterada.');
+      else if (novaSenha) alert('Erro: Mínimo 6 caracteres.');
     }
 
     function removerUsuarioPermanenteBanco(id, nome, tipo) {
@@ -308,18 +269,12 @@
         if(cores.futebol) document.getElementById('cor-cat-futebol').value = cores.futebol;
       }
       if(localStorage.getItem('iphotos_primaria')) document.getElementById('input-primaria').value = localStorage.getItem('iphotos_primaria');
-      if(localStorage.getItem('iphotos_topo')) document.getElementById('input-topo').value = localStorage.getItem('input-topo');
+      if(localStorage.getItem('iphotos_topo')) document.getElementById('input-topo').value = localStorage.getItem('iphotos_topo');
       
-      if(localStorage.getItem('iphotos_banco_ativo_id')) {
-        const idSalvo = localStorage.getItem('iphotos_banco_ativo_id');
-        bancosNuvemBD.forEach(b => b.ativo = (b.id === idSalvo));
-      }
-
       renderizarControlesOrdem();
       carregarFilaSaquesAdmin();
       carregarEventosParaModeracao();
       carregarUsuariosParaGerenciamento();
-      renderizarGerenciadorMultiCloud();
     };
 
     function renderizarControlesOrdem() {
@@ -327,16 +282,12 @@
       if(!container) return;
       container.innerHTML = '';
       const nomes = { vaquejada: '🐎 Vaquejada', ciclismo: '🚴 Ciclismo', corrida: '🏃‍♂️ Corrida', futebol: '⚽ Futebol' };
-      
       ordemCategorias.forEach((cat, index) => {
         const isFirst = index === 0;
         const isLast = index === ordemCategorias.length - 1;
-        
-        // CORRIGIDO: Removida a barra invertida que quebrava o build do GitHub Pages
         container.innerHTML += '<div class="item-ordem"><span><strong>#' + (index + 1) + '</strong> - ' + nomes[cat] + '</span><div class="controles-ordem"><button type="button" onclick="moverCatar(' + index + ', -1)" ' + (isFirst ? 'disabled style="opacity:0.3"' : '') + '>▲</button><button type="button" onclick="moverCatar(' + index + ', 1)" ' + (isLast ? 'disabled style="opacity:0.3"' : '') + '>▼</button></div></div>';
       });
     }
-
 
     function moverCatar(index, direcao) {
       const novaPosicao = index + direcao;

@@ -4,202 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel do Fotógrafo - iphotos</title>
-  <style>
-    /* 1. VARIÁVEIS DA SUA IDENTIDADE VISUAL */
-    :root {
-      --cor-fundo-geral: #f8fafc;       
-      --cor-texto-principal: #111827;   
-      --cor-topo-fundo: #000000;        
-      --cor-topo-texto: #ffffff;        
-      --cor-primaria: #00b4d8;          
-      --cor-primaria-hover: #0077b6;    
-      --cor-card-fundo: #ffffff;        
-      --cor-card-borda: #cbd5e1;        
-    }
-
-    /* 2. ESTILOS BASE */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    body {
-      background-color: var(--cor-fundo-geral);
-      color: var(--cor-texto-principal);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Header */
-    .meu-header {
-      background-color: var(--cor-topo-fundo);
-      color: var(--cor-topo-texto);
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-decoration: none;
-      color: var(--cor-topo-texto);
-    }
-
-    .logo span {
-      color: var(--cor-primaria);
-    }
-
-    .menu-links a {
-      color: var(--cor-topo-texto);
-      text-decoration: none;
-      margin-left: 20px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    /* Layout do Painel */
-    .container-painel {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 30px;
-    }
-
-    @media (max-width: 768px) {
-      .container-painel {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card-painel {
-      background-color: var(--cor-card-fundo);
-      border: 1px solid var(--cor-card-borda);
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-    }
-
-    .card-painel h2 {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #f1f5f9;
-      padding-bottom: 10px;
-    }
-
-    /* Formulário de Novo Evento */
-    .grupo-input {
-      margin-bottom: 16px;
-    }
-
-    .grupo-input label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #475569;
-    }
-
-    .grupo-input input, .grupo-input select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    /* Área de Arrastar Arquivos (Dropzone) */
-    .dropzone {
-      border: 2px dashed var(--cor-primaria);
-      background-color: rgba(0, 180, 216, 0.02);
-      border-radius: 12px;
-      padding: 40px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-bottom: 20px;
-    }
-
-    .dropzone:hover {
-      background-color: rgba(0, 180, 216, 0.05);
-    }
-
-    .dropzone-icone {
-      font-size: 40px;
-      margin-bottom: 12px;
-    }
-
-    .dropzone p {
-      font-size: 14px;
-      color: #475569;
-      font-weight: 500;
-    }
-
-    .dropzone span {
-      font-size: 12px;
-      color: #94a3b8;
-      display: block;
-      margin-top: 6px;
-    }
-
-    .btn-acao {
-      width: 100%;
-      background-color: var(--cor-primaria);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-acao:hover {
-      background-color: var(--cor-primaria-hover);
-    }
-
-    /* Lista de Coberturas Criadas */
-    .evento-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
-
-    .evento-info h4 {
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .evento-info p {
-      font-size: 12px;
-      color: #64748b;
-      margin-top: 2px;
-    }
-
-    .status-badge {
-      font-size: 11px;
-      background-color: #dcfce7;
-      color: #14532d;
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-weight: 600;
-    }
-  </style>
+  <link rel="stylesheet" href="painel-fotografo.css">
 </head>
 <body>
 
@@ -207,7 +12,7 @@
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
-      <span style="font-size: 14px; color: var(--cor-primaria); font-weight: bold;">Olá, Fotógrafo 📸</span>
+      <span style="font-size: 14px; color: var(--cor-primaria); font-weight: bold; margin-right: 10px;">Olá, Fotógrafo 📸</span>
       <a href="index.html">Sair</a>
     </nav>
   </header>
@@ -215,70 +20,168 @@
   <!-- CONTEÚDO DO PAINEL -->
   <div class="container-painel">
     
-    <!-- COLUNA 1: CADASTRAR NOVO EVENTO -->
-    <div class="card-painel">
-      <h2>Nova Cobertura</h2>
-      <form onsubmit="adicionarEventoFake(event)">
-        <div class="grupo-input">
-          <label for="nome-evento">Nome do Evento / Corrida</label>
-          <input type="text" id="nome-evento" placeholder="Ex: Grande Vaquejada de Caruaru" required />
+    <!-- ESQUERDA: CADASTRO DE EVENTOS E CHAVE PIX -->
+    <div>
+      <!-- CARD UPLOAD -->
+      <div class="card-painel">
+        <h2>Nova Cobertura</h2>
+        <form onsubmit="adicionarEventoFake(event)">
+          <div class="grupo-input">
+            <label for="nome-evento">Nome do Evento / Competição</label>
+            <input type="text" id="nome-evento" placeholder="Ex: Grande Vaquejada de Caruaru" required />
+          </div>
+          <div class="grupo-input">
+            <label for="categoria-evento">Modalidade</label>
+            <select id="categoria-evento" required>
+              <option value="🐎">Vaquejada</option>
+              <option value="🚴">Ciclismo</option>
+              <option value="🏃‍♂️">Corrida</option>
+              <option value="⚽">Futebol</option>
+            </select>
+          </div>
+          <div class="grupo-input">
+            <label for="preco-foto">Preço por Foto (R$)</label>
+            <input type="number" id="preco-foto" placeholder="Ex: 9.90" step="0.01" required />
+          </div>
+          <div class="dropzone" onclick="document.getElementById('file-input').click()">
+            <input type="file" id="file-input" multiple style="display: none;" />
+            <p>Arraste as fotos ou clique aqui</p>
+          </div>
+          <button type="submit" class="btn-acao">Publicar Evento</button>
+        </form>
+      </div>
+
+      <!-- CARD GERENCIADOR DE SAQUE PIX -->
+      <div class="card-painel">
+        <h2>Solicitação de Saque</h2>
+        
+        <div class="grid-financeiro-resumo">
+          <div class="bloco-saldo">
+            <span style="font-size: 12px; color: #64748b; font-weight: 600;">Saldo Disponível</span>
+            <div class="valor-saldo" id="txt-saldo-disponivel">R$ 480,00</div>
+          </div>
+          <div class="bloco-saldo">
+            <span style="font-size: 12px; color: #64748b; font-weight: 600;">Aguardando Liberação</span>
+            <div class="valor-saldo" style="color: #64748b;">R$ 120,00</div>
+          </div>
         </div>
 
-        <div class="grupo-input">
-          <label for="categoria-evento">Modalidade</label>
-          <select id="categoria-evento" required>
-            <option value="🐎">Vaquejada</option>
-            <option value="🚴">Ciclismo</option>
-            <option value="🏃‍♂️">Corrida</option>
-            <option value="⚽">Futebol</option>
-          </select>
-        </div>
+        <form onsubmit="solicitarSaquePix(event)">
+          <div class="grupo-input">
+            <label for="chave-pix">Sua Chave PIX</label>
+            <input type="text" id="chave-pix" placeholder="CPF, E-mail, Telefone ou Chave Aleatória" required />
+          </div>
+          <div class="grupo-input">
+            <label for="valor-saque">Valor do Saque (R$)</label>
+            <input type="number" id="valor-saque" placeholder="Ex: 200.00" step="0.01" max="480" required />
+          </div>
+          <button type="submit" class="btn-acao" style="background-color: #111827;">Solicitar Transferência</button>
+        </form>
 
-        <div class="grupo-input">
-          <label for="preco-foto">Preço por Foto (R$)</label>
-          <input type="number" id="preco-foto" placeholder="Ex: 9.90" step="0.01" required />
+        <!-- AVISO OFICIAL OBRIGATÓRIO -->
+        <div class="aviso-saque-notificacao">
+          <span>⏰</span>
+          <p>Aviso: Todo saque solicitado será efetuado eletronicamente às 22 horas de cada dia útil.</p>
         </div>
-
-        <!-- Dropzone Simbolizada -->
-        <div class="dropzone" onclick="document.getElementById('file-input').click()">
-          <input type="file" id="file-input" multiple style="display: none;" />
-          <div class="dropzone-icone">📤</div>
-          <p>Arraste as fotos ou clique aqui</p>
-          <span>Suporta upload em lote (JPEG, PNG)</span>
-        </div>
-
-        <button type="submit" class="btn-acao">Publicar Evento e Fotos</button>
-      </form>
+      </div>
     </div>
 
-    <!-- COLUNA 2: SEUS EVENTOS PUBLICADOS -->
-    <div class="card-painel">
-      <h2>Meus Eventos Cadastrados</h2>
-      <div id="lista-eventos">
+    <!-- DIREITA: GRÁFICOS FINANCEIROS E SEUS EVENTOS -->
+    <div>
+      <!-- CARD GRÁFICO DE FATURAMENTO -->
+      <div class="card-painel">
+        <h2>Desempenho de Vendas (Faturamento)</h2>
         
-        <div class="evento-item">
-          <div class="evento-info">
-            <h4>🐎 Circuito Vaquejada PE - Etapa 01</h4>
-            <p>Preço por imagem: R$ 12,00 • 345 fotos enviadas</p>
-          </div>
-          <span class="status-badge">No Ar</span>
+        <div class="filtro-grafico-abas">
+          <button class="btn-aba-grafico ativo" id="aba-dia" onclick="mudarPeriodoGrafico('dia')">Por Dia</button>
+          <button class="btn-aba-grafico" id="aba-semana" onclick="mudarPeriodoGrafico('semana')">Por Semana</button>
+          <button class="btn-aba-grafico" id="aba-mes" onclick="mudarPeriodoGrafico('mes')">Por Mês</button>
         </div>
 
-        <div class="evento-item">
-          <div class="evento-info">
-            <h4> do Agreste</h4>
-            <p>Preço por imagem: R$ 9,90 • 120 fotos enviadas</p>
-          </div>
-          <span class="status-badge">No Ar</span>
+        <!-- Renderizador do Gráfico de Barras Puro em CSS -->
+        <div class="wrapper-grafico" id="container-barras-grafico">
+          <!-- Injetado dinamicamente via Script abaixo -->
         </div>
+      </div>
 
+      <!-- SEUS EVENTOS -->
+      <div class="card-painel">
+        <h2>Meus Eventos Cadastrados</h2>
+        <div id="lista-eventos">
+          <div class="evento-item">
+            <div>
+              <h4 style="font-weight: 700;">🐎 Circuito Vaquejada PE - Etapa Regional</h4>
+              <p style="font-size:12px; color:#64748b; margin-top:2px;">Preço: R$ 12,00 • 345 fotos enviadas</p>
+            </div>
+            <span class="status-badge">No Ar</span>
+          </div>
+          <div class="evento-item">
+            <div>
+              <h4 style="font-weight: 700;">🚴 Desafio das Opalas de Ciclismo</h4>
+              <p style="font-size:12px; color:#64748b; margin-top:2px;">Preço: R$ 9,90 • 120 fotos enviadas</p>
+            </div>
+            <span class="status-badge">No Ar</span>
+          </div>
+        </div>
       </div>
     </div>
 
   </div>
 
   <script>
-    // Função simples para interatividade visual na tela
+    // Dados visuais fictícios organizados para alimentar os períodos do gráfico bonito
+    const dadosGrafico = {
+      dia: [
+        { label: 'Seg', valor: '96', txt: 'R$96' },
+        { label: 'Ter', valor: '48', txt: 'R$48' },
+        { label: 'Qua', valor: '120', txt: 'R$120' },
+        { label: 'Qui', valor: '75', txt: 'R$75' },
+        { label: 'Sex', valor: '180', txt: 'R$180' }
+      ],
+      semana: [
+        { label: 'Sem 01', valor: '150', txt: 'R$150' },
+        { label: 'Sem 02', valor: '80', txt: 'R$80' },
+        { label: 'Sem 03', valor: '200', txt: 'R$200' },
+        { label: 'Sem 04', valor: '170', txt: 'R$170' }
+      ],
+      mes: [
+        { label: 'Mai', valor: '110', txt: 'R$1.1k' },
+        { label: 'Jun', valor: '190', txt: 'R$1.9k' },
+        { label: 'Jul', valor: '140', txt: 'R$1.4k' },
+        { label: 'Ago', valor: '60', txt: 'R$600' }
+      ]
+    };
+
+    function mudarPeriodoGrafico(periodo) {
+      // Altera o destaque dos botões
+      document.querySelectorAll('.btn-aba-grafico').forEach(btn => btn.classList.remove('ativo'));
+      document.getElementById(`aba-${periodo}`).classList.add('ativo');
+
+      const container = document.getElementById('container-barras-grafico');
+      container.innerHTML = '';
+
+      // Injeta as barras calculando as alturas com base nas propriedades CSS abertas
+      dadosGrafico[periodo].forEach(item => {
+        container.innerHTML += `
+          <div class="barra-grafico" style="height: ${item.valor}px;">
+            <div class="valor-barra">${item.txt}</div>
+            <div class="label-barra">${item.label}</div>
+          </div>
+        `;
+      });
+    }
+
+    function solicitarSaquePix(e) {
+      e.preventDefault();
+      const valor = document.getElementById('valor-saque').value;
+      const chave = document.getElementById('chave-pix').value;
+      
+      alert(`Solicitação registrada!\nO valor de R$ ${parseFloat(valor).toFixed(2)} será transferido para a chave (${chave}) hoje às 22h, caso seja um dia útil.`);
+      
+      document.getElementById('txt-saldo-disponivel').innerText = `R$ ${parseFloat(480 - valor).toFixed(2)}`;
+      e.target.reset();
+    }
+
     function adicionarEventoFake(e) {
       e.preventDefault();
       const nome = document.getElementById('nome-evento').value;
@@ -289,17 +192,21 @@
       const novoItem = document.createElement('div');
       novoItem.className = 'evento-item';
       novoItem.innerHTML = `
-        <div class="evento-info">
-          <h4>${categoria} ${nome}</h4>
-          <p>Preço por imagem: R$ ${parseFloat(preco).toFixed(2)} • Upload concluído</p>
+        <div>
+          <h4 style="font-weight: 700;">${categoria} ${nome}</h4>
+          <p style="font-size:12px; color:#64748b; margin-top:2px;">Preço: R$ ${parseFloat(preco).toFixed(2)} • Upload concluído</p>
         </div>
         <span class="status-badge">No Ar</span>
       `;
-      
       lista.insertBefore(novoItem, lista.firstChild);
       e.target.reset();
-      alert('Sucesso! Evento publicado e disponível para busca.');
+      alert('Cobertura publicada com sucesso!');
     }
+
+    // Inicializa o gráfico diário padrão na abertura do painel
+    window.onload = () => {
+      mudarPeriodoGrafico('dia');
+    };
   </script>
 </body>
 </html>

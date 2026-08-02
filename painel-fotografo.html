@@ -218,7 +218,10 @@
       e.target.reset();
     }
 
-    window.onload = () => { mudarPeriodoGrafico('dia'); };
-  </script>
-</body>
-</html>
+    window.onload = () => { 
+      mudarPeriodoGrafico('day'); 
+      
+      // Captura o nome real do fotógrafo logado
+      const nomeReal = localStorage.getItem('iphotos_nome_usuario') || 'Fotógrafo Parceiro';
+      document.getElementById('nome-dinamico-painel-fotografo').innerText = nomeReal;
+    };

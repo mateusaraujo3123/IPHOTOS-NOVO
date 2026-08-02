@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho de Compras - iphotos</title>
+  <!-- Link direcionado para o estilo separado do carrinho -->
+  <link rel="stylesheet" href="carrinho.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="meu-header">
+    <a href="index.html" class="logo">iphoto<span>s</span></a>
+    <nav class="menu-links">
+      <a href="index.html">Continuar Comprando</a>
+    </nav>
+  </header>
+
+  <!-- CONTEÚDO DO CARRINHO -->
+  <div class="container-carrinho">
+    
+    <!-- COLUNA 1: ITENS SELECIONADOS -->
+    <div class="card-carrinho">
+      <h2>Suas Fotos Escolhidas</h2>
+      <div id="lista-fotos-carrinho">
+        
+        <div class="foto-item">
+          <div class="foto-preview-box">🐎</div>
+          <div class="foto-meta">
+            <h4>Foto #4829 - Competidor 102</h4>
+            <p>Circuito Vaquejada PE - Etapa Regional</p>
+          </div>
+          <div class="foto-preco">R$ 12,00</div>
+        </div>
+
+        <div class="foto-item">
+          <div class="foto-preview-box">🐎</div>
+          <div class="foto-meta">
+            <h4>Foto #4835 - Competidor 102</h4>
+            <p>Circuito Vaquejada PE - Etapa Regional</p>
+          </div>
+          <div class="foto-preco">R$ 12,00</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COLUNA 2: RESUMO DO VALOR E PIX -->
+    <div class="card-carrinho">
+      <h2>Resumo</h2>
+      
+      <div class="linha-resumo">
+        <span>Quantidade:</span>
+        <span>2 arquivos digitais</span>
+      </div>
+      <div class="linha-resumo">
+        <span>Envio:</span>
+        <span>Download imediato após PIX</span>
+      </div>
+      
+      <div class="linha-resumo total">
+        <span>Total:</span>
+        <span>R$ 24,00</span>
+      </div>
+
+      <button class="btn-checkout" id="btn-pagar" onclick="gerarPixSimulado()">Gerar Pagamento PIX</button>
+
+      <!-- Interface de Pagamento via Código Copia e Cola / QR Code -->
+      <div class="area-pix" id="bloco-pix">
+        <p style="font-size: 14px; font-weight: bold; color: #00b4d8;">PIX Gerado com Sucesso!</p>
+        <div class="qr-code-placeholder">QR CODE SIMULADO</div>
+        <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">Escaneie o código ou utilize o Pix Copia e Cola abaixo:</p>
+        <input type="text" value="00020101021126580014br.gov.bcb.pix0136iphotos-suas-fotos-aqui" readonly style="width: 100%; padding: 8px; font-size: 11px; text-align: center; border: 1px solid #cbd5e1; border-radius: 4px; background: #f1f5f9; outline: none;" />
+        <button class="btn-checkout" style="background: #111827; margin-top: 12px; padding: 10px;" onclick="simularConfirmacaoDownload()">Confirmar Pagamento (Simulação)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT PARA INTERATIVIDADE FINANCEIRA -->
+  <script>
+    function gerarPixSimulado() {
+      document.getElementById('bloco-pix').style.display = 'block';
+      document.getElementById('btn-pagar').style.display = 'none';
+    }
+
+    function simularConfirmacaoDownload() {
+      alert('Pagamento Confirmado! Seus arquivos digitais em alta resolução foram liberados para download.');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

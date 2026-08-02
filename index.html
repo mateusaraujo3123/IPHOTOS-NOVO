@@ -57,16 +57,26 @@
 
   <!-- HEADER -->
   <header class="meu-header" id="header-dinamico">
-    <a href="index.html" class="logo">iphoto<span id="logo-dot">s</span></a>
+    <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
       <a href="minhas-compras.html">Minhas compras</a>
       <a href="cadastro.html">Sou Fotógrafo</a>
       <a href="cadastro.html">Organização</a>
     </nav>
-    <div>
+    
+    <!-- Área de Autenticação Dinâmica -->
+    <div id="area-auth-header">
+      <!-- Botão Login Padrão -->
       <a href="login.html" class="btn-login" id="btn-login-dinamico">Login</a>
+      
+      <!-- Nome do Usuário Logado (Escondido por padrão via CSS, controlado por JS) -->
+      <div id="usuario-logado-header" style="display: none; align-items: center; gap: 15px; color: white; font-size: 14px; font-weight: 500;">
+        <span style="color: var(--cor-primaria);">Olá, <span id="nome-usuario-header">Usuário</span> 👋</span>
+        <a href="#" onclick="efetuarLogoutSistema()" style="color: white; text-decoration: none; font-size: 13px; opacity: 0.7;">Sair</a>
+      </div>
     </div>
   </header>
+
 
   <!-- FAIXA DE AVISO DE LOCALIZAÇÃO -->
   <div class="faixa-aviso" id="faixa-dinamica">

@@ -4,156 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - iphotos</title>
-  <style>
-    :root {
-      --cor-fundo-geral: #f8fafc;       
-      --cor-texto-principal: #111827;   
-      --cor-topo-fundo: #000000;        
-      --cor-topo-texto: #ffffff;        
-      --cor-primaria: #00b4d8;          
-      --cor-primaria-hover: #0077b6;    
-      --cor-card-fundo: #ffffff;        
-      --cor-card-borda: #e2e8f0;        
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    body {
-      background-color: var(--cor-fundo-geral);
-      color: var(--cor-texto-principal);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .meu-header {
-      background-color: var(--cor-topo-fundo);
-      color: var(--cor-topo-texto);
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-decoration: none;
-      color: var(--cor-topo-texto);
-    }
-
-    .logo span {
-      color: var(--cor-primaria);
-    }
-
-    .menu-links a {
-      color: var(--cor-topo-texto);
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .container-login {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .card-login {
-      background-color: var(--cor-card-fundo);
-      border: 1px solid var(--cor-card-borda);
-      border-radius: 12px;
-      width: 100%;
-      max-width: 420px;
-      padding: 40px 30px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    }
-
-    .card-login h2 {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .subtitulo {
-      font-size: 14px;
-      color: #64748b;
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .subtitulo a {
-      color: var(--cor-primaria);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .grupo-input {
-      margin-bottom: 20px;
-    }
-
-    .grupo-input label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #334155;
-    }
-
-    .grupo-input input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .grupo-input input:focus {
-      border-color: var(--cor-primaria);
-    }
-
-    .esqueceu-senha {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: -12px;
-      margin-bottom: 24px;
-    }
-
-    .esqueceu-senha a {
-      font-size: 13px;
-      color: #64748b;
-      text-decoration: none;
-    }
-
-    .btn-enviar {
-      width: 100%;
-      background-color: var(--cor-primaria);
-      color: white;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-enviar:hover {
-      background-color: var(--cor-primaria-hover);
-    }
-  </style>
+  <!-- Link direcionado para a folha de estilo única de acesso -->
+  <link rel="stylesheet" href="acesso.css">
 </head>
 <body>
 
+  <!-- HEADER -->
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
@@ -161,12 +17,13 @@
     </nav>
   </header>
 
-  <div class="container-login">
-    <div class="card-login">
+  <!-- FORMULÁRIO DE LOGIN -->
+  <div class="container-formulario">
+    <div class="card-formulario">
       <h2>Acesse sua conta</h2>
       <p class="subtitulo">Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
       
-      <form>
+      <form onsubmit="event.preventDefault(); window.location.href='index.html';">
         <div class="grupo-input">
           <label for="email">E-mail</label>
           <input type="email" id="email" placeholder="seu@email.com" required />
@@ -176,7 +33,11 @@
           <label for="senha">Senha</label>
           <input type="password" id="senha" placeholder="••••••••" required />
         </div>
-
+        
+        <div class="esqueceu-senha">
+          <a href="#" onclick="alert('Funcionalidade de recuperação em desenvolvimento.')">Esqueceu sua senha?</a>
+        </div>
+        
         <button type="submit" class="btn-enviar">Entrar</button>
       </form>
     </div>

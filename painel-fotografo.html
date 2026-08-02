@@ -29,6 +29,7 @@
             <label for="nome-evento">Nome do Evento / Competição</label>
             <input type="text" id="nome-evento" placeholder="Ex: Grande Vaquejada de Caruaru" required />
           </div>
+          
           <div class="grupo-input">
             <label for="categoria-evento">Modalidade</label>
             <select id="categoria-evento" required>
@@ -38,10 +39,18 @@
               <option value="⚽">Futebol</option>
             </select>
           </div>
+
+          <!-- CAMPO ADICIONADO: Data do Evento -->
+          <div class="grupo-input">
+            <label for="data-evento">Data da Realização do Evento</label>
+            <input type="date" id="data-evento" required />
+          </div>
+
           <div class="grupo-input">
             <label for="preco-foto">Preço por Foto (R$)</label>
             <input type="number" id="preco-foto" placeholder="Ex: 9.90" step="0.01" required />
           </div>
+
           <div class="grupo-input">
             <label>Foto de Capa do Card (Destaque na Home)</label>
             <div class="container-upload-capa">
@@ -52,6 +61,7 @@
               </div>
             </div>
           </div>
+          
           <div class="grupo-input">
             <label>Fotos da Cobertura (Venda)</label>
             <div class="dropzone" onclick="document.getElementById('file-input').click()">
@@ -92,7 +102,6 @@
         </div>
       </div>
     </div>
-
     <!-- DIREITA: GRÁFICOS FINANCEIROS E SEUS EVENTOS -->
     <div>
       <div class="card-painel">
@@ -143,16 +152,34 @@
       const nome = document.getElementById('nome-evento').value;
       const categoria = document.getElementById('categoria-evento').value;
       const preco = document.getElementById('preco-foto').value;
+      const dataInput = document.getElementById('data-evento').value;
+      
+      const partesData = dataInput.split('-');
+      const dataFormatada = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
+
       const lista = document.getElementById('lista-eventos');
       const novoItem = document.createElement('div');
       novoItem.className = 'evento-item';
       const srcCapa = urlCapaGerada || 'https://placehold.co';
-      novoItem.innerHTML = `<div style="display:flex;align-items:center;gap:12px;"><img src="${srcCapa}" class="mini-capa-historico"><div><h4 style="font-weight:700;">${categoria} ${nome}</h4><p style="font-size:12px;color:#64748b;margin-top:2px;">Preço: R$ ${parseFloat(preco).toFixed(2)}</p></div></div><span class="status-badge">No Ar</span>`;
+      novoItem.innerHTML = `<div style="display:flex;align-items:center;gap:12px;"><img src="${srcCapa}" class="mini-capa-historico"><div><h4 style="font-weight:700;">${categoria} ${nome}</h4><p style="font-size:12px;color:#64748b;margin-top:2px;">Data: ${dataFormatada} • Preço: R$ ${parseFloat(preco).toFixed(2)}</p></div></div><span class="status-badge">No Ar</span>`;
       lista.insertBefore(novoItem, lista.firstChild);
+
+      const novoEventoBD = {
+        id: Date.now(),
+        titulo: `${categoria} ${nome}`,
+        categoria: categoria.replace(/[^a-zA-Z0-9]/g, '').toLowerCase(),
+        local: "Região Local",
+        data: dataFormatada,
+        fotografo: "Lucas Silva"
+      };
+      let eventosLocais = localStorage.getItem('iphotos_eventos_dinamicos') ? JSON.parse(localStorage.getItem('iphotos_eventos_dinamicos')) : [];
+      eventosLocais.push(novoEventoBD);
+      localStorage.setItem('iphotos_eventos_dinamicos', JSON.stringify(eventosLocais));
+
       e.target.reset();
       document.getElementById('box-preview-capa').innerHTML = '🖼️';
       urlCapaGerada = '';
-      alert('Cobertura publicada com sucesso!');
+      alert('Cobertura publicada com sucesso e enviada ao catálogo do iphotos!');
     }
 
     const dadosGrafico = {
@@ -171,29 +198,18 @@
       });
     }
 
-    // MODIFICADO: Salva o saque solicitado no LocalStorage estruturado para o Admin ler
     function solicitarSaquePix(e) {
       e.preventDefault();
       const valor = document.getElementById('valor-saque').value;
       const chave = document.getElementById('chave-pix').value;
       const whatsapp = document.getElementById('whatsapp-fotografo').value;
 
-      // Monta o objeto de transferência simulada
-      const novoSaque = {
-        id: Date.now(),
-        fotografo: "Lucas Silva",
-        chave: chave,
-        whatsapp: whatsapp,
-        valor: parseFloat(valor).toFixed(2),
-        data: "Hoje"
-      };
-
-      // Puxa fila antiga ou cria nova
+      const novoSaque = { id: Date.now(), fotografo: "Lucas Silva", chave: chave, whatsapp: whatsapp, valor: parseFloat(valor).toFixed(2), data: "Hoje" };
       let filaSaques = localStorage.getItem('iphotos_fila_saques') ? JSON.parse(localStorage.getItem('iphotos_fila_saques')) : [];
       filaSaques.push(novoSaque);
       localStorage.setItem('iphotos_fila_saques', JSON.stringify(filaSaques));
 
-      alert(`Solicitação registrada!\nO valor de R$ ${parseFloat(valor).toFixed(2)} foi enviado para análise na mesa de saques do Painel Admin e será liquidado hoje às 22h.`);
+      alert(`Solicitação registrada!\nO valor de R$ ${parseFloat(valor).toFixed(2)} foi enviado para análise na mesa de saques do Painel Admin.`);
       document.getElementById('txt-saldo-disponivel').innerText = `R$ ${parseFloat(480 - valor).toFixed(2)}`;
       e.target.reset();
     }

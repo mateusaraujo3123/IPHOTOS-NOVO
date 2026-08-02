@@ -12,10 +12,14 @@
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
     <nav class="menu-links">
-      <span style="font-size: 14px; color: var(--cor-primaria); font-weight: bold; margin-right: 10px;">Olá, Lucas Silva 📸</span>
-      <a href="index.html">Sair</a>
+      <!-- Nome capturado dinamicamente do login -->
+      <span style="font-size: 14px; color: var(--cor-primaria); font-weight: bold; margin-right: 10px;">
+        Olá, <span id="nome-dinamico-painel-fotografo">Fotógrafo</span> 📸
+      </span>
+      <a href="index.html" onclick="localStorage.removeItem('iphotos_nome_usuario')">Sair</a>
     </nav>
   </header>
+
 
   <!-- CONTEÚDO DO PAINEL -->
   <div class="container-painel">

@@ -4,20 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro - iphotos</title>
-  <!-- Link direcionado para a mesma folha de estilo única de acesso -->
   <link rel="stylesheet" href="acesso.css">
+  <style>.campos-fotografo-bloco { display: none; }</style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="meu-header">
     <a href="index.html" class="logo">iphoto<span>s</span></a>
-    <nav class="menu-links">
-      <a href="index.html">Voltar para a Home</a>
-    </nav>
+    <nav class="menu-links"><a href="index.html">Voltar para a Home</a></nav>
   </header>
 
-  <!-- FORMULÁRIO DE CADASTRO -->
   <div class="container-formulario">
     <div class="card-formulario">
       <h2>Crie sua conta</h2>
@@ -33,22 +29,24 @@
           <label for="nome">Nome Completo</label>
           <input type="text" id="nome" placeholder="Seu nome" required />
         </div>
-
         <div class="grupo-input">
           <label for="email">E-mail</label>
           <input type="email" id="email" placeholder="seu@email.com" required />
         </div>
 
-        <!-- Campos de Fotógrafo -->
-        <div id="campos-extras" class="campos-fotógrafo">
+        <div id="campos-extras" class="campos-fotografo-bloco">
           <div class="grupo-input">
-            <label for="regiao">Região principal de atuação</label>
-            <select id="regiao">
+            <label for="regiao">Estado de Atuação</label>
+            <select id="regiao" onchange="atualizarCidadesDinamicas()">
               <option value="">Selecione seu Estado</option>
               <option value="PE">Pernambuco</option>
               <option value="AL">Alagoas</option>
               <option value="PB">Paraíba</option>
             </select>
+          </div>
+          <div class="grupo-input">
+            <label for="cidade">Cidade Principal</label>
+            <select id="cidade"><option value="">Selecione o Estado primeiro</option></select>
           </div>
           <div class="grupo-input">
             <label for="portfolio">Link do Portfólio / Instagram</label>
@@ -60,7 +58,6 @@
           <label for="senha">Crie uma Senha</label>
           <input type="password" id="senha" placeholder="No mínimo 6 caracteres" required />
         </div>
-        
         <button type="submit" class="btn-enviar">Criar Conta</button>
       </form>
     </div>
@@ -68,6 +65,11 @@
 
   <script>
     let perfilAtual = 'cliente';
+    const cidadesPorEstado = {
+      PE: ['Caruaru', 'Recife', 'Bezerros', 'Garanhuns', 'Petrolina'],
+      AL: ['Maceió', 'Arapiraca', 'Palmeira dos Índios'],
+      PB: ['João Pessoa', 'Campina Grande', 'Patos']
+    };
 
     function mudarAba(tipo) {
       perfilAtual = tipo;
@@ -75,22 +77,39 @@
       const abaFotografo = document.getElementById('aba-fotografo');
       const camposExtras = document.getElementById('campos-extras');
       const portfolioInput = document.getElementById('portfolio');
+      const regiaoInput = document.getElementById('regiao');
 
       if (tipo === 'cliente') {
         abaCliente.classList.add('ativo');
         abaFotografo.classList.remove('ativo');
         camposExtras.style.display = 'none';
         portfolioInput.removeAttribute('required');
+        regiaoInput.removeAttribute('required');
       } else {
         abaFotografo.classList.add('ativo');
         abaCliente.classList.remove('ativo');
         camposExtras.style.display = 'block';
         portfolioInput.setAttribute('required', 'true');
+        regiaoInput.setAttribute('required', 'true');
+      }
+    }
+
+    function atualizarCidadesDinamicas() {
+      const estadoSelecionado = document.getElementById('regiao').value;
+      const selectCidade = document.getElementById('cidade');
+      selectCidade.innerHTML = '<option value="">Selecione sua Cidade</option>';
+      if (estadoSelecionado && cidadesPorEstado[estadoSelecionado]) {
+        cidadesPorEstado[estadoSelecionado].forEach(cidade => {
+          selectCidade.innerHTML += `<option value="${cidade}">${cidade}</option>`;
+        });
       }
     }
 
     function executarCadastro(e) {
       e.preventDefault();
+      const nomeDigitado = document.getElementById('nome').value;
+      localStorage.setItem('iphotos_nome_usuario', nomeDigitado);
+
       if (perfilAtual === 'fotografo') {
         window.location.href = 'painel-fotografo.html';
       } else {
@@ -98,6 +117,5 @@
       }
     }
   </script>
-
 </body>
 </html>

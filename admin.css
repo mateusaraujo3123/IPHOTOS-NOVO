@@ -26,7 +26,6 @@ body {
   flex-direction: column;
 }
 
-/* Header */
 .meu-header {
   background-color: var(--cor-topo-fundo);
   color: var(--cor-topo-texto);
@@ -54,7 +53,6 @@ body {
   color: var(--cor-primaria);
 }
 
-/* Layout do Painel Admin */
 .container-admin {
   max-width: 1200px;
   margin: 40px auto;
@@ -77,6 +75,7 @@ body {
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  margin-bottom: 30px;
 }
 
 .card-admin h2 {
@@ -87,7 +86,7 @@ body {
   padding-bottom: 10px;
 }
 
-/* Configurações de Cores */
+/* Seletores de Cores */
 .seletor-cor-item {
   display: flex;
   align-items: center;
@@ -128,13 +127,14 @@ body {
   background-color: var(--cor-primaria-hover);
 }
 
-/* Tabela de Aprovação de Fotógrafos */
-.lista-fotografos {
+/* Tabelas Administrativas */
+.lista-admin {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
 }
 
-.lista-fotografos th {
+.lista-admin th {
   text-align: left;
   padding: 12px;
   background-color: #f8fafc;
@@ -144,24 +144,54 @@ body {
   border-bottom: 2px solid #e2e8f0;
 }
 
-.lista-fotografos td {
+.lista-admin td {
   padding: 14px 12px;
   border-bottom: 1px solid #f1f5f9;
   font-size: 14px;
 }
 
-.btn-aprovar {
-  background-color: #dcfce7;
-  color: #15803d;
+/* Botões do Painel */
+.btn-senha {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.btn-senha:hover {
+  background-color: #e2e8f0;
+}
+
+.btn-excluir {
+  background-color: #fee2e2;
+  color: #b91c1c;
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
   font-weight: 600;
   font-size: 12px;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
 
-.btn-aprovar:hover {
-  opacity: 0.8;
+.btn-excluir:hover {
+  background-color: #fca5a5;
+}
+
+/* Indicadores de Armazenamento e Envio */
+.badge-armazenamento {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #475569;
+}
+
+.sub-badge {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: normal;
 }

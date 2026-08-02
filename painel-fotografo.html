@@ -20,7 +20,7 @@
   <!-- CONTEÚDO DO PAINEL -->
   <div class="container-painel">
     
-    <!-- ESQUERDA: CADASTRAR COBERTURA E SOLICITAR SAQUE -->
+    <!-- ESQUERDA: CADASTRAR COBERTURA E GERENCIADOR DE SAQUE -->
     <div>
       <!-- CARD NOVA COBERTURA -->
       <div class="card-painel">
@@ -46,7 +46,7 @@
             <input type="number" id="preco-foto" placeholder="Ex: 9.90" step="0.01" required />
           </div>
 
-          <!-- NOVO: Campo de Escolha da Imagem de Capa do Card -->
+          <!-- Campo da Foto de Capa do Card -->
           <div class="grupo-input">
             <label>Foto de Capa do Card (Destaque na Home)</label>
             <div class="container-upload-capa">
@@ -73,25 +73,48 @@
         </form>
       </div>
 
-      <!-- SAQUE -->
+      <!-- CARD GERENCIADOR DE SAQUE PIX CORRIGIDO -->
       <div class="card-painel">
         <h2>Solicitação de Saque</h2>
-        <div class="grid-financeiro-resumo">
-          <div class="bloco-saldo">
-            <span style="font-size: 12px; color: #64748b; font-weight: 600;">Saldo Disponível</span>
-            <div class="valor-saldo" id="txt-saldo-disponivel">R$ 480,00</div>
-          </div>
-          <div class="bloco-saldo">
-            <span style="font-size: 12px; color: #64748b; font-weight: 600;">Aguardando Liberação</span>
-            <div class="valor-saldo" style="color: #64748b;">R$ 120,00</div>
-          </div>
+        
+        <!-- Bloco de Saldo Único -->
+        <div class="container-saldo-unico">
+          <span style="font-size: 13px; color: #64748b; font-weight: 600;">Saldo Disponível</span>
+          <div class="valor-saldo-unico" id="txt-saldo-disponivel">R$ 480,00</div>
         </div>
+
         <form onsubmit="solicitarSaquePix(event)">
-          <div class="grupo-input"><label for="chave-pix">Sua Chave PIX</label><input type="text" id="chave-pix" placeholder="CPF, E-mail ou Telefone" required /></div>
-          <div class="grupo-input"><label for="valor-saque">Valor do Saque (R$)</label><input type="number" id="valor-saque" placeholder="Ex: 200.00" step="0.01" max="480" required /></div>
+          <div class="grupo-input">
+            <label for="chave-pix">Sua Chave PIX</label>
+            <input type="text" id="chave-pix" placeholder="CPF, E-mail, Telefone ou Chave Aleatória" required />
+          </div>
+
+          <!-- Novo Campo Obligatório de WhatsApp -->
+          <div class="grupo-input">
+            <label for="whatsapp-fotografo">Seu WhatsApp de Contato</label>
+            <input type="tel" id="whatsapp-fotografo" placeholder="(81) 99999-0000" required />
+          </div>
+
+          <div class="grupo-input">
+            <label for="valor-saque">Valor do Saque (R$)</label>
+            <input type="number" id="valor-saque" placeholder="Ex: 200.00" step="0.01" max="480" required />
+          </div>
+          
           <button type="submit" class="btn-acao" style="background-color: #111827;">Solicitar Transferência</button>
         </form>
-        <div class="aviso-saque-notificacao"><span>⏰</span><p>Aviso: Todo saque solicitado será efetuado eletronicamente às 22 horas de cada dia útil.</p></div>
+
+        <!-- Bloco de Notificações Técnicas -->
+        <div class="bloco-avisos-painel">
+          <div class="aviso-saque-notificacao">
+            <span>⏰</span>
+            <p>Aviso: Todo saque solicitado será efetuado eletronicamente às 22 horas de cada dia útil.</p>
+          </div>
+
+          <div class="aviso-exclusao-notificacao">
+            <span>⚠️</span>
+            <p>Importante: Cada evento criado e suas respectivas fotos serão apagados permanentemente do sistema a cada mês.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -115,7 +138,7 @@
               <img src="https://unsplash.com" class="mini-capa-historico" alt="Capa">
               <div>
                 <h4 style="font-weight: 700;">🐎 Circuito Vaquejada PE - Etapa Regional</h4>
-                <p style="font-size:12px; color:#64748b; margin-top:2px;">Preço: R$ 12,00 • 345 fotos</p>
+                <p style="font-size:12px; color:#64748b; margin-top:2px;">Preço: R$ 12,00 • 345 fotos enviadas</p>
               </div>
             </div>
             <span class="status-badge">No Ar</span>
@@ -127,7 +150,6 @@
   </div>
 
   <script>
-    // Gera o preview visual imediato da foto de capa escolhida pelo fotógrafo
     let urlCapaGerada = '';
 
     function gerarPreviewCapa(input) {
@@ -136,7 +158,7 @@
         const reader = new FileReader();
         reader.onload = function(e) {
           box.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-          urlCapaGerada = e.target.result; // Guarda o base64 para simular na lista abaixo
+          urlCapaGerada = e.target.result;
         }
         reader.readAsDataURL(input.files[0]);
       }
@@ -151,8 +173,6 @@
       const lista = document.getElementById('lista-eventos');
       const novoItem = document.createElement('div');
       novoItem.className = 'evento-item';
-      
-      // Usa o preview temporário se o fotógrafo tiver escolhido um arquivo
       const srcCapa = urlCapaGerada || 'https://placehold.co';
 
       novoItem.innerHTML = `
@@ -160,20 +180,18 @@
           <img src="${srcCapa}" class="mini-capa-historico" alt="Capa">
           <div>
             <h4 style="font-weight: 700;">${categoria} ${nome}</h4>
-            <p style="font-size:12px; color:#64748b; margin-top:2px;">Preço: R$ ${parseFloat(preco).toFixed(2)} • Publicado agora</p>
+            <p style="font-size:12px; color:#64748b; margin-top:2px;">Preço: R$ ${parseFloat(preco).toFixed(2)} • Upload concluído</p>
           </div>
         </div>
         <span class="status-badge">No Ar</span>
       `;
-      
       lista.insertBefore(novoItem, lista.firstChild);
       e.target.reset();
       document.getElementById('box-preview-capa').innerHTML = '🖼️';
       urlCapaGerada = '';
-      alert('Sua cobertura esportiva foi criada com a foto de capa selecionada!');
+      alert('Cobertura publicada com sucesso!');
     }
 
-    // Gráficos e Saque
     const dadosGrafico = {
       dia: [{ label: 'Seg', valor: '96', txt: 'R$96' }, { label: 'Ter', valor: '48', txt: 'R$48' }, { label: 'Qua', valor: '120', txt: 'R$120' }, { label: 'Qui', valor: '75', txt: 'R$75' }, { label: 'Sex', valor: '180', txt: 'R$180' }],
       semana: [{ label: 'Sem 01', valor: '150', txt: 'R$150' }, { label: 'Sem 02', valor: '80', txt: 'R$80' }, { label: 'Sem 03', valor: '200', txt: 'R$200' }, { label: 'Sem 04', valor: '170', txt: 'R$170' }],
